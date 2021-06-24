@@ -30,7 +30,7 @@ namespace POApproval.Controllers
                 using (dbSASAApprovalEntities db = new dbSASAApprovalEntities())
                 {
                     var obj = db.procValidateUserLogins(objUser.intUserCode,objUser.UserPassword).FirstOrDefault();
-                   
+                  
                     if (obj != null  && obj.status == "ACTIVE")
                     {
                         Session["intUserCode"] = obj.usercode.ToString();
@@ -40,7 +40,7 @@ namespace POApproval.Controllers
                         Session["bolIsNewUser"] = obj.bolIsNewUser.ToString();
                         Session["bolIsNewBuyer"]= obj.bolIsNewBuyer.ToString();
                         Session["bolIsManageBuyer"] = obj.bolIsManageBuyer.ToString();
-                        FormsAuthentication.SetAuthCookie(obj.usercode, obj.RememberMe);
+                        FormsAuthentication.SetAuthCookie(obj.usercode, objUser.RememberMe);
                         return RedirectToAction("SearchPO", "PO");
                     }
                     else if(obj != null && obj.status == "NOT ACTIVE")

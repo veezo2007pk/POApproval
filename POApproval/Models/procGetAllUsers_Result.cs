@@ -11,16 +11,16 @@ namespace POApproval.Models
 {
     using System;
     
-    public partial class procValidateUserLogins_Result
+    public partial class procGetAllUsers_Result
     {
-        public int MyProperty { get; set; }
-        public Nullable<bool> bolIsNewBuyer { get; set; }
-        public Nullable<bool> bolIsManageBuyer { get; set; }
-        public Nullable<bool> bolIsApprovalLimit { get; set; }
-        public Nullable<bool> bolIsNewUser { get; set; }
         public string usercode { get; set; }
+        public string email { get; set; }
         public string fullname { get; set; }
+        public string stafftype { get; set; }
+        public string usergroup { get; set; }
         public string status { get; set; }
+        public string xpertLoginID { get; set; }
+        public string pwd { get; set; }
         public string SuperAdmin { get; set; }
     }
 }

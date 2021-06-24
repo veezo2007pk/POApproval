@@ -258,6 +258,7 @@
         <Function Name="procDeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="intUserCode" Type="int" Mode="In" />
         </Function>
+        <Function Name="procGetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procInsertUpdateBuyer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="intBuyerCode" Type="int" Mode="In" />
           <Parameter Name="strBuyerName" Type="nvarchar" Mode="In" />
@@ -520,6 +521,7 @@
             <Parameter Name="strLoginName" Mode="In" Type="Int32" />
             <Parameter Name="strUserPassword" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="procGetAllUsers" ReturnType="Collection(dbSASAApprovalModel.procGetAllUsers_Result)" />
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -854,6 +856,17 @@
           <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <ComplexType Name="procGetAllUsers_Result">
+          <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="stafftype" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="usergroup" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="pwd" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1158,6 +1171,21 @@
                 <ScalarProperty Name="usercode" ColumnName="usercode" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procGetAllUsers" FunctionName="dbSASAApprovalModel.Store.procGetAllUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procGetAllUsers_Result">
+                <ScalarProperty Name="usercode" ColumnName="usercode" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="stafftype" ColumnName="stafftype" />
+                <ScalarProperty Name="usergroup" ColumnName="usergroup" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
                 <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
               </ComplexTypeMapping>
             </ResultMapping>

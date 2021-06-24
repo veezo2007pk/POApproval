@@ -301,5 +301,10 @@ namespace POApproval.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
         }
+    
+        public virtual ObjectResult<procGetAllUsers_Result> procGetAllUsers()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllUsers_Result>("procGetAllUsers");
+        }
     }
 }

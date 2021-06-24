@@ -132,8 +132,8 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_User(tblUser user)
         {
-            var checkUserEmailExist = db.tblUsers.Where(x => x.email == user.email).FirstOrDefault();
-            var checkUsernameExist = db.tblUsers.Where(x => x.logon_user_id == user.logon_user_id).FirstOrDefault();
+            var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == user.email).FirstOrDefault();
+            var checkUsernameExist = db.procGetAllUsers().Where(x => x.usercode == user.logon_user_id).FirstOrDefault();
             if (checkUsernameExist != null)
             {
                 return 2;

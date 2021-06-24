@@ -101,6 +101,7 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@strDepartmentName", user.strDepartmentName);
                 com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
                 com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
+                com.Parameters.AddWithValue("@bolIsAdmin", user.SuperAdmin);
                 com.Parameters.AddWithValue("@bolIsActive", user.bolIsActive);
             
           
