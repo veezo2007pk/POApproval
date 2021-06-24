@@ -55,7 +55,7 @@
                         if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
                         {
 
-                            <li>@Html.ActionLink("ManageBuyer", "BuyerManagerList", "BuyerManager")</li>
+                            <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
                         }
                     }
                         </ul>
@@ -404,4 +404,24 @@
         });
     });
 
+</script>
+<script>
+    //$cbx_group = $("input:checkbox[id^='option-']"); // name is not always helpful ;)
+
+    //$cbx_group.prop('required', true);
+    //if ($cbx_group.is(":checked")) {
+    //    $cbx_group.prop('required', false);
+    //}
+
+
+    jQuery(function () {
+        var requiredCheckboxes = $("input:checkbox[id^='option-']");
+        requiredCheckboxes.change(function () {
+            if (requiredCheckboxes.is(':checked')) {
+                requiredCheckboxes.removeAttr('required');
+            } else {
+                requiredCheckboxes.attr('required', 'required');
+            }
+        });
+    });
 </script>
