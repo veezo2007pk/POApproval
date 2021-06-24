@@ -1,0 +1,67 @@
+﻿@model List<POApproval.Models.procSelectBuyerManager_Result>
+@{
+    ViewBag.Title = "Manage Approval List";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<section class="col-md-12 text-right">
+    <div class="">
+        <a href="http://localhost:61646/BuyerManager/AddBuyerManager" class="btn btn-success">Create New</a>
+
+    </div>
+</section>
+<section class="col-md-12">
+    <div>
+        <div class="divList">
+            <div class="centerLoader" data-loading> </div>
+            <div class="table-common">
+
+                <table class="table table-hover table-responsive" id="myTable">
+                    <thead>
+                        <tr>
+
+                            <th>Action</th>
+                            <th>Code</th>
+                            <th>Username</th>
+                            <th>Buyer</th>
+                           
+
+
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        @foreach (var item in Model)
+                        {
+
+
+
+
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:61646/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode" value="Update" HR>Update</a>
+                                    @*<input type="button"  value="Delete" ng-click="DeleteEmp(Emp)" />*@
+                                </td>
+                                <td>
+                                    @item.intBuyerDetailCode
+                                </td>
+                                <td>
+                                    @item.logon_user_id
+                                </td>
+                                <td>
+                                    @item.strBuyerName
+                                </td>
+                                
+
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+

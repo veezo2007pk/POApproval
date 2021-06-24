@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <div id="wait" style="display:none;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src="~/GlobalInfo/Loader.gif" width="150" height="150" /><br>Loading..</div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("PO Approval System", "SearchPO", "PO", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Search PO", "SearchPO", "PO")</li>
+                    @if (Convert.ToBoolean(Session["bolIsApprovalLimit"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    {
+                        if (Convert.ToBoolean(Session["bolIsApprovalLimit"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+                        {
+                            <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
+                        }
+                    }
+                    @if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    {
+
+                        if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+                        {
+                            <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
+                        }
+                    }
+                    @if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    {
+
+                        if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+                        {
+
+                            <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
+                        }
+                    }
+                    @if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    {
+
+                        if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+                        {
+
+                            <li>@Html.ActionLink("ManageBuyer", "BuyerManagerList", "BuyerManager")</li>
+                        }
+                    }
+                        </ul>
+                <ul style="padding-top:7px;" class=" navbar-right">
+                    <li><a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content ">
+        @RenderBody()
+        <div class="text-center" id="loader"><img src="~/images/Loader.gif" /></div>
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - HONK KONG SA SA (M) SDN BHD</p>
+        </footer>*@
+    </div>
+
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+<script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        var spinner = $('#loader');
+        $(function () {
+           
+            $('.listbox').multiselect({
+                includeSelectAllOption: true,
+                selectedClass: 'active',
+
+            });
+        });
+        $(function () {
+
+            $("#btnSubmit").click(function () {
+               
+              
+               
+                var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    spinner.hide();
+                    return false;
+                }
+
+                var r = confirm("Are you sure to update selected PO?");
+                if (r == true) {
+                    spinner.show();
+                    $("#btnSubmit").hide();
+                    $("#btnReject").hide();
+                } else {
+                    spinner.hide();
+                    return false;
+
+                }
+
+                return true;
+            });
+          
+          
+            $("#btnMainReject").click(function () {
+              
+                var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    return false;
+                }
+                else {
+                    $('#exampleModal').modal('show');
+                }
+
+                return true;
+            });
+            $("#btnReject").click(function () {
+                $('#rejectstatus').val("reject");
+                
+                var strRejectReason = $('#strRejectReasonForList').val();
+                if (strRejectReason.length < 1) {
+                    $('#UserErrorMessage').text("This field is required");
+                    return;
+                }
+                if (confirm('Are you sure to reject selected PO?')) {
+               
+                    spinner.show();
+                    $("#btnMainReject").hide();
+                    
+                    $("#btnReject").hide();
+                    $("#btnSubmit").hide();
+                    $('#exampleModal').modal('hide');
+                } else {
+                    spinner.hide();
+                    return false;
+
+                }
+
+                return true;
+            });
+        });
+        function submitdata(src) {
+            //alert(src);
+            var intPOCode = $("." + src + " .intPOCode").val();
+            var ApprovalLevel = $("." + src + " .ApprovalLevel").val();
+            $("#intPOCode").val(uqid);
+            $("#hours").val(hours);
+            $("#overtimepost").submit();
+
+        }
+        $('#checkBoxAll').click(function () {
+            if ($(this).is(":checked")) {
+                $(".chkCheckBoxId").prop("checked", true)
+            }
+            else {
+                $(".chkCheckBoxId").prop("checked", false)
+            }
+        });
+        $("#strRejectReason").keypress(function (event) {
+            if (event.keyCode == 13) {
+
+                $("#btnRejectReason").click();
+            }
+
+        });
+        $("#strRejectReasonForList").keypress(function (event) {
+            if (event.keyCode == 13) {
+
+                $("#btnReject").click();
+            }
+
+        });
+        //$("#strRejectReason").keypress(function (event) {
+        //    if (event.keyCode == 13) {
+
+        //        $("#btnRejectReason").click();
+        //    }
+
+        //});
+        var searchText = $("#searchText").val();
+        var strUser = $("#strUser").val();
+        //ASPX page URL to load report
+        var src = 'http://localhost:61646/Report/RptPO.aspx?';
+        //We can add parameters here
+        src = src + "searchText=" + searchText
+        //We can append more than one parameter like below
+        //var companyId = 1
+        src = src + "&strUser=" + strUser
+
+        //Create a dynamic iframe here and append this to div tag
+        var iframe = ' <div  id="reportView" class="table-responsive"><iframe id="reportFrame" width="100%" height="900" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe></div>'; $("#divReport").html(iframe);
+
+    });
+    $(function () {
+        $('#btnSearch').click(function () {
+
+
+        });
+    });
+    $(function () {
+        $("#approve").click(function () {
+            if (confirm('Are you sure you want to approve this?')) {
+                $("#approve").attr("disabled", true);
+                var intPOCode = $('#intPOCode').val();
+
+                if (intPOCode != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:61646/PO/SavePOHistory",
+                        data: JSON.stringify({ ID: intPOCode, status: 'Approved', 'strRejectReason': null }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response != null) {
+                                alert("PO Approved successfully");
+                                location.reload();
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            $("#approve").attr("disabled", false);
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                            $("#approve").attr("disabled", false);
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+
+    });
+    $(function () {
+        $("#Reviewer1").click(function () {
+            if (confirm('Are you sure you want to review this?')) {
+                $("#Reviewer1").attr("disabled", true);
+                var intPOCode = $('#intPOCode').val();
+
+                if (intPOCode != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:61646/PO/SavePOHistory",
+                        data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 1', 'strRejectReason': null }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response != null) {
+                                alert("PO Reviewed successfully");
+                                location.reload();
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer1").attr("disabled", false);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer1").attr("disabled", false);
+                        }
+                    });
+                }
+            }
+        });
+    });
+    $(function () {
+        $("#Reviewer2").click(function () {
+            if (confirm('Are you sure you want to review this?')) {
+                $("#Reviewer2").attr("disabled", true);
+                var intPOCode = $('#intPOCode').val();
+
+                if (intPOCode != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:61646/PO/SavePOHistory",
+                        data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 2', 'strRejectReason': null }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response != null) {
+                                alert("PO Reviewed successfully");
+                                location.reload();
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer2").attr("disabled", false);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer2").attr("disabled", false);
+                        }
+                    });
+                }
+            }
+        });
+    });
+    $(function () {
+        $("#Reviewer3").click(function () {
+            if (confirm('Are you sure you want to review this?')) {
+                $("#Reviewer3").attr("disabled", true);
+
+                var intPOCode = $('#intPOCode').val();
+
+                if (intPOCode != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:61646/PO/SavePOHistory",
+                        data: JSON.stringify({ 'ID': intPOCode, 'status': 'Reviewed 3', 'strRejectReason': null }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response != null) {
+                                alert("PO Reviewed successfully");
+                                location.reload();
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer3").attr("disabled", false);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                            $("#Reviewer3").attr("disabled", false);
+                        }
+                    });
+                }
+            }
+        });
+    });
+    $(function () {
+        $("#btnRejectReason").click(function () {
+            var strRejectReason = $('#strRejectReason').val();
+            if (strRejectReason.length < 1) {
+                $('#UserErrorMessage').text("This field is required");
+                return;
+            }
+            if (confirm('Are you sure you want to reject this?')) {
+                $("#btnRejectReason").attr("disabled", true);
+
+                var intPOCode = $('#intPOCode').val();
+                var strRejectReason = $('#strRejectReason').val();
+
+                if (intPOCode != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:61646/PO/SavePOHistory",
+                        data: JSON.stringify({ 'ID': intPOCode, 'status': 'Rejected', 'strRejectReason': strRejectReason }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response != null) {
+                                alert("PO Rejected successfully");
+                                location.reload();
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                            $("#btnRejectReason").attr("disabled", false);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                            $("#btnRejectReason").attr("disabled", false);
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+</script>

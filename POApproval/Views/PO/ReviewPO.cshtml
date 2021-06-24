@@ -1,0 +1,308 @@
+﻿@model POApproval.ViewModel.POViewModel
+@{
+    ViewBag.Title = "Search PO";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+
+<hr />
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="strRejectReason" required>
+<div class="form-group error">
+
+                        <div id="UserErrorMessage"></div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnRejectReason" type="button" class="btn btn-primary">Confirm</button>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+    <div class=" container col-md-6" >
+        <div class="row">
+            <div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-3 col-form-label">PO Number</label>
+                    <div class="col-sm-6">
+                        <input type="hidden" readonly class="form-control-plaintext" id="intPOCode" value="@Model.tblPO.intPOCode">
+
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.PO_Number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Status</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.strPOStatus">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Supplier Code</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Supplier_Code">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Supplier Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Supplier_Name">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class=" container col-md-6">
+        <div class="row">
+            <div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-3 col-form-label">Date</label>
+                    <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Creation_Date.Value.ToString("dd-MM-yyyy")">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Delivery Date</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Creation_Date.Value.ToString("dd-MM-yyyy")">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Buyer</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Buyer">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+<section class="col-md-12">
+    <div class="table-common">
+
+        <table class="table table-hover table-responsive table-bordered" >
+            <thead>
+                <tr>
+
+                    <th>VenItem</th>
+                    <th>Product Code</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Total Amount</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.tblPODetails)
+                {
+                    <tr>
+
+                        <td>
+                            @item.vendor_item_no
+                        </td>
+                         <td>
+                           @item.product_code
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.Qty.ToString()
+                        </td>
+                        <td>
+                            @item.Amount.Value.ToString("N2")
+                        </td>
+
+
+                    </tr>
+
+                }
+                <tr>
+
+                    <td>
+                        SUM
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @Model.tblPO.Amount.Value.ToString("N2")
+                    </td>
+
+
+                </tr>
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+</section>
+<br />
+
+<section class="col-md-12">
+    <h2>PO Approval Log</h2>
+    <hr />
+    <div class="table-common">
+
+        <table class="table table-hover table-responsive table-bordered" >
+            <thead>
+                <tr>
+
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Username</th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.tblPOHistories)
+                {
+                <tr>
+
+                    <td>
+                        @item.dtCreatedAt.Value.ToString("dd-MM-yyyy HH:mm:ss")
+                    </td>
+
+
+                    @if (item.strPOStatus == "Reviewed 1")
+                    {
+                        <td>
+                            Reviewed 1-Approved
+                        </td>
+                    }
+                    else if (item.strPOStatus == "Reviewed 2")
+                    {
+                        <td>
+                            Reviewed 2-Approved
+                        </td>
+                    }
+                    else if (item.strPOStatus == "Reviewed 3")
+                    {
+                        <td>
+                            Reviewed 3-Approved
+                        </td>
+                    }
+                    else if (item.strPOStatus == "Approved")
+                    {
+                <td>
+                    Approved
+                </td>
+                    }
+                else
+                {
+                <td>
+                    @item.strPOStatus
+                </td>
+                }
+
+                    <td>
+                        @item.tblUser.logon_user_id
+                    </td>
+
+
+
+                </tr>
+
+                }
+
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<section class="col-md-12 text-center">
+    <div class="">
+        @if ( Model.tblPO.strPOStatus != "Rejected" &&  Model.tblPO.strPOStatus != "Approved")
+        {
+            <button data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Reject</button>
+        }
+    <a href="http://localhost:61646/PO/PORpt?intPOCode=@Model.tblPO.intPOCode&strUser=@ViewBag.strUser" target="_blank" class="btn btn-info">View PO</a>
+        @*<button >View PO</button>*@
+        @{
+            decimal? amount = Model.tblPO.Amount;
+        }
+                @foreach (var item in Model.tblManageApprovals)
+        {
+
+            if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+            {
+                <button id="approve" class="btn btn-success">Approve</button>
+                return;
+            }
+            if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+            {
+                <button id="Reviewer1" class="btn btn-success">Review</button>
+                return;
+            }
+            if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+            {
+    <button id="Reviewer2" class="btn btn-success">Review</button>
+                return;
+            }
+            if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+            {
+    <button id="Reviewer3" class="btn btn-success">Review</button>
+                return;
+            }
+
+        }
+
+    </div>
+</section>
+<br/>
+
+
+<script>
+    
+</script>

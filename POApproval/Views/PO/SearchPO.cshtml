@@ -1,0 +1,324 @@
+﻿@model List<POApproval.Models.procSearchPO_Result>
+@{
+    ViewBag.Title = "Search PO";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<style type="text/css">
+
+
+    .error {
+        color: red;
+        display: none;
+    }
+</style>
+<div>
+
+    <div class="divList">
+      
+        <section>
+            <div class=" container">
+                @using (Html.BeginForm("SearchPO", "PO", FormMethod.Post))
+                {
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="email" class="statuslabel">Status:</label>
+                            @*<select title="Select Status" class="form-control" name="strPOStatus" id="strPOStatus">
+            <option value="">Select Status</option>
+            <option value="PENDING">PENDING</option>
+            <option value="APPROVED">APPROVED</option>
+            <option value="REVIEWED 1">REVIEWED 1</option>
+            <option value="REVIEWED 2">REVIEWED 2</option>
+            <option value="REVIEWED 3">REVIEWED 3</option>
+            <option value="REJECTED">REJECTED</option>
+        </select>*@
+                            @Html.DropDownList("strStatusName", (MultiSelectList)ViewBag.Status, new { multiple = "multiple", @class = "form-control listbox" })
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">PO Number:</label>
+                            <input class="form-control" name="PO_Number" id="PO_Number">
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Search</button>
+
+
+                    </div>
+                }
+
+            </div>
+        </section>
+        <section>
+            <div class="table-common">
+                @{
+                    int sn = 1;
+                }
+                @using (Html.BeginForm("SaveMultiplePO", "PO", FormMethod.Post, new { id = "myform" }))
+                {
+
+                    //@Html.TextAreaFor(x => x[0].rejectstatus, new { @id = "rejectstatus" })
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <div class="form-group error">
+
+                                <div id="UserErrorMessage">@ViewBag.ResultMessage</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="myTable" class="table table-bordered table-striped table-responsive table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+
+                                <th>S/N</th>
+                                <th>PO Code</th>
+                                <th>PO Status</th>
+                                <th>Action</th>
+                                <th>Approval Level</th>
+                                <th>PO No</th>
+                                <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                <th>Date</th>
+
+                                <th>Buyer</th>
+                                <th>Qty</th>
+                                <th>Amount</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for (int item = 0; item < Model.Count(); item++)
+                            {
+
+                                <tr>
+                                    @if (Model[item].strPOStatus != "Approved")
+                                    {
+                                        if (Model[item].strPOStatus == "Rejected")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
+                                            {
+                                                <td></td>
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].ApprovalLevel == null)
+                                            {
+                                                <td></td>
+
+                                            }
+
+                                            else
+                                            {
+                                                <td>
+                                                    @*<input type="checkbox" name="ID" value="@item.intPOCode " class="custom-checkbox chkCheckBoxId" />*@
+                                                    <div class="icheck-primary">
+                                                        @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                        <label for="checkboxPrimary1"></label>
+                                                    </div>
+                                                </td>
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@sn</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].intPOCode)
+                                        @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
+                                    </td>
+                                    <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" value='Update' HR> View</a></td>
+                                    @if (Model[item].strPOStatus != "Approved")
+                                    {
+                                        if (Model[item].strPOStatus == "Rejected")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
+                                            {
+                                                <td></td>
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                            {
+                                                <td></td>
+
+                                            }
+
+                                            else
+                                            {
+                                                if (Model[item].ApprovalLevel == "Reviewer 1" || Model[item].ApprovalLevel == "Reviewer 2" || Model[item].ApprovalLevel == "Reviewer 3")
+                                                {
+                                                    <td>
+                                                        Review
+                                                        @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                                    </td>
+                                                }
+                                                else if (Model[item].ApprovalLevel == "Approver")
+                                                {
+                                                    <td>
+                                                        Approve
+                                                        @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                    </td>
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                        @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                        @Html.HiddenFor(modelItem => Model[item].Creation_Date)
+
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                        @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Qty)
+                                        @Html.HiddenFor(modelItem => Model[item].Qty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Amount)
+                                        @Html.HiddenFor(modelItem => Model[item].Amount)
+                                    </td>
+                                </tr>
+                                sn++;
+                            }
+
+
+                            @*<tr>
+                        <td>
+                            <button id="btnSubmit" type="submit" class=" btn btn-primary ">Approve</button>
+                           <button id="btnReject" type="submit" class=" btn btn-danger  ">Reject</button>
+                        </td>
+                    </tr>*@
+
+                        </tbody>
+                    </table>
+                    <div>
+                        <input type="submit" value="Approve" id="btnSubmit" class=" btn btn-primary" />
+                        <button id="btnMainReject" value="Reject" class=" btn btn-danger">Reject</button>
+                    </div>
+                    <span class="error">Please select at-least one PO.</span>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    @*@Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForList", @required= "required" })*@
+                                    @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage"></div>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Reject" id="btnReject" class=" btn btn-danger" />
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<style>
+    .statuslabel{
+        float: left;
+        width: 100%;
+    }
+    .multiselect {
+        width: 284px;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: left;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        cursor: pointer;
+    }
+
+
+    /*below block of css for change style when active*/
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+        background: none;
+        color: black !important;
+    }
+</style>
+

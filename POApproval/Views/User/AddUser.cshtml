@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Add User";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<section class="col-md-6">
+    <div ng-app="myApp">
+        <div ng-controller="myCtrl" class="divList">
+            <div class="centerLoader" data-loading> </div>
+            <div class=" container">
+                <div class="row">
+                    <form name="myform">
+                        <div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Username</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="logon_user_id"  ng-required="true" >
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" ng-model="UserPassword" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" ng-model="email" ng-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Department</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="strDepartmentName" ng-required="true">
+                                    @*<select title="Select" class="form-control" ng-model="intDepartmentCode" required>
+                                        @foreach (var item in ViewBag.departmentList)
+                                        {
+                                            if (Model != null)
+                                            {
+                                                <option value="@item.Value" @(Model.Code == @item.Value ? "selected" : "")>
+                                                    @item.Text
+                                                </option>
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@item.Value">
+                                                    @item.Text
+                                                </option>
+                                            }
+                                        }
+                                    </select>*@
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">User Access</label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        <label><input ng-model="bolIsApprovalLimit" type="checkbox" value="0">Approval Limit</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="bolIsNewUser" value="0">New User</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="bolIsNewBuyer" value="0">New Buyer</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="bolIsManageBuyer" value="0">Manage Buyer</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="SuperAdmin" value="0">Is Admin</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="bolIsActive" value="0">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+ <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <button ng-click="myform.$valid && InsertData()" id="btnSave" value="Submit" class="btn btn-success">Save</button>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

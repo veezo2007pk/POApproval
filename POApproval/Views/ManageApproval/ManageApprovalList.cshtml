@@ -1,0 +1,79 @@
+﻿@model List<POApproval.Models.procSelectManageApproval_Result>
+@{
+    ViewBag.Title = "Manage Approval List";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<section class="col-md-12 text-right">
+    <div class="">
+        <a href="http://localhost:61646/ManageApproval/AddManageApproval" class="btn btn-success">Create New</a>
+
+    </div>
+</section>
+<section class="col-md-12">
+    <div>
+        <div class="divList">
+            <div class="centerLoader" data-loading> </div>
+            <div class="table-common">
+
+                <table class="table table-hover table-responsive" id="myTable">
+                    <thead>
+                        <tr>
+
+                            <th>Action</th>
+                            <th>UserCode</th>
+                            <th>Department</th>
+                            <th>Approval Name</th>
+                            <th>Approval Level</th>
+                            <th>Approval Amount</th>
+                            <th>Status</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        @foreach (var item in Model)
+                        {
+
+
+
+
+                            <tr>
+                                <td>
+                                    <a href="http://localhost:61646/ManageApproval/UpdateManageApproval?ID=@item.intManageApprovalCode" value="Update" HR>Update</a>
+
+
+                                    @*<input type="button"  value="Delete" ng-click="DeleteEmp(Emp)" />*@
+                                </td>
+                                <td>
+                                    @item.UserCode
+                                </td>
+                                <td>
+                                    @item.Department
+                                </td>
+                                <td>
+                                    @item.ApprovalName
+                                </td>
+                                <td>
+                                    @item.ApprovalLevel
+                                </td>
+                                <td>
+                                    @item.ApprovalAmount
+                                </td>
+                                <td>
+                                    @item.Status
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+

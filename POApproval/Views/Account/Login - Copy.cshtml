@@ -1,0 +1,52 @@
+﻿@model POApproval.Models.tblUser
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+    <div class="row">
+        <div class="col-sm-12">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <div class="modal-header login-title">
+                    <h5 class="modal-title">USER LOGIN</h5>
+
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                    {
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        @Html.TextBoxFor(m => m.logon_user_id, new {@class="form-control", @name="logon_user_id", @placeholder="Login ID", @required="required" })
+                        @*<input type="text" class="form-control" name="logon_user_id" placeholder="Login ID" required="required">*@
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-lock"></i>
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password", @required = "required" })
+
+                        @*<input type="password" class="form-control" name="UserPassword" placeholder="Password" required="required">*@
+                    </div>
+                    <div class="form-group text-right">
+                        Remember Me
+                        @Html.CheckBoxFor(m => m.RememberMe)
+
+                    </div>
+                        <div class="form-group error">
+
+                            <label>@ViewBag.loginFailed</label>
+
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary btn-lg" style="        background: #243894 !important" value="Login">
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+        </div>
+

@@ -1,0 +1,83 @@
+﻿@model POApproval.Helper.ManageApprovalViewModel
+@{
+    ViewBag.Title = "Update Approval";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<section class="col-md-6">
+    <div ng-app="myManageApprovalApp">
+        <div ng-controller="manageApprovalCtrl" data-ng-init="UpdateManageApproval(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))" class="divList">
+            <div class="centerLoader" data-loading> </div>
+            <div class=" container">
+                <div class="row">
+                    <form name="myform">
+                        <div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Username</label>
+                                <div class="col-sm-10">
+                                    <select title="Select" ng-model="intUserCode" class="form-control"  ng-required="true">
+                                        <option ng-repeat="user in Users" ng-value="{{user.Value}}">
+                                            {{user.Text}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Approver Level</label>
+                                <div class="col-sm-10">
+                                    <select title="Select" ng-model="intApprovalLevelCode" class="form-control"  ng-required="true">
+                                        <option ng-repeat="ApprovalLevel in ApprovalLevels" ng-value="{{ApprovalLevel.Value}}">
+                                            {{ApprovalLevel.Text}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Approver From Amount</label>
+                                <div class="col-sm-10">
+                                    <input type="number" min="0" max="9999999999" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" value="@Model.numFromApprovalAmount" class="form-control" ng-model="numFromApprovalAmount"  ng-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Approver To Amount</label>
+                                <div class="col-sm-10"> 
+                                    <input type="number" min="0" max="9999999999" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" value="@Model.numToApprovalAmount" class="form-control" ng-model="numToApprovalAmount"  ng-required="true">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" ng-model="bolIsActive" value="@Model.bolIsActive">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+ <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <button ng-click="myform.$valid && InsertData()" id="btnSave" value="Update" class="btn btn-success">Update</button>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
