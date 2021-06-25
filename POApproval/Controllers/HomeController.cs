@@ -13,10 +13,8 @@ namespace POApproval.Controllers
         public ActionResult Index()
         {
             return RedirectToAction("SearchPO", "PO");
+            //return View();
         }
-        
-
-       
        
     }
 }

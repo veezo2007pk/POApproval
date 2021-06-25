@@ -1,4 +1,5 @@
-﻿@{
+﻿@model POApproval.ViewModel.UserDataViewModel
+@{
     ViewBag.Title = "Add User";
 }
 <h2>@ViewBag.Title</h2>
@@ -10,102 +11,88 @@
             <div class=" container">
                 <div class="row">
                     <form name="myform">
-                        <div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Username</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" ng-model="logon_user_id"  ng-required="true" pattern="^\S+$" title="Enter Username without Space." >
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <select title="Select" class="form-control" ng-model="usercode" ng-required="true" id="user" onchange="getUserData()">
+                                    <option value="">--Please select user--</option>
+                                    @foreach (var item in Model.getUserList)
+                                    {
+                                <option data-fullname="@item.Username" data-xpertLoginID="test" data-email="@item.Email" data-usergroup="@item.Department" value="@item.UserCode">
+                                    @item.UserCode -- @item.Username
+                                </option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" ng-model="pwd" ng-required="true" pattern="^\S+$" title="Enter Password without Space.">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Full Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control fullname" ng-model="fullname">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">xpertLoginID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control xpertLoginID" ng-model="xpertLoginID" >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control email" ng-model="email" ng-value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Department</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control usergroup" ng-model="usergroup" ng-value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">User Access</label>
+                            <div class="col-sm-10">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="bolIsApprovalLimit" value="0" id="option-1" ng-required="true">Approval Limit</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="bolIsNewUser" value="0" id="option-2">New User</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="bolIsNewBuyer" value="0" id="option-3" >New Buyer</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="bolIsManageBuyer" value="0" id="option-4" >Manage Buyer</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="SuperAdmin" value="0" id="option-5" > Is Admin</label>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" ng-model="UserPassword" ng-required="true" pattern="^\S+$" title="Enter Password without Space.">
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Status</label>
+                            <div class="col-sm-10">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" ng-model="status" value="0" ng-required="true">Active</label>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Email</label>
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" ng-model="email" ng-required="true">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <button ng-click="myform.$valid && InsertData()" id="btnSave" value="Submit" class="btn btn-success">Save</button>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Department</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" ng-model="strDepartmentName" ng-required="true">
-                                    @*<select title="Select" class="form-control" ng-model="intDepartmentCode" required>
-                                        @foreach (var item in ViewBag.departmentList)
-                                        {
-                                            if (Model != null)
-                                            {
-                                                <option value="@item.Value" @(Model.Code == @item.Value ? "selected" : "")>
-                                                    @item.Text
-                                                </option>
-                                            }
-                                            else
-                                            {
-
-                                                <option value="@item.Value">
-                                                    @item.Text
-                                                </option>
-                                            }
-                                        }
-                                    </select>*@
-
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">User Access</label>
-                                <div class="col-sm-10">
-                                    <div class="checkbox">
-                                        <label><input ng-model="bolIsApprovalLimit" type="checkbox" value="0" id="option-1" required >Approval Limit</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="bolIsNewUser" value="0" id="option-2" required >New User</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="bolIsNewBuyer" value="0" id="option-3" required >New Buyer</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="bolIsManageBuyer" value="0" id="option-4" required >Manage Buyer</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="SuperAdmin" value="0" id="option-5" required > Is Admin</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="bolIsActive" value="0" required >Active</label>
-                                    </div>
-                                </div>
-                            </div>
- <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"></label>
-                                <div class="col-sm-10">
-                                    <div class="form-group error">
-
-                                        <div id="UserErrorMessage"></div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"></label>
-                                <div class="col-sm-10">
-                                    <button ng-click="myform.$valid && InsertData()" id="btnSave" value="Submit" class="btn btn-success">Save</button>
-                                </div>
-                            </div>
-
-
-
-
-
                         </div>
                     </form>
+                        
                 </div>
             </div>
         </div>

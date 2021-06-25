@@ -28,7 +28,7 @@ namespace POApproval.Models
                     lst.Add(new procSelectBuyer_Result
                     {
 
-                        BuyeCode = Convert.ToInt32(rdr["BuyeCode"]),
+                        BuyeCode = rdr["BuyeCode"].ToString(),
                         BuyerName = rdr["BuyerName"].ToString(),
                       
                         Status = rdr["Status"].ToString(),

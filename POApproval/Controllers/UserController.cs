@@ -1,6 +1,7 @@
 ﻿using POApproval.GlobalInfo;
 using POApproval.Helper;
 using POApproval.Models;
+using POApproval.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,21 @@ namespace POApproval.Controllers
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         UserDB userDB = new UserDB();
         
-        [Authorize]
+        //[Authorize]
         public ActionResult UserList()
         {
             var data = db.procSelectUser().ToList();
             return View(data);
         }
         
-        [Authorize]
+        //[Authorize]
         public ActionResult AddUser()
         {
-            PopulateDropdown();
-            return View();
+            UserDataViewModel UserVM = new UserDataViewModel();
+            
+            UserVM.getUserList = db.procSelectUserDetail().ToList();
+
+            return View(UserVM);
         }
         //[Authorize]
         //[HttpPost]
@@ -57,7 +61,7 @@ namespace POApproval.Controllers
         //    return Json(departments, JsonRequestBehavior.AllowGet);
         //}
         
-        [Authorize]
+        //[Authorize]
         public ActionResult UpdateUser(int ID)
         {
             PopulateDropdown();          
@@ -94,14 +98,15 @@ namespace POApproval.Controllers
 
 
         }
+        
 
         /// <summary>  
         ///   
         /// Get All User  
         /// </summary>  
         /// <returns></returns>  
-       
-        [Authorize]
+
+        //[Authorize]
         public ActionResult Get_AllUser()
         {
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
@@ -130,24 +135,23 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <param name="user"></param>  
         /// <returns></returns>  
-        public int Insert_User(tblUser user)
+        public int Insert_User(userDataViewModel userdata)
         {
-            var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == user.email).FirstOrDefault();
-            var checkUsernameExist = db.procGetAllUsers().Where(x => x.usercode == user.logon_user_id).FirstOrDefault();
-            if (checkUsernameExist != null)
-            {
-                return 2;
-            }
-            if (checkUserEmailExist != null)
-            {
-                return 3;
-            }
-            if (user != null)
+            //var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == userdata.email).FirstOrDefault();
+            //var checkUsernameExist = db.procGetAllUsers().Where(x =>  x.usercode == userdata.usercode.ToString()).FirstOrDefault();
+            //if (checkUsernameExist != null)
+            //{
+            //    return 2;
+            //}
+            //if (checkUserEmailExist != null)
+            //{
+            //    return 3;
+            //}
+            if (userdata != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-
-                    return userDB.Add(user);
+                    return userDB.Add(userdata);
                 }
             }
             else

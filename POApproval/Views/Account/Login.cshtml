@@ -22,18 +22,18 @@
                     {
                     <div class="form-group">
                         <i class="fa fa-user"></i>
-                        @Html.TextBoxFor(m => m.intUserCode, new {@class="form-control", @name= "intUserCode", @placeholder="Login ID", @required="required" })
+                        @Html.TextBoxFor(m => m.intUserCode, new {@class="form-control", @name= "intUserCode", @placeholder="Login ID", @required="required", @pattern = @"^\S+$", @title = "Enter Username without Space." })
                         @*<input type="text" class="form-control" name="logon_user_id" placeholder="Login ID" required="required">*@
                     </div>
                     <div class="form-group">
                         <i class="fa fa-lock"></i>
-                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password", @required = "required" })
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password", @required = "required", @pattern = @"^\S+$", @title = "Enter Password without Space." })
 
                         @*<input type="password" class="form-control" name="UserPassword" placeholder="Password" required="required">*@
                     </div>
                     <div class="form-group text-right">
                         Remember Me
-                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @*@Html.CheckBoxFor(m => m.RememberMe)*@
 
                     </div>
                         <div class="form-group error">

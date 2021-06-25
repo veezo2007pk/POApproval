@@ -15,14 +15,14 @@ namespace POApproval.Controllers
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         BuyerManagerDB BuyerManagerDB = new BuyerManagerDB();
        
-        [Authorize]
+        //[Authorize]
         public ActionResult BuyerManagerList()
         {
             var data = db.procSelectBuyerManager().ToList();
             return View(data);
         }
        
-        [Authorize]
+        //[Authorize]
         public ActionResult AddBuyerManager()
         {
             PopulateDropdown();
@@ -84,7 +84,7 @@ namespace POApproval.Controllers
             return Json(buyers, JsonRequestBehavior.AllowGet);
         }
        
-        [Authorize]
+        //[Authorize]
         public ActionResult UpdateBuyerManager(int ID)
         {
             PopulateDropdown();          
@@ -115,11 +115,11 @@ namespace POApproval.Controllers
         {
           
 
-                var user = db.procSelectUser().OrderBy(s => s.Username);
-                ViewBag.userList = new SelectList(user, "UserCode", "Username");
+                var user = db.procGetAllUsers().OrderBy(s => s.fullname);
+                ViewBag.userList = new SelectList(user, "usercode", "fullname");
 
-            var buyer = db.procSelectBuyer().OrderBy(s => s.BuyerName);
-            ViewBag.buyerList = new SelectList(buyer, "BuyeCode", "BuyerName");
+            var buyer = db.procGetAllBuyersByStaffType("BUYER").OrderBy(s => s.fullname);
+            ViewBag.buyerList = new SelectList(buyer, "usercode", "fullname");
 
 
 
@@ -132,7 +132,7 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <returns></returns>  
        
-        [Authorize]
+        //[Authorize]
         public ActionResult Get_AllBuyerManager()
         {
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

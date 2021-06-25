@@ -48,7 +48,7 @@ namespace POApproval.Controllers
             List<tblManageApproval> ManageApprovalModel = db.tblManageApprovals.Where(x => x.intUserCode == ID).ToList();
             return ManageApprovalModel;
         }
-        [Authorize]
+        //[Authorize]
         public ActionResult ReviewPO(int ID)
         {
             POViewModel POVM = new POViewModel();
@@ -61,7 +61,7 @@ namespace POApproval.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult SearchPO()
         {
             List<tblStatu> statusList = db.tblStatus.ToList();

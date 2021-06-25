@@ -13,7 +13,7 @@ namespace POApproval.Models
     
     public partial class procSelectBuyer_Result
     {
-        public int BuyeCode { get; set; }
+        public string BuyeCode { get; set; }
         public string BuyerName { get; set; }
         public string Status { get; set; }
     }

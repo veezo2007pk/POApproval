@@ -15,14 +15,14 @@ namespace POApproval.Controllers
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         ManageApprovalDB ManageApprovalDB = new ManageApprovalDB();
        
-        [Authorize]
+        //[Authorize]
         public ActionResult ManageApprovalList()
         {
             var data = db.procSelectManageApproval().ToList();
             return View(data);
         }
        
-        [Authorize]
+        //[Authorize]
         public ActionResult AddManageApproval()
         {
             PopulateDropdown();
@@ -84,7 +84,7 @@ namespace POApproval.Controllers
             return Json(approvalLevels, JsonRequestBehavior.AllowGet);
         }
        
-        [Authorize]
+        //[Authorize]
         public ActionResult UpdateManageApproval(int ID)
         {
             PopulateDropdown();          
@@ -133,7 +133,7 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <returns></returns>  
        
-        [Authorize]
+        //[Authorize]
         public ActionResult Get_AllManageApproval()
         {
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

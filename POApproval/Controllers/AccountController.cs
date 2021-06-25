@@ -40,7 +40,7 @@ namespace POApproval.Controllers
                         Session["bolIsNewUser"] = obj.bolIsNewUser.ToString();
                         Session["bolIsNewBuyer"]= obj.bolIsNewBuyer.ToString();
                         Session["bolIsManageBuyer"] = obj.bolIsManageBuyer.ToString();
-                        FormsAuthentication.SetAuthCookie(obj.usercode, objUser.RememberMe);
+                        //FormsAuthentication.SetAuthCookie(obj.usercode, objUser.RememberMe);
                         return RedirectToAction("SearchPO", "PO");
                     }
                     else if(obj != null && obj.status == "NOT ACTIVE")

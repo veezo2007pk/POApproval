@@ -20,7 +20,7 @@ namespace POApproval.Models
             this.tblPODetails = new HashSet<tblPODetail>();
             this.tblPOHistories = new HashSet<tblPOHistory>();
         }
-        public string[] strStatusName { get; set; }
+    
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }
         public string Store_Code { get; set; }
@@ -35,6 +35,8 @@ namespace POApproval.Models
         public string Supplier_Code { get; set; }
         public string Supplier_Name { get; set; }
         public string Supplier_Address { get; set; }
+        public string strStatusName { get; set; }
+
         public string Contact_Person { get; set; }
         public Nullable<System.DateTime> po_print_date { get; set; }
         public string username { get; set; }

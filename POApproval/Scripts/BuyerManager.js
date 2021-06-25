@@ -79,7 +79,7 @@ var app = angular.module("myBuyerManagerApp", [])
                         $scope.intUserCode = "";
                         $scope.intBuyerCode = "";
                          
-                            window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
+                            window.location.href = "/BuyerManager/BuyerManagerList"
                         }
                     }, function (error) {
                         $("#btnSave").attr("disabled", false);
@@ -118,7 +118,7 @@ var app = angular.module("myBuyerManagerApp", [])
                         $scope.intUserCode = "";
                         $scope.intBuyerCode = "";
                           
-                            window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
+                        window.location.href = "/BuyerManager/BuyerManagerList"
                        /* }*/
 
                     }, function (error) {

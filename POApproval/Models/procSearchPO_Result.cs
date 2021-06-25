@@ -13,17 +13,17 @@ namespace POApproval.Models
     
     public partial class procSearchPO_Result
     {
-        public string strRejectReason { get; set; }
-        public bool IsSelected { get; set; }
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }
         public string Supplier_Code { get; set; }
         public string Supplier_Name { get; set; }
+        public string strRejectReason { get; set; }
         public Nullable<System.DateTime> Creation_Date { get; set; }
         public string strPOStatus { get; set; }
         public string Buyer { get; set; }
         public Nullable<int> Qty { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string ApprovalLevel { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

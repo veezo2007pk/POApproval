@@ -17,6 +17,6 @@ namespace POApproval.Models
         public Nullable<int> intBuyerCode { get; set; }
         public string strBuyerName { get; set; }
         public string logon_user_id { get; set; }
-        public int intUserCode { get; set; }
+        public string intUserCode { get; set; }
     }
 }

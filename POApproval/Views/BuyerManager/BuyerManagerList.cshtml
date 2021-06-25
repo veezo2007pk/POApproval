@@ -1,6 +1,6 @@
 ﻿@model List<POApproval.Models.procSelectBuyerManager_Result>
 @{
-    ViewBag.Title = "Manage Approval List";
+    ViewBag.Title = "Manage Buyer List";
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
@@ -48,7 +48,7 @@
                                     @item.logon_user_id
                                 </td>
                                 <td>
-                                    @item.strBuyerName
+                                   @item.intBuyerCode -- @item.strBuyerName
                                 </td>
                                 
 

@@ -21,8 +21,7 @@ namespace POApproval.Models
             this.tblPOHistories = new HashSet<tblPOHistory>();
             this.tblBuyerDetails = new HashSet<tblBuyerDetail>();
         }
-        public bool RememberMe { get; set; }
-   
+    
         public int intUserCode { get; set; }
         public string logon_user_id { get; set; }
         public string UserPassword { get; set; }
@@ -44,8 +43,7 @@ namespace POApproval.Models
         public Nullable<bool> bolIsApprovalLimit { get; set; }
         public Nullable<bool> bolIsNewUser { get; set; }
         public Nullable<bool> bolIsActive { get; set; }
-        public Nullable<bool> SuperAdmin { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblManageApproval> tblManageApprovals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

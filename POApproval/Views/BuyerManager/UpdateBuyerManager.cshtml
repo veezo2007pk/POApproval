@@ -17,7 +17,7 @@
                                 <div class="col-sm-10">
                                     <select title="Select" ng-model="intUserCode" class="form-control"  ng-required="true" readonly>
                                         <option ng-repeat="user in Users" ng-value="{{user.Value}}">
-                                            {{user.Text}}
+                                            {{user.Value}}--{{user.Text}}
                                         </option>
                                     </select>
                                 </div>
@@ -27,7 +27,7 @@
                                 <div class="col-sm-10">
                                     <select title="Select" ng-model="intBuyerCode" class="form-control"  ng-required="true">
                                         <option ng-repeat="buyer in buyers" ng-value="{{buyer.Value}}">
-                                            {{buyer.Text}}
+                                            {{buyer.Value}}--{{buyer.Text}}
                                         </option>
                                     </select>
                                 </div>

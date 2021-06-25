@@ -40,23 +40,24 @@ var app = angular.module("myApp", [])
 
         //debugger;
         $scope.InsertData = function () {
-           
+            //alert('dddd');
             var Action = document.getElementById("btnSave").getAttribute("value");
             if (Action == "Submit") {
                 if (confirm('Are you sure you want to insert this?')) {
-                    $("#btnSave").attr("disabledd", true);
+                    $("#btnSave").attr("disabled", true);
                     $scope.User = {};
-                    $scope.User.logon_user_id = $scope.logon_user_id;
-                    $scope.User.logon_user_name = $scope.logon_user_id;
-                    $scope.User.UserPassword = $scope.UserPassword;
+                    $scope.User.usercode = $scope.usercode;
+                    $scope.User.fullname = $scope.fullname;
+                    $scope.User.pwd = $scope.pwd;
                     $scope.User.email = $scope.email;
-                    $scope.User.strDepartmentName = $scope.strDepartmentName;
+                    $scope.User.xpertLoginID = $scope.xpertLoginID;
+                    $scope.User.usergroup = $scope.usergroup;
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
-                    $scope.User.bolIsActive = $scope.bolIsActive;
-                    $scope.User.bolIsActive = $scope.bolIsNewBuyer;
-                    $scope.User.bolIsActive = $scope.bolIsManageBuyer;
-                    $scope.User.bolIsActive = $scope.SuperAdmin;
+                    $scope.User.status = $scope.status;
+                    $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
+                    $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
+                    $scope.User.SuperAdmin = $scope.SuperAdmin;
                     $http({
                         method: "post",
                         url: "http://localhost:61646/User/Insert_User",

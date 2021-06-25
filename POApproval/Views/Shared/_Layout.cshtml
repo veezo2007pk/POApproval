@@ -424,4 +424,15 @@
             }
         });
     });
+    function getUserData() {
+        var address = $("#user option:selected");
+        var fullname = address.attr('data-fullname');
+        var email = address.attr('data-email');
+        var xpertLoginID = address.attr('data-xpertLoginID');
+        var usergroup = address.attr('data-usergroup');
+        $('.fullname').val(fullname);
+        $('.email').val(email);
+        $('.usergroup').val(usergroup);
+        $('.xpertLoginID').val(xpertLoginID);
+    }
 </script>
