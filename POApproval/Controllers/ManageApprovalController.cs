@@ -33,8 +33,7 @@ namespace POApproval.Controllers
         public JsonResult GetUser()
         {
             List<SelectListItem> users = new List<SelectListItem>();
-        
-            for (int i = 0; i < db.tblUsers.ToList().Count; i++)
+            for (int i = 0; i < db.procSelectUser().ToList().Count; i++)
             {
                 //var data = db.tblDepartments.Where(x => x.intDepartmentCode == ID).FirstOrDefault();
                 //bool selected = false;
@@ -45,15 +44,13 @@ namespace POApproval.Controllers
                 //    }
                 //} 
                 users.Add(new SelectListItem
-                    {
-                        Value = db.tblUsers.ToList()[i].intUserCode.ToString(),
-                        Text = db.tblUsers.ToList()[i].logon_user_id
-                        //Selected=selected
-                    });
-                
-                
-            }
+                {
+                    Value = db.procSelectUser().ToList()[i].UserCode.ToString(),
+                    Text = db.procSelectUser().ToList()[i].Username
+                    //Selected=selected
+                });
 
+            }
             return Json(users, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -116,8 +113,11 @@ namespace POApproval.Controllers
         {
           
 
-                var user = db.tblUsers.OrderBy(s => s.logon_user_id);
-                ViewBag.userList = new SelectList(user, "intUserCode", "logon_user_id");
+                //var user = db.tblUsers.OrderBy(s => s.logon_user_id);
+                //ViewBag.userList = new SelectList(user, "intUserCode", "logon_user_id");
+
+            var user = db.procGetAllUsers().OrderBy(s => s.fullname);
+            ViewBag.userList = new SelectList(user, "usercode", "fullname");
 
             var approverLevel = db.tblApprovalLevels.OrderBy(s => s.strApprovalLevelName);
             ViewBag.approverLevelList = new SelectList(approverLevel, "intApprovalLevelCode", "strApprovalLevelName");
@@ -182,22 +182,23 @@ namespace POApproval.Controllers
                 return 0;
             }
         }
+        [HttpPost]
         /// <summary>  
         /// Delete ManageApproval Information  
         /// </summary>  
         /// <param name="Emp"></param>  
         /// <returns></returns>  
-        public string Delete_ManageApproval(tblManageApproval Emp)
+        public string Delete_ManageApproval(tblManageApproval ManageApproval)
         {
-            if (Emp != null)
+            if (ManageApproval != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-                    var Emp_ = Obj.Entry(Emp);
+                    var Emp_ = Obj.Entry(ManageApproval);
                     if (Emp_.State == System.Data.Entity.EntityState.Detached)
                     {
-                        Obj.tblManageApprovals.Attach(Emp);
-                        Obj.tblManageApprovals.Remove(Emp);
+                        Obj.tblManageApprovals.Attach(ManageApproval);
+                        Obj.tblManageApprovals.Remove(ManageApproval);
                     }
                     Obj.SaveChanges();
                     return "ManageApproval Deleted Successfully";

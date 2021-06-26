@@ -15,20 +15,21 @@
                                 <label class="col-sm-2 col-form-label">Username</label>
                                 <div class="col-sm-10">
                                     <select title="Select" class="form-control" ng-model="intUserCode" ng-required="true" >
+                                        <option value="">--Please select user--</option>
                                         @foreach (var item in ViewBag.userList)
                                         {
                                             if (Model != null)
                                             {
-                                                <option value="@item.Value" @(Model.Code == @item.Value ? "selected" : "")>
-                                                    @item.Text
-                                                </option>
+                                        <option value="@item.Value" @(Model.Code == @item.Value ? "selected" : "")>
+                                            @item.Value--@item.Text
+                                        </option>
                                             }
                                             else
                                             {
 
-                                                <option value="@item.Value">
-                                                    @item.Text
-                                                </option>
+                                    <option value="@item.Value">
+                                        @item.Value-- @item.Text
+                                    </option>
                                             }
                                         }
                                     </select>
@@ -110,6 +111,16 @@
 
 
 
+                        </div>
+                    </form>
+
+
+                    <form name="myformdata">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <button ng-click="myformdata.$valid && DeleteApproval()" id="btnSave" value="Submit" class="btn btn-success">delete</button>
+                            </div>
                         </div>
                     </form>
 

@@ -181,32 +181,33 @@ namespace POApproval.Controllers
                 return 0;
             }
         }
+        [HttpPost]
         /// <summary>  
         /// Delete BuyerManager Information  
         /// </summary>  
         /// <param name="Emp"></param>  
         /// <returns></returns>  
-        //public string Delete_BuyerManager(BuyerManager Emp)
-        //{
-        //    if (Emp != null)
-        //    {
-        //        using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
-        //        {
-        //            var Emp_ = Obj.Entry(Emp);
-        //            if (Emp_.State == System.Data.Entity.EntityState.Detached)
-        //            {
-        //                Obj.BuyerManagers.Attach(Emp);
-        //                Obj.BuyerManagers.Remove(Emp);
-        //            }
-        //            Obj.SaveChanges();
-        //            return "BuyerManager Deleted Successfully";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return "BuyerManager Not Deleted! Try Again";
-        //    }
-        //}
+        public string Delete_BuyerManager(tblBuyerDetail Emp)
+        {
+            if (Emp != null)
+            {
+                using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+                {
+                    var Emp_ = Obj.Entry(Emp);
+                    if (Emp_.State == System.Data.Entity.EntityState.Detached)
+                    {
+                        Obj.tblBuyerDetails.Attach(Emp);
+                        Obj.tblBuyerDetails.Remove(Emp);
+                    }
+                    Obj.SaveChanges();
+                    return "BuyerManager Deleted Successfully";
+                }
+            }
+            else
+            {
+                return "BuyerManager Not Deleted! Try Again";
+            }
+        }
         /// <summary>  
         /// Update BuyerManager Information  
         /// </summary>  

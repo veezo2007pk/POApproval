@@ -11,8 +11,8 @@
     </div>
 </section>
 <section class="col-md-12">
-    <div>
-        <div class="divList">
+    <div ng-app="myManageApprovalApp">
+        <div ng-controller="manageApprovalCtrl" class="divList">
             <div class="centerLoader" data-loading> </div>
             <div class="table-common">
 
@@ -42,8 +42,7 @@
                                 <td>
                                     <a href="http://localhost:61646/ManageApproval/UpdateManageApproval?ID=@item.intManageApprovalCode" value="Update" HR>Update</a>
 
-
-                                    @*<input type="button"  value="Delete" ng-click="DeleteEmp(Emp)" />*@
+                                    <input type="button"  value="Delete"  ng-click="DeleteApproval(@item.intManageApprovalCode)" />
                                 </td>
                                 <td>
                                     @item.UserCode

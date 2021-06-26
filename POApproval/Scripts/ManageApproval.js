@@ -153,16 +153,21 @@ var app = angular.module("myManageApprovalApp", [])
               
             })
         };
-        $scope.DeleteEmp = function (Emp) {
-            $http({
-                method: "post",
-                url: "http://localhost:61646/ManageApproval/Delete_ManageApproval",
-                datatype: "json",
-                data: JSON.stringify(Emp)
-            }).then(function (response) {
-               
-                $scope.GetAllData();
-            })
+        $scope.DeleteApproval = function (Emp) {
+            if (confirm('Are you sure you want to delete this?')) {
+                $scope.ManageApproval = {};
+                $scope.ManageApproval.intManageApprovalCode = Emp;
+
+                $http({
+                    method: "post",
+                    url: "http://localhost:61646/ManageApproval/Delete_ManageApproval",
+                    datatype: "json",
+                    data: JSON.stringify($scope.ManageApproval)
+                }).then(function (response) {
+                    alert('Manage Approval Deleted successfully');
+                    window.location.href = "/poapproval/ManageApproval/ManageApprovalList"
+                })
+            }
         };
         $scope.UpdateManageApproval = function (ManageApproval) {
             console.log(ManageApproval);

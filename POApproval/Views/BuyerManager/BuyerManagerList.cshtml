@@ -11,8 +11,8 @@
     </div>
 </section>
 <section class="col-md-12">
-    <div>
-        <div class="divList">
+    <div ng-app="myBuyerManagerApp">
+        <div class="divList" ng-controller="BuyerManagerCtrl">
             <div class="centerLoader" data-loading> </div>
             <div class="table-common">
 
@@ -33,13 +33,11 @@
                         @foreach (var item in Model)
                         {
 
-
-
-
                             <tr>
                                 <td>
                                     <a href="http://localhost:61646/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode" value="Update" HR>Update</a>
-                                    @*<input type="button"  value="Delete" ng-click="DeleteEmp(Emp)" />*@
+                                    <input type="button" value="Delete" ng-click="DeleteBuyer(@item.intBuyerDetailCode)" />                                
+ 
                                 </td>
                                 <td>
                                     @item.intBuyerDetailCode

@@ -67,10 +67,19 @@ namespace POApproval.Controllers
             List<tblStatu> statusList = db.tblStatus.ToList();
             ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
 
-            int userCode = Convert.ToInt32(Session["intUserCode"]);
-            var data = db.procSearchPO(userCode, null, "Pending").ToList();
-            return View(data);
+            var data = new List<procSearchPO_Result>();
 
+            if (Session["SuperAdmin"].ToString() == "Y")
+            {
+                 data = db.procSearchPO(null, null, "Pending").ToList();
+            }
+            else
+            {
+                int userCode = Convert.ToInt32(Session["intUserCode"]);
+                 data = db.procSearchPO(userCode, null, "Pending").ToList();
+                
+            }
+            return View(data);
         }
         string approvalLevel;
 
@@ -206,12 +215,8 @@ namespace POApproval.Controllers
 
                                             dtCreatedAt = DateTime.Now,
                                             intPOCode = item.intPOCode,
-                                            strPOStatus = approvalLevel,
+                                            strPOStatus = item.NextPOStatus,
                                             intUserCode = userCode
-
-
-
-
 
                                         };
 
@@ -222,7 +227,7 @@ namespace POApproval.Controllers
 
                                         var POData = this.db.tblPOes.Find(item.intPOCode);
 
-                                        POData.strPOStatus = approvalLevel;
+                                        POData.strPOStatus = item.NextPOStatus;
 
                                         db.Entry(POData).State = EntityState.Modified;
                                         db.SaveChanges();

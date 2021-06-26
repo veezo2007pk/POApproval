@@ -698,14 +698,15 @@
         <ComplexType Name="procSearchPO_Result">
           <Property Type="Int32" Name="intPOCode" Nullable="false" />
           <Property Type="Int64" Name="PO_Number" Nullable="true" />
-          <Property Type="String" Name="Supplier_Code" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Supplier_Name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Supplier_Code" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Supplier_Name" Nullable="true" MaxLength="30" />
           <Property Type="DateTime" Name="Creation_Date" Nullable="true" Precision="23" />
           <Property Type="String" Name="strPOStatus" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Buyer" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Buyer" Nullable="true" MaxLength="40" />
           <Property Type="Int32" Name="Qty" Nullable="true" />
           <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NextPOStatus" Nullable="true" MaxLength="10" />
         </ComplexType>
         <EntityType Name="tblBuyer">
           <Key>
@@ -1077,6 +1078,7 @@
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+                <ScalarProperty Name="NextPOStatus" ColumnName="NextPOStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -138,6 +138,21 @@ var app = angular.module("myBuyerManagerApp", [])
               
             })
         };
+        $scope.DeleteBuyer = function (intBuyerDetailCode) {
+            if (confirm('Are you sure you want to delete this?')) {
+                $scope.BuyerManager = {};
+                $scope.BuyerManager.intBuyerDetailCode = intBuyerDetailCode;
+                $http({
+                    method: "post",
+                    url: "http://localhost:61646/BuyerManager/Delete_BuyerManager",
+                    datatype: "json",
+                    data: JSON.stringify($scope.BuyerManager)
+                }).then(function (response) {
+                    alert('Buyer Deleted successfully');
+                    window.location.href = "/BuyerManager/BuyerManagerList"
+                })
+            }
+        };
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
