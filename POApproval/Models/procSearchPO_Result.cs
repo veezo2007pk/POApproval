@@ -23,8 +23,8 @@ namespace POApproval.Models
         public Nullable<int> Qty { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string ApprovalLevel { get; set; }
-        public string strRejectReason { get; set; }
         public string NextPOStatus { get; set; }
+        public string strRejectReason { get; set; }
         public bool IsSelected { get; set; }
     }
 }

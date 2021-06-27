@@ -267,15 +267,20 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
         }
     
-        public virtual int procInsertUpdateUser(Nullable<int> usercode, string fullname, string xpertLoginID, string pwd, string email, string usergroup, string status, string superAdmin, Nullable<bool> bolIsApprovalLimit, Nullable<bool> bolIsNewUser, Nullable<bool> bolIsNewBuyer, Nullable<bool> bolIsManageBuyer, string action)
+        public virtual ObjectResult<procGetAllBuyersByStaffType_Result> procGetAllBuyersByStaffType(string stafftype)
         {
-            var usercodeParameter = usercode.HasValue ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(int));
+            var stafftypeParameter = stafftype != null ?
+                new ObjectParameter("stafftype", stafftype) :
+                new ObjectParameter("stafftype", typeof(string));
     
-            var fullnameParameter = fullname != null ?
-                new ObjectParameter("fullname", fullname) :
-                new ObjectParameter("fullname", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
+        }
+    
+        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, Nullable<bool> bolIsApprovalLimit, Nullable<bool> bolIsNewUser, Nullable<bool> bolIsNewBuyer, Nullable<bool> bolIsManageBuyer, string action)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
     
             var xpertLoginIDParameter = xpertLoginID != null ?
                 new ObjectParameter("xpertLoginID", xpertLoginID) :
@@ -284,14 +289,6 @@ namespace POApproval.Models
             var pwdParameter = pwd != null ?
                 new ObjectParameter("pwd", pwd) :
                 new ObjectParameter("pwd", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var usergroupParameter = usergroup != null ?
-                new ObjectParameter("usergroup", usergroup) :
-                new ObjectParameter("usergroup", typeof(string));
     
             var statusParameter = status != null ?
                 new ObjectParameter("status", status) :
@@ -321,16 +318,16 @@ namespace POApproval.Models
                 new ObjectParameter("Action", action) :
                 new ObjectParameter("Action", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, fullnameParameter, xpertLoginIDParameter, pwdParameter, emailParameter, usergroupParameter, statusParameter, superAdminParameter, bolIsApprovalLimitParameter, bolIsNewUserParameter, bolIsNewBuyerParameter, bolIsManageBuyerParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, bolIsApprovalLimitParameter, bolIsNewUserParameter, bolIsNewBuyerParameter, bolIsManageBuyerParameter, actionParameter);
         }
     
-        public virtual ObjectResult<procGetAllBuyersByStaffType_Result> procGetAllBuyersByStaffType(string stafftype)
+        public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
         {
-            var stafftypeParameter = stafftype != null ?
-                new ObjectParameter("stafftype", stafftype) :
-                new ObjectParameter("stafftype", typeof(string));
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
         }
     }
 }

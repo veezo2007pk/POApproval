@@ -100,12 +100,9 @@ namespace POApproval.Controllers
                   intUserCode= ManageApprovalInfo.intUserCode,
                   numFromApprovalAmount= ManageApprovalInfo.numFromApprovalAmount,
                   numToApprovalAmount= ManageApprovalInfo.numToApprovalAmount
-
                 };
-               
                 return View(objManageApproval);
             }
-
             return View();
         }
 

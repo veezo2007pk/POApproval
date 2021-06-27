@@ -116,11 +116,11 @@ namespace POApproval.Models
                 SqlCommand com = new SqlCommand("procInsertUpdateUser", con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@usercode", user.usercode);
-                com.Parameters.AddWithValue("@fullname", user.fullname);
+                //com.Parameters.AddWithValue("@fullname", user.fullname);
                 com.Parameters.AddWithValue("@pwd", user.pwd);
-                com.Parameters.AddWithValue("@email", user.email);
+                //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
-                com.Parameters.AddWithValue("@usergroup", user.usergroup);
+                //com.Parameters.AddWithValue("@usergroup", user.usergroup);
                 com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
                 com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
                 com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
@@ -136,25 +136,62 @@ namespace POApproval.Models
         }
 
         //Method for Updating User record  
-        public int Update(tblUser user)
+        public int Update(userDataViewModel user)
         {
             int i;
+            if (user.bolIsApprovalLimit == null)
+                user.bolIsApprovalLimit = false;
+
+            if (user.bolIsNewUser == null)
+                user.bolIsNewUser = false;
+
+            if (user.bolIsManageBuyer == null)
+                user.bolIsManageBuyer = false;
+
+            if (user.bolIsNewBuyer == null)
+                user.bolIsNewBuyer = false;
+            if (user.status == "1")
+            {
+                user.status = "ACTIVE";
+            }
+            else
+            {
+                user.status = "NOT ACTIVE";
+            }
+            if (user.SuperAdmin == "1")
+            {
+                user.SuperAdmin = "Y";
+            }
+            else
+            {
+                user.SuperAdmin = "N";
+            }
+
+            //Int32 intUserCodeMaxCode = (Int32)get_nextCode();
+            //if (intUserCodeMaxCode == 0)
+            //    intUserCodeMaxCode = 1;
+
+
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
                 SqlCommand com = new SqlCommand("procInsertUpdateUser", con);
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@intUserCode", user.intUserCode);
-                com.Parameters.AddWithValue("@logon_user_id", user.logon_user_id);
-                com.Parameters.AddWithValue("@logon_user_name", user.logon_user_id);
-                com.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                com.Parameters.AddWithValue("@email", user.email);
-                com.Parameters.AddWithValue("@strDepartmentName", user.strDepartmentName);
+                com.Parameters.AddWithValue("@usercode", user.usercode);
+                //com.Parameters.AddWithValue("@fullname", user.fullname);
+                com.Parameters.AddWithValue("@pwd", user.pwd);
+                //com.Parameters.AddWithValue("@email", user.email);
+                com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
+                //com.Parameters.AddWithValue("@usergroup", user.usergroup);
                 com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
                 com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
-                com.Parameters.AddWithValue("@bolIsActive", user.bolIsActive);
+                com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
+                com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
+                com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
+                com.Parameters.AddWithValue("@status", user.status);
 
-               com.Parameters.AddWithValue("@Action", "Update");
+
+                com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
             }
             return i;

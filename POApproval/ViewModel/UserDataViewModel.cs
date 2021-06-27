@@ -15,7 +15,7 @@ namespace POApproval.ViewModel
         public string fullname { get; set; }
         public string email { get; set; }
         public string xpertLoginID { get; set; }
-        public int usercode { get; set; }
+        public string usercode { get; set; }
         public string pwd { get; set; }
         public string status { get; set; }
         public string usergroup { get; set; }

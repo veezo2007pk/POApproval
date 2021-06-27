@@ -62,26 +62,28 @@ namespace POApproval.Controllers
         //}
         
         //[Authorize]
-        public ActionResult UpdateUser(int ID)
+        public ActionResult UpdateUser(string ID)
         {
-            PopulateDropdown();          
-            var userInfo = db.tblUsers.FirstOrDefault(s => s.intUserCode == ID);
+            //PopulateDropdown();          
+            var userInfo = db.procSelectUserData(ID).FirstOrDefault();
             if (userInfo != null)
             {
+                
                 UserViewModel objUser = new UserViewModel()
                 {
-                    intUserCode=userInfo.intUserCode,
-                    strDepartmentName = userInfo.strDepartmentName,
-                    email = userInfo.email,
-                    UserPassword=userInfo.UserPassword,
-                    logon_user_id = userInfo.logon_user_id,
-                    bolIsActive=userInfo.bolIsActive,
+                    usercode=userInfo.UserCode,
+                    usergroup = userInfo.Department,
+                    email = userInfo.Email,
+                    pwd = userInfo.Password,
+                    fullname = userInfo.Username,
+                    status = userInfo.Status,
                     bolIsApprovalLimit=userInfo.bolIsApprovalLimit,
-                    bolIsNewUser=userInfo.bolIsNewUser
-                 
-                    
+                    bolIsNewUser=userInfo.bolIsNewUser,
+                    bolIsManageBuyer = userInfo.bolIsManageBuyer,
+                    bolIsNewBuyer = userInfo.bolIsNewBuyer,
+                    SuperAdmin=userInfo.SuperAdmin,
+                    xpertLoginID=userInfo.xpertLoginID
                 };
-               
                 return View(objUser);
             }
 
@@ -190,34 +192,35 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <param name="Emp"></param>  
         /// <returns></returns>  
-        public int Update_User(tblUser User)
+        public int Update_User(userDataViewModel userdatas)
         {
-            var user = db.tblUsers.Where(x => x.intUserCode == User.intUserCode).FirstOrDefault();
+            //var user = db.tblUsers.Where(x => x.intUserCode == User.intUserCode).FirstOrDefault();
 
-            if (user.logon_user_id != User.logon_user_id)
-            {
-                var checkUsernameExist = db.tblUsers.Where(x => x.logon_user_id == user.logon_user_id).FirstOrDefault();
+            //if (user.logon_user_id != User.logon_user_id)
+            //{
+            //    var checkUsernameExist = db.tblUsers.Where(x => x.logon_user_id == user.logon_user_id).FirstOrDefault();
 
-                if (checkUsernameExist != null)
-                {
-                    return 2;
-                }
-            }
-            if (user.email != User.email)
-            {
-                var checkUserEmailExist = db.tblUsers.Where(x => x.email == user.email).FirstOrDefault();
+            //    if (checkUsernameExist != null)
+            //    {
+            //        return 2;
+            //    }
+            //}
+            //if (user.email != User.email)
+            //{
+            //    var checkUserEmailExist = db.tblUsers.Where(x => x.email == user.email).FirstOrDefault();
 
-                if (checkUserEmailExist != null)
-                {
-                    return 3;
-                }
-            }
+            //    if (checkUserEmailExist != null)
+            //    {
+            //        return 3;
+            //    }
+            //}
            
-            if (User != null)
+            if (userdatas != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-                    return userDB.Update(User);
+                    //return userDB.Update(userdatas);
+                    return userDB.Update(userdatas);
                 }
             }
             else

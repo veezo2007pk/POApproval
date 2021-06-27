@@ -188,7 +188,7 @@ var app = angular.module("myManageApprovalApp", [])
             $scope.intCreatedByCode = ManageApproval.intCreatedByCode;
             $scope.dtModifyAt = ManageApproval.dtModifyAt;
             $scope.intModifyByCode = ManageApproval.intModifyByCode;
-            $scope.GetUser();
-            $scope.GetApprovalLevel();
+            //$scope.GetUser();
+            //$scope.GetApprovalLevel();
         }
     });  

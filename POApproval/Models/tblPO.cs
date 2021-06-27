@@ -25,10 +25,10 @@ namespace POApproval.Models
         public Nullable<long> PO_Number { get; set; }
         public string Store_Code { get; set; }
         public string Delivery_Location { get; set; }
-        public string[] strStatusName { get; set; }
         public Nullable<System.DateTime> Creation_Date { get; set; }
         public Nullable<System.DateTime> Delivery_Date { get; set; }
         public string Company_Name { get; set; }
+        public string strStatusName { get; set; }
         public string Ship_Store { get; set; }
         public string Store_Address { get; set; }
         public string Store_Tel { get; set; }

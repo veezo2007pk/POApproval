@@ -166,54 +166,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblBuyerDetail_tblBuyer">
-          <End Role="tblBuyer" Type="Self.tblBuyer" Multiplicity="0..1" />
-          <End Role="tblBuyerDetail" Type="Self.tblBuyerDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblBuyer">
-              <PropertyRef Name="intBuyerCode" />
-            </Principal>
-            <Dependent Role="tblBuyerDetail">
-              <PropertyRef Name="intBuyerCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblBuyerDetail_tblUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblBuyerDetail" Type="Self.tblBuyerDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblBuyerDetail">
-              <PropertyRef Name="intUserCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblManageApproval_tblApproval">
-          <End Role="tblApprovalLevel" Type="Self.tblApprovalLevel" Multiplicity="1" />
-          <End Role="tblManageApproval" Type="Self.tblManageApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblApprovalLevel">
-              <PropertyRef Name="intApprovalLevelCode" />
-            </Principal>
-            <Dependent Role="tblManageApproval">
-              <PropertyRef Name="intApprovalLevelCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblManageApproval_tblUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblManageApproval" Type="Self.tblManageApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblManageApproval">
-              <PropertyRef Name="intUserCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblPODetail_tblPO">
           <End Role="tblPO" Type="Self.tblPO" Multiplicity="0..1" />
           <End Role="tblPODetail" Type="Self.tblPODetail" Multiplicity="*" />
@@ -293,12 +245,9 @@
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procInsertUpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="usercode" Type="int" Mode="In" />
-          <Parameter Name="fullname" Type="nvarchar" Mode="In" />
+          <Parameter Name="usercode" Type="nvarchar" Mode="In" />
           <Parameter Name="xpertLoginID" Type="nvarchar" Mode="In" />
           <Parameter Name="pwd" Type="nvarchar" Mode="In" />
-          <Parameter Name="email" Type="nvarchar" Mode="In" />
-          <Parameter Name="usergroup" Type="nvarchar" Mode="In" />
           <Parameter Name="status" Type="nvarchar" Mode="In" />
           <Parameter Name="SuperAdmin" Type="nvarchar" Mode="In" />
           <Parameter Name="bolIsApprovalLimit" Type="bit" Mode="In" />
@@ -323,6 +272,9 @@
         <Function Name="procSelectBuyerManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procSelectManageApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procSelectUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="procSelectUserData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usercode" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="procSelectUserDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procValidateUserLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="strLoginName" Type="int" Mode="In" />
@@ -341,22 +293,6 @@
           <AssociationSet Name="FK_tblApproval_tblApproval" Association="Self.FK_tblApproval_tblApproval">
             <End Role="tblApprovalLevel" EntitySet="tblApprovalLevel" />
             <End Role="tblApprovalLevel1" EntitySet="tblApprovalLevel" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblBuyerDetail_tblBuyer" Association="Self.FK_tblBuyerDetail_tblBuyer">
-            <End Role="tblBuyer" EntitySet="tblBuyer" />
-            <End Role="tblBuyerDetail" EntitySet="tblBuyerDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblBuyerDetail_tblUser" Association="Self.FK_tblBuyerDetail_tblUser">
-            <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="tblBuyerDetail" EntitySet="tblBuyerDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblManageApproval_tblApproval" Association="Self.FK_tblManageApproval_tblApproval">
-            <End Role="tblApprovalLevel" EntitySet="tblApprovalLevel" />
-            <End Role="tblManageApproval" EntitySet="tblManageApproval" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblManageApproval_tblUser" Association="Self.FK_tblManageApproval_tblUser">
-            <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="tblManageApproval" EntitySet="tblManageApproval" />
           </AssociationSet>
           <AssociationSet Name="FK_tblPODetail_tblPO" Association="Self.FK_tblPODetail_tblPO">
             <End Role="tblPO" EntitySet="tblPO" />
@@ -518,13 +454,13 @@
           </FunctionImport>
           <FunctionImport Name="procGetAllUsers" ReturnType="Collection(dbSASAApprovalModel.procGetAllUsers_Result)" />
           <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
+          <FunctionImport Name="procGetAllBuyersByStaffType" ReturnType="Collection(dbSASAApprovalModel.procGetAllBuyersByStaffType_Result)">
+          <Parameter Name="stafftype" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="procInsertUpdateUser">
-            <Parameter Name="usercode" Mode="In" Type="Int32" />
-            <Parameter Name="fullname" Mode="In" Type="String" />
+            <Parameter Name="usercode" Mode="In" Type="String" />
             <Parameter Name="xpertLoginID" Mode="In" Type="String" />
             <Parameter Name="pwd" Mode="In" Type="String" />
-            <Parameter Name="email" Mode="In" Type="String" />
-            <Parameter Name="usergroup" Mode="In" Type="String" />
             <Parameter Name="status" Mode="In" Type="String" />
             <Parameter Name="SuperAdmin" Mode="In" Type="String" />
             <Parameter Name="bolIsApprovalLimit" Mode="In" Type="Boolean" />
@@ -533,8 +469,8 @@
             <Parameter Name="bolIsManageBuyer" Mode="In" Type="Boolean" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="procGetAllBuyersByStaffType" ReturnType="Collection(dbSASAApprovalModel.procGetAllBuyersByStaffType_Result)">
-            <Parameter Name="stafftype" Mode="In" Type="String" />
+          <FunctionImport Name="procSelectUserData" ReturnType="Collection(dbSASAApprovalModel.procSelectUserData_Result)">
+            <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
@@ -893,6 +829,7 @@
           <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
           <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
           <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
         <ComplexType Name="procGetAllBuyersByStaffType_Result">
           <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
@@ -903,6 +840,20 @@
           <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="pwd" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="procSelectUserData_Result">
+          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="bolIsApprovalLimit" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsNewUser" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
+          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1240,10 +1191,10 @@
                 <ScalarProperty Name="bolIsNewBuyer" ColumnName="bolIsNewBuyer" />
                 <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
                 <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procInsertUpdateUser" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateUser" />
           <FunctionImportMapping FunctionImportName="procGetAllBuyersByStaffType" FunctionName="dbSASAApprovalModel.Store.procGetAllBuyersByStaffType">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procGetAllBuyersByStaffType_Result">
@@ -1255,6 +1206,25 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
                 <ScalarProperty Name="pwd" ColumnName="pwd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procInsertUpdateUser" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateUser" />
+          <FunctionImportMapping FunctionImportName="procSelectUserData" FunctionName="dbSASAApprovalModel.Store.procSelectUserData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUserData_Result">
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="bolIsApprovalLimit" ColumnName="bolIsApprovalLimit" />
+                <ScalarProperty Name="bolIsNewUser" ColumnName="bolIsNewUser" />
+                <ScalarProperty Name="bolIsNewBuyer" ColumnName="bolIsNewBuyer" />
+                <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

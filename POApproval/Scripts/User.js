@@ -37,24 +37,30 @@ var app = angular.module("myApp", [])
             })
         }
 
+        $scope.getdetails = function (item1) {
 
+            //alert($scope.usercode);
+            
+            var customAttr = angular.element(item1).data('fullname');
+            alert(customAttr);
+        }
         //debugger;
         $scope.InsertData = function () {
-            //alert('dddd');
+            
             var Action = document.getElementById("btnSave").getAttribute("value");
             if (Action == "Submit") {
                 if (confirm('Are you sure you want to insert this?')) {
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
                     $scope.User.usercode = $scope.usercode;
-                    $scope.User.fullname = $scope.fullname;
+                    /*$scope.User.fullname = $scope.fullname;*/
                     $scope.User.pwd = $scope.pwd;
-                    $scope.User.email = $scope.email;
+                    /*$scope.User.email = $scope.email;*/
                     $scope.User.xpertLoginID = $scope.xpertLoginID;
-                    $scope.User.usergroup = $scope.usergroup;
+                    /*$scope.User.usergroup = $scope.usergroup;*/
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
-                   /* $scope.User.status = $scope.status;*/
+                    $scope.User.status = 1;
                     $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
@@ -64,28 +70,30 @@ var app = angular.module("myApp", [])
                         datatype: "json",
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
+                        //alert(response.data);
+                        //if (response.data == '2') {
 
-                        if (response.data == '2') {
-
-                            $("#UserErrorMessage").text("Username already exist!");
-                            $("#btnSave").attr("disabled", false);
-                            return;
-                            //document.getElementsByClassName('UserErrorMessage').='Username already exist'
-                        }
-                        if (response.data == 3) {
-                            $("#UserErrorMessage").text("Email already exist!");
-                            $("#btnSave").attr("disabled", false);
-                            return;
-                        }
-                        else {
+                        //    $("#UserErrorMessage").text("Username already exist!");
+                        //    $("#btnSave").attr("disabled", false);
+                        //    return;
+                        //    //document.getElementsByClassName('UserErrorMessage').='Username already exist'
+                        //}
+                        //if (response.data == 3) {
+                        //    $("#UserErrorMessage").text("Email already exist!");
+                        //    $("#btnSave").attr("disabled", false);
+                        //    return;
+                        //}
+                        if (response.data == '2')  {
                             alert('User added successfully');
-                            $scope.GetAllData();
-                            $scope.logon_user_id = "";
-                            $scope.UserPassword = "";
-                            $scope.email = "";
-                            $scope.strDepartmentName = "";
-                            $scope.bolIsApprovalLimit = "";
-                            $scope.bolIsNewUser = "";
+                            window.location.href = "/poapproval/User/UserList"
+                            
+                            //$scope.GetAllData();
+                            //$scope.logon_user_id = "";
+                            //$scope.UserPassword = "";
+                            //$scope.email = "";
+                            //$scope.strDepartmentName = "";
+                            //$scope.bolIsApprovalLimit = "";
+                            //$scope.bolIsNewUser = "";
                          /*   $scope.bolIsActive = "";*/
                             $("#wait").css("display", "none");
                             $("#UserErrorMessage").text("");
@@ -101,14 +109,18 @@ var app = angular.module("myApp", [])
                 if (confirm('Are you sure you want to update this?')) {
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
-                    $scope.User.intUserCode = $scope.intUserCode;
-                    $scope.User.logon_user_id = $scope.logon_user_id;
-                    $scope.User.logon_user_name = $scope.logon_user_id;
-                    $scope.User.UserPassword = $scope.UserPassword;
-                    $scope.User.email = $scope.email;
-                    $scope.User.strDepartmentName = $scope.strDepartmentName;
+                    $scope.User.usercode = $scope.usercode;
+                    /*$scope.User.fullname = $scope.fullname;*/
+                    $scope.User.pwd = $scope.pwd;
+                    /*$scope.User.email = $scope.email;*/
+                    $scope.User.xpertLoginID = $scope.xpertLoginID;
+                    /*$scope.User.usergroup = $scope.usergroup;*/
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
+                    $scope.User.status = 1;
+                    $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
+                    $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
+                    $scope.User.SuperAdmin = $scope.SuperAdmin;
                  /*   $scope.User.bolIsActive = $scope.bolIsActive;*/
                     //$scope.User.dtCreatedAt = $scope.dtCreatedAt;
                     //$scope.User.intCreatedByCode = $scope.intCreatedByCode;
@@ -122,19 +134,20 @@ var app = angular.module("myApp", [])
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
 
-                        if (response.data == '2') {
+                        //if (response.data == '2') {
 
-                            $("#UserErrorMessage").text("Username already exist!");
-                            $("#btnSave").attr("disabled", false);
-                            return;
-                            //document.getElementsByClassName('UserErrorMessage').='Username already exist'
-                        }
-                        if (response.data == 3) {
-                            $("#UserErrorMessage").text("Email already exist!");
-                            $("#btnSave").attr("disabled", false);
-                            return;
-                        }
-                        else {
+                        //    $("#UserErrorMessage").text("Username already exist!");
+                        //    $("#btnSave").attr("disabled", false);
+                        //    return;
+                        //    //document.getElementsByClassName('UserErrorMessage').='Username already exist'
+                        //}
+                        //if (response.data == 3) {
+                        //    $("#UserErrorMessage").text("Email already exist!");
+                        //    $("#btnSave").attr("disabled", false);
+                        //    return;
+                        //}
+                        //else {
+                        if (response.data == '2') {
                             alert('User updated successfully');
                             $scope.GetAllData();
                             $scope.logon_user_id = "";
@@ -187,18 +200,22 @@ var app = angular.module("myApp", [])
             //document.getElementById("btnSave").style.backgroundColor = "Yellow";
             //document.getElementById("spn").innerHTML = "Update User Information";
 
-            $scope.intUserCode = User.intUserCode;
-            $scope.logon_user_id = User.logon_user_id;
-            $scope.UserPassword = User.UserPassword;
+            $scope.usercode = User.usercode;
+            $scope.fullname = User.fullname;
+            $scope.pwd = User.pwd;
             $scope.email = User.email;
-            $scope.strDepartmentName = User.strDepartmentName;
+            $scope.usergroup = User.usergroup;
             $scope.bolIsApprovalLimit = User.bolIsApprovalLimit;
             $scope.bolIsNewUser = User.bolIsNewUser;
+            $scope.bolIsManageBuyer = User.bolIsManageBuyer;
+            $scope.bolIsNewBuyer = User.bolIsNewBuyer;
+            $scope.SuperAdmin = User.SuperAdmin;
+            $scope.xpertLoginID = User.xpertLoginID;
         /*    $scope.bolIsActive = User.bolIsActive;*/
             //$scope.dtCreatedAt = User.dtCreatedAt;
             //$scope.intCreatedByCode = User.intCreatedByCode;
             //$scope.dtModifyAt = User.dtModifyAt;
             //$scope.intModifyByCode = User.intModifyByCode;
-            $scope.GetDepartment();
+            //$scope.GetDepartment();
         }
     });
