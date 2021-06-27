@@ -19,24 +19,50 @@ namespace POApproval.Models
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
-                
-                if (strPOStatus != null && PONumber==null) {
-                    com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode+" AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and  strPOStatus in (" + strPOStatus+ ") and YEAR(Creation_Date)='2021'", con);
-                }
-                else if (PONumber != null && strPOStatus==null)
+                if (HttpContext.Current.Session["SuperAdmin"].ToString() == "Y")
                 {
-                    com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and PO_Number="+PONumber+ " and YEAR(Creation_Date)='2021'", con);
+                    if (strPOStatus != null && PONumber == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
+                    }
+                    else if (PONumber != null && strPOStatus == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)='2021'", con);
+
+                    }
+                    else if (strPOStatus != null && PONumber != null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
+
+                    }
+                    else if (strPOStatus == null && PONumber == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus ='Pending'", con);
+
+                    }
 
                 }
-                else if(strPOStatus != null && PONumber != null)
+                else
                 {
-                    com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and  PO_Number=" + PONumber+ " and strPOStatus in (" + strPOStatus + ") and YEAR(Creation_Date)='2021'", con);
+                    if (strPOStatus != null && PONumber == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and  strPOStatus in (" + strPOStatus + ") and YEAR(Creation_Date)='2021'", con);
+                    }
+                    else if (PONumber != null && strPOStatus == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and PO_Number=" + PONumber + " and YEAR(Creation_Date)='2021'", con);
 
-                }
-                else if(strPOStatus == null && PONumber == null)
-                {
-                    com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and   strPOStatus ='Pending' and YEAR(Creation_Date)='2021'", con);
+                    }
+                    else if (strPOStatus != null && PONumber != null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and  PO_Number=" + PONumber + " and strPOStatus in (" + strPOStatus + ") and YEAR(Creation_Date)='2021'", con);
 
+                    }
+                    else if (strPOStatus == null && PONumber == null)
+                    {
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount ,tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblBuyer ON tblBuyer.strBuyerName=tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.intBuyerCode INNER JOIN tblUser ON tblUser.intUserCode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount and tblPO.Amount <= tblManageApproval.numToApprovalAmount and   strPOStatus ='Pending' and YEAR(Creation_Date)='2021'", con);
+
+                    }
                 }
                 //com.CommandType = CommandType.StoredProcedure;
                 //com.Parameters.Add("@PO_Number", PO_Number);

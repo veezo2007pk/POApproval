@@ -54,7 +54,7 @@ var app = angular.module("myApp", [])
                     $scope.User.usergroup = $scope.usergroup;
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
-                    $scope.User.status = $scope.status;
+                   /* $scope.User.status = $scope.status;*/
                     $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
@@ -86,7 +86,7 @@ var app = angular.module("myApp", [])
                             $scope.strDepartmentName = "";
                             $scope.bolIsApprovalLimit = "";
                             $scope.bolIsNewUser = "";
-                            $scope.bolIsActive = "";
+                         /*   $scope.bolIsActive = "";*/
                             $("#wait").css("display", "none");
                             $("#UserErrorMessage").text("");
                             $("#btnSave").attr("disabled", false);
@@ -109,7 +109,7 @@ var app = angular.module("myApp", [])
                     $scope.User.strDepartmentName = $scope.strDepartmentName;
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
-                    $scope.User.bolIsActive = $scope.bolIsActive;
+                 /*   $scope.User.bolIsActive = $scope.bolIsActive;*/
                     //$scope.User.dtCreatedAt = $scope.dtCreatedAt;
                     //$scope.User.intCreatedByCode = $scope.intCreatedByCode;
                     //$scope.User.dtModifyAt = $scope.dtModifyAt;
@@ -144,7 +144,7 @@ var app = angular.module("myApp", [])
                             $scope.strDepartmentName = "";
                             $scope.bolIsApprovalLimit = "";
                             $scope.bolIsNewUser = "";
-                            $scope.bolIsActive = "";
+                          /*  $scope.bolIsActive = "";*/
                             window.location.href = "/poapproval/User/UserList"
                         }
 
@@ -194,7 +194,7 @@ var app = angular.module("myApp", [])
             $scope.strDepartmentName = User.strDepartmentName;
             $scope.bolIsApprovalLimit = User.bolIsApprovalLimit;
             $scope.bolIsNewUser = User.bolIsNewUser;
-            $scope.bolIsActive = User.bolIsActive;
+        /*    $scope.bolIsActive = User.bolIsActive;*/
             //$scope.dtCreatedAt = User.dtCreatedAt;
             //$scope.intCreatedByCode = User.intCreatedByCode;
             //$scope.dtModifyAt = User.dtModifyAt;

@@ -1452,7 +1452,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Please quote our PO#  on your invoice  Packing List                                                                                                                                         Confirmed by</Value>
+                <Value>Please quote our PO#  on your invoice  Packing List                                                                                                                                        </Value>
                 <Style>
                   <FontFamily>calibri</FontFamily>
                   <FontSize>8pt</FontSize>
@@ -1465,23 +1465,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>For and on behalf of                                                                                                                                                                                                 </Value>
-                <Style>
-                  <FontFamily>calibri</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=Fields!Supplier_Name.Value</Value>
-                <Style>
-                  <FontFamily>calibri</FontFamily>
-                  <FontSize>8pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value xml:space="preserve">                            </Value>
+                <Value>For and on behalf of                                                                                                                                                                                                                         </Value>
                 <Style>
                   <FontFamily>calibri</FontFamily>
                   <FontSize>8pt</FontSize>
@@ -1904,24 +1888,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Subreport Name="Subreport2">
-        <ReportName>RptPOSubReport</ReportName>
-        <Top>3.53573in</Top>
-        <Left>0.00002in</Left>
-        <Height>0.26042in</Height>
-        <Width>7.31111in</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <TextAlign>Left</TextAlign>
-          <PaddingLeft>5pt</PaddingLeft>
-          <PaddingRight>5pt</PaddingRight>
-          <PaddingTop>5pt</PaddingTop>
-          <PaddingBottom>5pt</PaddingBottom>
-        </Style>
-      </Subreport>
       <Textbox Name="Textbox44">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -1944,7 +1910,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>0.70834in</Width>
-        <ZIndex>18</ZIndex>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1977,7 +1943,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>0.81251in</Width>
-        <ZIndex>19</ZIndex>
+        <ZIndex>18</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2013,7 +1979,7 @@
         <Left>1.15797in</Left>
         <Height>0.21181in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>20</ZIndex>
+        <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2049,7 +2015,7 @@
         <Left>1.15797in</Left>
         <Height>0.21181in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>21</ZIndex>
+        <ZIndex>20</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2085,7 +2051,7 @@
         <Left>1.15797in</Left>
         <Height>0.21181in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>22</ZIndex>
+        <ZIndex>21</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2118,7 +2084,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>0.81251in</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2151,7 +2117,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>0.81251in</Width>
-        <ZIndex>24</ZIndex>
+        <ZIndex>23</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2184,7 +2150,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>0.81251in</Width>
-        <ZIndex>25</ZIndex>
+        <ZIndex>24</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2220,7 +2186,7 @@
         <Left>1.15797in</Left>
         <Height>0.21181in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>26</ZIndex>
+        <ZIndex>25</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2233,6 +2199,7 @@
       </Textbox>
       <Textbox Name="Textbox70">
         <CanGrow>true</CanGrow>
+        <CanShrink>true</CanShrink>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
@@ -2256,7 +2223,7 @@
         <Left>1.15797in</Left>
         <Height>0.49931in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>27</ZIndex>
+        <ZIndex>26</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2292,7 +2259,7 @@
         <Left>1.15797in</Left>
         <Height>0.21181in</Height>
         <Width>1.20417in</Width>
-        <ZIndex>28</ZIndex>
+        <ZIndex>27</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2325,7 +2292,7 @@
         <Left>0.04963in</Left>
         <Height>0.21181in</Height>
         <Width>1.01288in</Width>
-        <ZIndex>29</ZIndex>
+        <ZIndex>28</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2948,16 +2915,17 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>This electronically report does not required signature.</Value>
+                  <Value>This is an computer generated Purchase Order. No signature is required.</Value>
                   <Style>
-                    <FontSize>8pt</FontSize>
+                    <FontStyle>Italic</FontStyle>
+                    <FontSize>7pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                     <Format>dd-MM-yyyy HH:mm</Format>
                   </Style>
                 </TextRun>
               </TextRuns>
               <Style>
-                <TextAlign>Center</TextAlign>
+                <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
           </Paragraphs>

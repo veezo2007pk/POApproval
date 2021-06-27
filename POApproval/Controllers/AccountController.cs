@@ -60,11 +60,14 @@ namespace POApproval.Controllers
        
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-            Session["intUserCode"] =  null;
-            Session["strUsername"] = null;
+            //FormsAuthentication.SignOut();
+            Session["intUserCode"] = null;
+            Session["strUser"] = null;
+            Session["SuperAdmin"] = null;
             Session["bolIsApprovalLimit"] = null;
             Session["bolIsNewUser"] = null;
+            Session["bolIsNewBuyer"] = null;
+            Session["bolIsManageBuyer"] = null;
             return RedirectToAction("Login", "Account");
         }
     }

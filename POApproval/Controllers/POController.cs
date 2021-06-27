@@ -173,95 +173,174 @@ namespace POApproval.Controllers
 
                     int userCode = Convert.ToInt32(Session["intUserCode"]);
 
-
-                    // Add checked item to the list and render them in view
-                    List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
-                    foreach (var item in searchPO_Results)
+                    if (Session["SuperAdmin"].ToString() == "Y")
                     {
-
-                        if (item.IsSelected && (item.strPOStatus != null || item.strPOStatus != ""))
+                        // Add checked item to the list and render them in view
+                        List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
+                        foreach (var item in searchPO_Results)
                         {
-                            using (var transaction = db.Database.BeginTransaction())
+
+                            if (item.IsSelected && (item.strPOStatus != null || item.strPOStatus != ""))
                             {
-                                try
+                                using (var transaction = db.Database.BeginTransaction())
                                 {
-
-                                    if (item.ApprovalLevel == "Reviewer 1")
-                                    {
-                                        approvalLevel = "Reviewed 1";
-                                    }
-                                    else if (item.ApprovalLevel == "Reviewer 2")
-                                    {
-                                        approvalLevel = "Reviewed 2";
-                                    }
-                                    else if (item.ApprovalLevel == "Reviewer 3")
-                                    {
-                                        approvalLevel = "Reviewed 3";
-                                    }
-                                    else if (item.ApprovalLevel == "Approver")
-                                    {
-                                        approvalLevel = "Approved";
-                                    }
-                                    if (approvalLevel == "Approved")
-                                    {
-                                        PODB.Add(item.intPOCode, userCode, approvalLevel, null);
-                                    }
-                                    else
+                                    try
                                     {
 
-                                        //tblSupervisor Supervisor = new tblSupervisor();
-                                        tblPOHistory objPOHistory = new tblPOHistory()
+                                        if (approvalLevel == "Approved")
+                                        {
+                                            PODB.Add(item.intPOCode, userCode, item.NextPOStatus, null);
+                                        }
+                                        else
                                         {
 
-                                            dtCreatedAt = DateTime.Now,
-                                            intPOCode = item.intPOCode,
-                                            strPOStatus = item.NextPOStatus,
-                                            intUserCode = userCode
+                                            //tblSupervisor Supervisor = new tblSupervisor();
+                                            tblPOHistory objPOHistory = new tblPOHistory()
+                                            {
 
-                                        };
+                                                dtCreatedAt = DateTime.Now,
+                                                intPOCode = item.intPOCode,
+                                                strPOStatus = item.NextPOStatus,
+                                                intUserCode = userCode
 
-                                        db.tblPOHistories.Add(objPOHistory);
-                                        db.SaveChanges();
+                                            };
 
-                                        //string lastid = objOvertime.uqWorkerCode.ToString();
+                                            db.tblPOHistories.Add(objPOHistory);
+                                            db.SaveChanges();
 
-                                        var POData = this.db.tblPOes.Find(item.intPOCode);
+                                            //string lastid = objOvertime.uqWorkerCode.ToString();
 
-                                        POData.strPOStatus = item.NextPOStatus;
+                                            var POData = this.db.tblPOes.Find(item.intPOCode);
 
-                                        db.Entry(POData).State = EntityState.Modified;
-                                        db.SaveChanges();
+                                            POData.strPOStatus = item.NextPOStatus;
+
+                                            db.Entry(POData).State = EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
+
+
+
+
+                                        transaction.Commit();
+
                                     }
-
-
-
-
-                                    transaction.Commit();
-
+                                    catch (Exception ex)
+                                    {
+                                        // roll back all database operations, if any thing goes wrong
+                                        transaction.Rollback();
+                                        ViewBag.ResultMessage = ex.Message + "Error occured, records rolledback.";
+                                    }
                                 }
-                                catch (Exception ex)
-                                {
-                                    // roll back all database operations, if any thing goes wrong
-                                    transaction.Rollback();
-                                    ViewBag.ResultMessage = ex.Message + "Error occured, records rolledback.";
-                                }
+
                             }
-
                         }
+                        //string[] intPOCode = formCollection["intPOCode"].Split(char.Parse(","));
+                        //string[] ApprovalLevel = formCollection["ApprovalLevel"].Split(char.Parse(","));
+                        ////for (var i = 0; i < names.Length; i++)
+                        ////{
+                        ////    student stds = new student();
+                        ////    stds.name = names[i];
+                        ////    stds.dno = dnos[i];
+                        ////    stds.address = adds[i];
+                        ////    stds.active = true;
+                        ////    db.students.AddObject(stds);
+                        ////    db.SaveChanges();
+                        //}
+                        return Redirect("SearchPO");
+
                     }
-                    //string[] intPOCode = formCollection["intPOCode"].Split(char.Parse(","));
-                    //string[] ApprovalLevel = formCollection["ApprovalLevel"].Split(char.Parse(","));
-                    ////for (var i = 0; i < names.Length; i++)
-                    ////{
-                    ////    student stds = new student();
-                    ////    stds.name = names[i];
-                    ////    stds.dno = dnos[i];
-                    ////    stds.address = adds[i];
-                    ////    stds.active = true;
-                    ////    db.students.AddObject(stds);
-                    ////    db.SaveChanges();
-                    //}
-                    return Redirect("SearchPO");
+                    else
+                    {
+                        // Add checked item to the list and render them in view
+                        List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
+                        foreach (var item in searchPO_Results)
+                        {
+
+                            if (item.IsSelected && (item.strPOStatus != null || item.strPOStatus != ""))
+                            {
+                                using (var transaction = db.Database.BeginTransaction())
+                                {
+                                    try
+                                    {
+
+                                        if (item.ApprovalLevel == "Reviewer 1")
+                                        {
+                                            approvalLevel = "Reviewed 1";
+                                        }
+                                        else if (item.ApprovalLevel == "Reviewer 2")
+                                        {
+                                            approvalLevel = "Reviewed 2";
+                                        }
+                                        else if (item.ApprovalLevel == "Reviewer 3")
+                                        {
+                                            approvalLevel = "Reviewed 3";
+                                        }
+                                        else if (item.ApprovalLevel == "Approver")
+                                        {
+                                            approvalLevel = "Approved";
+                                        }
+                                        if (approvalLevel == "Approved")
+                                        {
+                                            PODB.Add(item.intPOCode, userCode, approvalLevel, null);
+                                        }
+                                        else
+                                        {
+
+                                            //tblSupervisor Supervisor = new tblSupervisor();
+                                            tblPOHistory objPOHistory = new tblPOHistory()
+                                            {
+
+                                                dtCreatedAt = DateTime.Now,
+                                                intPOCode = item.intPOCode,
+                                                strPOStatus = approvalLevel,
+                                                intUserCode = userCode
+
+                                            };
+
+                                            db.tblPOHistories.Add(objPOHistory);
+                                            db.SaveChanges();
+
+                                            //string lastid = objOvertime.uqWorkerCode.ToString();
+
+                                            var POData = this.db.tblPOes.Find(item.intPOCode);
+
+                                            POData.strPOStatus = approvalLevel;
+
+                                            db.Entry(POData).State = EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
+
+
+
+
+                                        transaction.Commit();
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // roll back all database operations, if any thing goes wrong
+                                        transaction.Rollback();
+                                        ViewBag.ResultMessage = ex.Message + "Error occured, records rolledback.";
+                                    }
+                                }
+
+                            }
+                        }
+                        //string[] intPOCode = formCollection["intPOCode"].Split(char.Parse(","));
+                        //string[] ApprovalLevel = formCollection["ApprovalLevel"].Split(char.Parse(","));
+                        ////for (var i = 0; i < names.Length; i++)
+                        ////{
+                        ////    student stds = new student();
+                        ////    stds.name = names[i];
+                        ////    stds.dno = dnos[i];
+                        ////    stds.address = adds[i];
+                        ////    stds.active = true;
+                        ////    db.students.AddObject(stds);
+                        ////    db.SaveChanges();
+                        //}
+                        return Redirect("SearchPO");
+                    }
+                  
                 }
             }
             return View("SearchPO");

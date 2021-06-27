@@ -40,7 +40,7 @@
                             <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
                         }
                     }
-                    @if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    @*@if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
                     {
 
                         if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
@@ -48,7 +48,7 @@
 
                             <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
                         }
-                    }
+                    }*@
                     @if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
                     {
 
@@ -58,9 +58,13 @@
                             <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
                         }
                     }
-                        </ul>
+                 
+                </ul>
+              
                 <ul style="padding-top:7px;" class=" navbar-right">
-                    <li><a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+
+                    <li>@if(Session["strUser"].ToString()!=null){<a style="color:white;">@Session["intUserCode"].ToString() - @Session["strUser"].ToString()      </a>     }<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+
 
                 </ul>
             </div>
