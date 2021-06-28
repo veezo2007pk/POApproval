@@ -190,33 +190,28 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <param name="Emp"></param>  
         /// <returns></returns>  
-        //public string Delete_User(User Emp)
-        //{
-        //    if (Emp != null)
-        //    {
-        //        using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
-        //        {
-        //            var Emp_ = Obj.Entry(Emp);
-        //            if (Emp_.State == System.Data.Entity.EntityState.Detached)
-        //            {
-        //                Obj.Users.Attach(Emp);
-        //                Obj.Users.Remove(Emp);
-        //            }
-        //            Obj.SaveChanges();
-        //            return "User Deleted Successfully";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return "User Not Deleted! Try Again";
-        //    }
-        //}
-        /// <summary>  
-        /// Update User Information  
-        /// </summary>  
-        /// <param name="Emp"></param>  
-        /// <returns></returns>  
-        public int Update_User(userDataViewModel userdatas)
+        public string Delete_User(string usercode)
+        {
+            if (usercode != null)
+            {
+                using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+                {
+                    return userDB.Delete(usercode);
+                }
+            }
+            else
+            {
+                return "Not Deleted";
+            }
+
+            
+            }
+            /// <summary>  
+            /// Update User Information  
+            /// </summary>  
+            /// <param name="Emp"></param>  
+            /// <returns></returns>  
+            public int Update_User(userDataViewModel userdatas)
         {
             //var user = db.tblUsers.Where(x => x.intUserCode == User.intUserCode).FirstOrDefault();
 

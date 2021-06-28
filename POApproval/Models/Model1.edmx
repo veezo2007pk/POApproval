@@ -170,7 +170,7 @@
           <Parameter Name="intManageApprovalCode" Type="int" Mode="In" />
         </Function>
         <Function Name="procDeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="intUserCode" Type="int" Mode="In" />
+          <Parameter Name="intUserCode" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procGetAllBuyersByStaffType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="stafftype" Type="nvarchar" Mode="In" />
@@ -317,9 +317,6 @@
           <FunctionImport Name="procDeleteManageApproval">
           <Parameter Name="intManageApprovalCode" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="procDeleteUser">
-          <Parameter Name="intUserCode" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="procInsertUpdateManageApproval">
             <Parameter Name="intManageApprovalCode" Mode="In" Type="Int32" />
             <Parameter Name="intUserCode" Mode="In" Type="Int32" />
@@ -415,6 +412,9 @@
           <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
+          <FunctionImport Name="procDeleteUser">
+            <Parameter Name="intUserCode" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -778,7 +778,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procDeleteManageApproval" FunctionName="dbSASAApprovalModel.Store.procDeleteManageApproval" />
-          <FunctionImportMapping FunctionImportName="procDeleteUser" FunctionName="dbSASAApprovalModel.Store.procDeleteUser" />
           <FunctionImportMapping FunctionImportName="procInsertUpdateManageApproval" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateManageApproval" />
           <FunctionImportMapping FunctionImportName="procSelectManageApproval" FunctionName="dbSASAApprovalModel.Store.procSelectManageApproval">
             <ResultMapping>
@@ -1079,6 +1078,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procDeleteUser" FunctionName="dbSASAApprovalModel.Store.procDeleteUser" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

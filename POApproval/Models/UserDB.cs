@@ -198,16 +198,16 @@ namespace POApproval.Models
         }
 
         //Method for Deleting an User  
-        public int Delete(int ID)
+        public string Delete(string ID)
         {
-            int i;
+            string i;
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
                 SqlCommand com = new SqlCommand("procDeleteUser", con);
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Id", ID);
-                i = com.ExecuteNonQuery();
+                com.Parameters.AddWithValue("@intUserCode", ID);
+                i = com.ExecuteNonQuery().ToString();
             }
             return i;
         }

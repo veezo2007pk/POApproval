@@ -55,15 +55,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteManageApproval", intManageApprovalCodeParameter);
         }
     
-        public virtual int procDeleteUser(Nullable<int> intUserCode)
-        {
-            var intUserCodeParameter = intUserCode.HasValue ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteUser", intUserCodeParameter);
-        }
-    
         public virtual int procInsertUpdateManageApproval(Nullable<int> intManageApprovalCode, Nullable<int> intUserCode, Nullable<int> intApprovalLevelCode, Nullable<decimal> numFromApprovalAmount, Nullable<decimal> numToApprovalAmount, Nullable<bool> bolIsActive, Nullable<System.DateTime> dtCreatedAt, Nullable<int> intCreatedByCode, Nullable<System.DateTime> dtModifyAt, Nullable<int> intModifyByCode, string action)
         {
             var intManageApprovalCodeParameter = intManageApprovalCode.HasValue ?
@@ -327,6 +318,15 @@ namespace POApproval.Models
         public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
+        }
+    
+        public virtual int procDeleteUser(string intUserCode)
+        {
+            var intUserCodeParameter = intUserCode != null ?
+                new ObjectParameter("intUserCode", intUserCode) :
+                new ObjectParameter("intUserCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteUser", intUserCodeParameter);
         }
     }
 }

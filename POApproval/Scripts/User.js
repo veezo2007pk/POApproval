@@ -56,7 +56,7 @@ var app = angular.module("myApp", [])
                 $scope.fullname = data.data[0].Username;
                 $scope.usergroup = data.data[0].Department;
                 $scope.email = data.data[0].Email;
-
+                $scope.pwd = data.data[0].pwd;
                 $scope.bolIsApprovalLimit = data.data[0].bolIsApprovalLimit;
                 $scope.bolIsManageBuyer = data.data[0].bolIsManageBuyer;
                 $scope.bolIsNewBuyer = data.data[0].bolIsNewBuyer;
@@ -206,6 +206,22 @@ var app = angular.module("myApp", [])
             }, function () {
                
             })
+        };
+        $scope.DeleteUser = function (Emp) {
+            if (confirm('Are you sure you want to delete this?')) {
+                alert(Emp);
+                //$scope.User = {};
+                //$scope.User.usercode = Emp;
+                $http({
+                    method: "post",
+                    url: "http://localhost:61646/User/Delete_User",
+                    dataType: 'json',
+                    data: { usercode: Emp },
+                }).then(function (response) {
+                    alert('User Deleted successfully');
+                    window.location.href = "/poapproval/User/UserList"
+                })
+            }
         };
         $scope.DeleteEmp = function (Emp) {
             $http({
