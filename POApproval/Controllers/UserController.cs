@@ -127,16 +127,22 @@ namespace POApproval.Controllers
             var data = db.procSelectUser().ToList();
             return View(data);
         }
-        public ActionResult userDetail(string usercode)
+        [HttpPost]
+        public JsonResult userDetail(string ID)
         {
-            //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
-            //{
-
-            //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
-            //}
-            var data = db.procSelectUserDetail().Where(x=>x.UserCode==usercode).ToList();
-            return View(data);
+            var data = db.procSelectUserDetail().Where(x => x.UserCode == ID).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
+        //public ActionResult userDetail(string usercode)
+        //{
+        //    //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+        //    //{
+
+        //    //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
+        //    //}
+        //    var data = db.procSelectUserDetail().Where(x=>x.UserCode==usercode).ToList();
+        //    return View(data);
+        //}
         /// <summary>  
         /// Get User With Id  
         /// </summary>  

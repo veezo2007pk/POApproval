@@ -37,15 +37,35 @@ var app = angular.module("myApp", [])
             })
         }
 
-        $scope.getdetails = function (item1) {
+        $scope.getdetails = function () {
 
+            //$scope.User = {};
+            //$scope.User.usercode = $scope.usercode;
+            //$scope.fullname = "fawad";
+            //$scope.bolIsNewBuyer = true;
+            //alert($scope.usercode);
             $http({
-                method: "get",
-                url: "http://localhost:61646/User/userDetail/" + item1
-            }).then(function (response) {
-                console.log(response.data)
-            }, function () {
+                method: "POST",
+                url: "http://localhost:61646/User/userDetail/",
+                dataType: 'json',
+                data: { ID: $scope.usercode },
+                headers: { "Content-Type": "application/json" }
+            }).then(function (data) {
+                //console.log(data.data[0]);
+                //console.log(data.data[0].Department);
+                $scope.fullname = data.data[0].Username;
+                $scope.usergroup = data.data[0].Department;
+                $scope.email = data.data[0].Email;
 
+                $scope.bolIsApprovalLimit = data.data[0].bolIsApprovalLimit;
+                $scope.bolIsManageBuyer = data.data[0].bolIsManageBuyer;
+                $scope.bolIsNewBuyer = data.data[0].bolIsNewBuyer;
+                $scope.bolIsNewUser = data.data[0].bolIsNewUser;
+                
+                $scope.SuperAdmin = data.data[0].SuperAdmin;
+                $scope.xpertLoginID = data.data[0].xpertLoginID;
+               
+                $("#wait").css("display", "none");
             })
         }
         //debugger;
@@ -69,7 +89,7 @@ var app = angular.module("myApp", [])
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
                     console.log($scope.User)
-                    return
+                    //return
                     $http({
                         method: "post",
                         url: "http://localhost:61646/User/Insert_User",

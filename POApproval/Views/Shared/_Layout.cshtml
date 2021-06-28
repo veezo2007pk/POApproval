@@ -429,53 +429,53 @@
         });
     });
     function getUserData() {
-        var address = $("#user option:selected");
-        var fullname = address.attr('data-fullname');
-        var email = address.attr('data-email');
-        var xpertLoginID = address.attr('data-xpertLoginID');
-        var usergroup = address.attr('data-usergroup');
+        //var address = $("#user option:selected");
+        //var fullname = address.attr('data-fullname');
+        //var email = address.attr('data-email');
+        //var xpertLoginID = address.attr('data-xpertLoginID');
+        //var usergroup = address.attr('data-usergroup');
 
-        var bolIsApprovalLimit = address.attr('data-bolIsApprovalLimit');
-        var bolIsManageBuyer = address.attr('data-bolIsManageBuyer');
-        var bolIsNewBuyer = address.attr('data-bolIsNewBuyer');
-        var bolIsNewUser = address.attr('data-bolIsNewUser');
-        var Superadmin = address.attr('data-Superadmin');
-        alert(Superadmin);
-        if (bolIsApprovalLimit == "True") {
-            $('#option-1').prop('checked', true);
-        }
-        else {
-            $('#option-1').prop('checked', false);
-        }
-        if (bolIsManageBuyer == "True") {
-            $('#option-2').prop('checked', true);
-        }
-        else {
-            $('#option-2').prop('checked', false);
-        }
+        //var bolIsApprovalLimit = address.attr('data-bolIsApprovalLimit');
+        //var bolIsManageBuyer = address.attr('data-bolIsManageBuyer');
+        //var bolIsNewBuyer = address.attr('data-bolIsNewBuyer');
+        //var bolIsNewUser = address.attr('data-bolIsNewUser');
+        //var Superadmin = address.attr('data-Superadmin');
+        //alert(Superadmin);
+        //if (bolIsApprovalLimit == "True") {
+        //    $('#option-1').prop('checked', true);
+        //}
+        //else {
+        //    $('#option-1').prop('checked', false);
+        //}
+        //if (bolIsManageBuyer == "True") {
+        //    $('#option-2').prop('checked', true);
+        //}
+        //else {
+        //    $('#option-2').prop('checked', false);
+        //}
 
-        if (bolIsNewBuyer == "True") {
-            $('#option-3').prop('checked', true);
-        }
-        else {
-            $('#option-3').prop('checked', false);
-        }
-        if (bolIsNewUser == "True") {
-            $('#option-4').prop('checked', true);
-        }
-        else {
-            $('#option-4').prop('checked', false);
-        }
-        if (Superadmin == "1") {
-            $('#option-5').prop('checked', true);
-        }
-        else {
-            $('#option-5').prop('checked', false);
-        }
+        //if (bolIsNewBuyer == "True") {
+        //    $('#option-3').prop('checked', true);
+        //}
+        //else {
+        //    $('#option-3').prop('checked', false);
+        //}
+        //if (bolIsNewUser == "True") {
+        //    $('#option-4').prop('checked', true);
+        //}
+        //else {
+        //    $('#option-4').prop('checked', false);
+        //}
+        //if (Superadmin == "1") {
+        //    $('#option-5').prop('checked', true);
+        //}
+        //else {
+        //    $('#option-5').prop('checked', false);
+        //}
 
-        $('.fullname').val(fullname);
-        $('.email').val(email);
-        $('.usergroup').val(usergroup);
+       // $('.fullname').val(fullname);
+        //$('.email').val(email);
+        //$('.usergroup').val(usergroup);
         /*$('.xpertLoginID').val(xpertLoginID);*/
     }
 </script>

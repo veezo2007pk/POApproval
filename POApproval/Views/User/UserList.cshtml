@@ -11,8 +11,8 @@
     </div>
 </section>
 <section class="col-md-12">
-    <div>
-        <div class="divList">
+    <div ng-app="myApp">
+        <div ng-controller="myCtrl" class="divList">
             <div class="centerLoader" data-loading> </div>
 
             <div class="table-common">
@@ -39,8 +39,9 @@
                         <tr >
 
                             <td>
-                                <a href="http://localhost:61646/User/UpdateUser?ID=@item.UserCode" value="Update" HR>Update</a>
-                                @*<input type="button"  value="Delete" ng-click="DeleteEmp(Emp)" />*@
+                                <a href="http://localhost:61646/User/UpdateUser?ID=@item.UserCode" value="Update" class="btn btn-default">Update</a>
+                               
+                                @*<input type="button" value="Delete" class="btn btn-danger" ng-click="DeleteApproval(@item.UserCode)" />*@
                             </td>
                             <td>
                                @item.UserCode
