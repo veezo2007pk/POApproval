@@ -26,7 +26,7 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult AddUser()
         {
-            UserDataViewModel UserVM = new UserDataViewModel();
+            userDataViewModel UserVM = new userDataViewModel();
             
             UserVM.getUserList = db.procSelectUserDetail().ToList();
 
@@ -68,7 +68,15 @@ namespace POApproval.Controllers
             var userInfo = db.procSelectUserData(ID).FirstOrDefault();
             if (userInfo != null)
             {
-                
+                bool admin;
+                if (userInfo.SuperAdmin == "Y")
+                {
+                    admin = true;
+                }
+                else
+                {
+                    admin = false;
+                }
                 UserViewModel objUser = new UserViewModel()
                 {
                     usercode=userInfo.UserCode,
@@ -81,7 +89,7 @@ namespace POApproval.Controllers
                     bolIsNewUser=userInfo.bolIsNewUser,
                     bolIsManageBuyer = userInfo.bolIsManageBuyer,
                     bolIsNewBuyer = userInfo.bolIsNewBuyer,
-                    SuperAdmin=userInfo.SuperAdmin,
+                    SuperAdmin=admin,
                     xpertLoginID=userInfo.xpertLoginID
                 };
                 return View(objUser);
@@ -117,6 +125,16 @@ namespace POApproval.Controllers
                //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
             var data = db.procSelectUser().ToList();
+            return View(data);
+        }
+        public ActionResult userDetail(string usercode)
+        {
+            //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+            //{
+
+            //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
+            //}
+            var data = db.procSelectUserDetail().Where(x=>x.UserCode==usercode).ToList();
             return View(data);
         }
         /// <summary>  

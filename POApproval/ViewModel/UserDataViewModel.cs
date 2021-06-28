@@ -6,12 +6,10 @@ using System.Web;
 
 namespace POApproval.ViewModel
 {
-    public class UserDataViewModel
-    {
-        public IEnumerable<procSelectUserDetail_Result> getUserList { get; set; }
-    }
+   
     public class userDataViewModel
     {
+        public IEnumerable<procSelectUserDetail_Result> getUserList { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         public string xpertLoginID { get; set; }

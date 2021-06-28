@@ -453,7 +453,6 @@
             <Parameter Name="strUserPassword" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procGetAllUsers" ReturnType="Collection(dbSASAApprovalModel.procGetAllUsers_Result)" />
-          <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
           <FunctionImport Name="procGetAllBuyersByStaffType" ReturnType="Collection(dbSASAApprovalModel.procGetAllBuyersByStaffType_Result)">
           <Parameter Name="stafftype" Mode="In" Type="String" />
           </FunctionImport>
@@ -470,8 +469,9 @@
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectUserData" ReturnType="Collection(dbSASAApprovalModel.procSelectUserData_Result)">
-            <Parameter Name="usercode" Mode="In" Type="String" />
+          <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -818,19 +818,6 @@
           <Property Type="String" Name="pwd" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="procSelectUserDetail_Result">
-          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
-          <Property Type="Boolean" Name="bolIsApprovalLimit" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsNewUser" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
-          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="procGetAllBuyersByStaffType_Result">
           <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
@@ -854,6 +841,20 @@
           <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="procSelectUserDetail_Result">
+          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="pwd" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="bolIsApprovalLimit" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsNewUser" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
+          <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
+          <Property Type="Int32" Name="SuperAdmin" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1178,23 +1179,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procSelectUserDetail" FunctionName="dbSASAApprovalModel.Store.procSelectUserDetail">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUserDetail_Result">
-                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="bolIsApprovalLimit" ColumnName="bolIsApprovalLimit" />
-                <ScalarProperty Name="bolIsNewUser" ColumnName="bolIsNewUser" />
-                <ScalarProperty Name="bolIsNewBuyer" ColumnName="bolIsNewBuyer" />
-                <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
-                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
-                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procGetAllBuyersByStaffType" FunctionName="dbSASAApprovalModel.Store.procGetAllBuyersByStaffType">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procGetAllBuyersByStaffType_Result">
@@ -1225,6 +1209,24 @@
                 <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
                 <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procSelectUserDetail" FunctionName="dbSASAApprovalModel.Store.procSelectUserDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUserDetail_Result">
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="bolIsApprovalLimit" ColumnName="bolIsApprovalLimit" />
+                <ScalarProperty Name="bolIsNewUser" ColumnName="bolIsNewUser" />
+                <ScalarProperty Name="bolIsNewBuyer" ColumnName="bolIsNewBuyer" />
+                <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

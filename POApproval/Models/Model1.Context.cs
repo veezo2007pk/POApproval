@@ -262,11 +262,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllUsers_Result>("procGetAllUsers");
         }
     
-        public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
-        }
-    
         public virtual ObjectResult<procGetAllBuyersByStaffType_Result> procGetAllBuyersByStaffType(string stafftype)
         {
             var stafftypeParameter = stafftype != null ?
@@ -328,6 +323,11 @@ namespace POApproval.Models
                 new ObjectParameter("usercode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
         }
     }
 }

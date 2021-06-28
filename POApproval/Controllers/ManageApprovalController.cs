@@ -29,54 +29,22 @@ namespace POApproval.Controllers
             return View();
         }
        
-        [HttpPost]
+        
         public JsonResult GetUser()
         {
-            List<SelectListItem> users = new List<SelectListItem>();
-            for (int i = 0; i < db.procSelectUser().ToList().Count; i++)
-            {
-                //var data = db.tblDepartments.Where(x => x.intDepartmentCode == ID).FirstOrDefault();
-                //bool selected = false;
-                //if (ID != null) {
-                //    if(ID== Convert.ToInt32(db.tblDepartments.ToList()[i].intDepartmentCode.ToString()))
-                //    {
-                //        selected = false;
-                //    }
-                //} 
-                users.Add(new SelectListItem
-                {
-                    Value = db.procSelectUser().ToList()[i].UserCode.ToString(),
-                    Text = db.procSelectUser().ToList()[i].Username
-                    //Selected=selected
-                });
+            List<procGetAllUsers_Result> users = db.procGetAllUsers().OrderBy(s => s.fullname).ToList();
 
-            }
+
+
             return Json(users, JsonRequestBehavior.AllowGet);
+          
         }
-        [HttpPost]
+       
         public JsonResult GetApprovalLevel()
         {
-            List<SelectListItem> approvalLevels = new List<SelectListItem>();
-
-            for (int i = 0; i < db.tblApprovalLevels.ToList().Count; i++)
-            {
-                //var data = db.tblDepartments.Where(x => x.intDepartmentCode == ID).FirstOrDefault();
-                //bool selected = false;
-                //if (ID != null) {
-                //    if(ID== Convert.ToInt32(db.tblDepartments.ToList()[i].intDepartmentCode.ToString()))
-                //    {
-                //        selected = false;
-                //    }
-                //} 
-                approvalLevels.Add(new SelectListItem
-                {
-                    Value = db.tblApprovalLevels.ToList()[i].intApprovalLevelCode.ToString(),
-                    Text = db.tblApprovalLevels.ToList()[i].strApprovalLevelName
-                    //Selected=selected
-                });
+            List<procCmbApprovalLevel_Result> approvalLevels = db.procCmbApprovalLevel().OrderBy(s => s.ApprovalLevel).ToList();
 
 
-            }
 
             return Json(approvalLevels, JsonRequestBehavior.AllowGet);
         }

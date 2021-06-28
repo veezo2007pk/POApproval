@@ -29,57 +29,22 @@ namespace POApproval.Controllers
             return View();
         }
        
-        [HttpPost]
+       
         public JsonResult GetUser()
         {
-            List<SelectListItem> users = new List<SelectListItem>();
-        
-            for (int i = 0; i < db.procSelectUser().ToList().Count; i++)
-            {
-                //var data = db.tblDepartments.Where(x => x.intDepartmentCode == ID).FirstOrDefault();
-                //bool selected = false;
-                //if (ID != null) {
-                //    if(ID== Convert.ToInt32(db.tblDepartments.ToList()[i].intDepartmentCode.ToString()))
-                //    {
-                //        selected = false;
-                //    }
-                //} 
-                users.Add(new SelectListItem
-                    {
-                        Value = db.procSelectUser().ToList()[i].UserCode.ToString(),
-                        Text = db.procSelectUser().ToList()[i].Username
-                        //Selected=selected
-                    });
-                
-                
-            }
+            List<procGetAllUsers_Result> users = db.procGetAllUsers().OrderBy(s => s.fullname).ToList();
+
+           
 
             return Json(users, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
+       
         public JsonResult GetBuyer()
         {
-            List<SelectListItem> buyers = new List<SelectListItem>();
-
-            for (int i = 0; i < db.procSelectBuyer().ToList().Count; i++)
-            {
-                //var data = db.tblDepartments.Where(x => x.intDepartmentCode == ID).FirstOrDefault();
-                //bool selected = false;
-                //if (ID != null) {
-                //    if(ID== Convert.ToInt32(db.tblDepartments.ToList()[i].intDepartmentCode.ToString()))
-                //    {
-                //        selected = false;
-                //    }
-                //} 
-                buyers.Add(new SelectListItem
-                {
-                    Value = db.procSelectBuyer().ToList()[i].BuyeCode.ToString(),
-                    Text = db.procSelectBuyer().ToList()[i].BuyerName
-                    //Selected=selected
-                });
+            List<procSelectBuyer_Result> buyers = db.procSelectBuyer().OrderBy(s => s.BuyerName).ToList();
+          
 
 
-            }
 
             return Json(buyers, JsonRequestBehavior.AllowGet);
         }

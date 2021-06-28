@@ -14,15 +14,16 @@ namespace POApproval.Models
     public partial class procSelectUserDetail_Result
     {
         public string UserCode { get; set; }
+        public string pwd { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Department { get; set; }
+        public string xpertLoginID { get; set; }
         public string Status { get; set; }
         public Nullable<bool> bolIsApprovalLimit { get; set; }
         public Nullable<bool> bolIsNewUser { get; set; }
         public Nullable<bool> bolIsNewBuyer { get; set; }
         public Nullable<bool> bolIsManageBuyer { get; set; }
-        public string xpertLoginID { get; set; }
-        public string SuperAdmin { get; set; }
+        public int SuperAdmin { get; set; }
     }
 }

@@ -39,31 +39,37 @@ var app = angular.module("myApp", [])
 
         $scope.getdetails = function (item1) {
 
-            //alert($scope.usercode);
-            
-            var customAttr = angular.element(item1).data('fullname');
-            alert(customAttr);
+            $http({
+                method: "get",
+                url: "http://localhost:61646/User/userDetail/" + item1
+            }).then(function (response) {
+                console.log(response.data)
+            }, function () {
+
+            })
         }
         //debugger;
         $scope.InsertData = function () {
-            
+           
             var Action = document.getElementById("btnSave").getAttribute("value");
             if (Action == "Submit") {
                 if (confirm('Are you sure you want to insert this?')) {
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
                     $scope.User.usercode = $scope.usercode;
-                    /*$scope.User.fullname = $scope.fullname;*/
+                    $scope.User.fullname = $scope.fullname;
                     $scope.User.pwd = $scope.pwd;
-                    /*$scope.User.email = $scope.email;*/
+                    $scope.User.email = $scope.email;
                     $scope.User.xpertLoginID = $scope.xpertLoginID;
-                    /*$scope.User.usergroup = $scope.usergroup;*/
+                    $scope.User.usergroup = $scope.usergroup;
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
                     $scope.User.status = 1;
                     $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
+                    console.log($scope.User)
+                    return
                     $http({
                         method: "post",
                         url: "http://localhost:61646/User/Insert_User",

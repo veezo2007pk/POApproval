@@ -24,19 +24,19 @@ var app = angular.module("myBuyerManagerApp", [])
 
         $scope.GetUser = function () {
             $http({
-                method: "POST",
+                method: "GET",
                 url: "http://localhost:61646/BuyerManager/GetUser/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }
             }).then(function (data) {
-                $scope.DefaultLabel = "Select Department";
+               
                 $scope.Users = data.data;
             })
         }
         $scope.GetBuyer = function () {
             $http({
-                method: "POST",
+                method: "GET",
                 url: "http://localhost:61646/BuyerManager/GetBuyer/",
                 dataType: 'json',
                 data: {},
@@ -79,7 +79,7 @@ var app = angular.module("myBuyerManagerApp", [])
                         $scope.intUserCode = "";
                         $scope.intBuyerCode = "";
                          
-                            window.location.href = "/BuyerManager/BuyerManagerList"
+                            window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
                         }
                     }, function (error) {
                         $("#btnSave").attr("disabled", false);
@@ -118,7 +118,7 @@ var app = angular.module("myBuyerManagerApp", [])
                         $scope.intUserCode = "";
                         $scope.intBuyerCode = "";
                           
-                        window.location.href = "/BuyerManager/BuyerManagerList"
+                        window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
                        /* }*/
 
                     }, function (error) {
@@ -149,7 +149,7 @@ var app = angular.module("myBuyerManagerApp", [])
                     data: JSON.stringify($scope.BuyerManager)
                 }).then(function (response) {
                     alert('Buyer Deleted successfully');
-                    window.location.href = "/BuyerManager/BuyerManagerList"
+                    window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
                 })
             }
         };
