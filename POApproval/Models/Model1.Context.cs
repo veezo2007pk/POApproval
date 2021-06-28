@@ -30,7 +30,6 @@ namespace POApproval.Models
         public virtual DbSet<tblApprovalLevel> tblApprovalLevels { get; set; }
         public virtual DbSet<tblPOHistory> tblPOHistories { get; set; }
         public virtual DbSet<tblManageApproval> tblManageApprovals { get; set; }
-        public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblBuyer> tblBuyers { get; set; }
         public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }

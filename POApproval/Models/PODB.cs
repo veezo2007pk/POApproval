@@ -23,21 +23,21 @@ namespace POApproval.Models
                 {
                     if (strPOStatus != null && PONumber == null)
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
                     }
                     else if (PONumber != null && strPOStatus == null)
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)='2021'", con);
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)='2021'", con);
 
                     }
                     else if (strPOStatus != null && PONumber != null)
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
 
                     }
                     else if (strPOStatus == null && PONumber == null)
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus ='Pending'", con);
+                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = '2021' AND  tblPO.strPOStatus ='Pending'", con);
 
                     }
 
@@ -79,6 +79,7 @@ namespace POApproval.Models
                     details.intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString());
                     details.PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString());
                     details.Qty = Convert.ToInt32(rdr["Qty"].ToString());
+                    details.NextPOStatus = rdr["NextPOStatus"].ToString();
                     details.Amount = Convert.ToDecimal(rdr["Amount"].ToString());
                     details.ApprovalLevel =rdr["ApprovalLevel"].ToString();
                     lst.Add(details);

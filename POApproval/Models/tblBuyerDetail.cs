@@ -23,6 +23,5 @@ namespace POApproval.Models
         public Nullable<int> intModifyBy { get; set; }
     
         public virtual tblBuyer tblBuyer { get; set; }
-        public virtual tblUser tblUser { get; set; }
     }
 }

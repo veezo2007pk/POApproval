@@ -20,7 +20,6 @@ namespace POApproval.Models
         public Nullable<int> intUserCode { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
     
-        public virtual tblUser tblUser { get; set; }
         public virtual tblPO tblPO { get; set; }
     }
 }

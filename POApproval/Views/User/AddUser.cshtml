@@ -15,7 +15,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Staff ID</label>
                             <div class="col-sm-10">
-                                <select title="Select" class="form-control" ng-model="usercode" ng-required="true" id="user" ng-change="getdetails($element.target)" onchange="getUserData()">
+                                <select title="Select" class="form-control select-searchable" ng-model="usercode" ng-required="true" id="user" ng-change="getdetails($element.target)" onchange="getUserData()">
                                     <option value="">--Please select user--</option>
                                     @foreach (var item in Model.getUserList)
                                     {
@@ -36,7 +36,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Full Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control fullname" ng-model="fullname">
+                                <input type="text" class="form-control fullname" readonly ng-model="fullname">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -48,13 +48,13 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control email" ng-model="email" ng-value="">
+                                <input type="email" class="form-control email" readonly ng-model="email" ng-value="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Department</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control usergroup" ng-model="usergroup" ng-value="">
+                                <input type="text" class="form-control usergroup" readonly ng-model="usergroup" ng-value="">
                             </div>
                         </div>
                         <div class="form-group row">

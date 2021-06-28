@@ -128,32 +128,6 @@
           <Property Name="intStatusCode" Type="int" Nullable="false" />
           <Property Name="strStatusName" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tblUser">
-          <Key>
-            <PropertyRef Name="intUserCode" />
-          </Key>
-          <Property Name="intUserCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="logon_user_id" Type="nvarchar" MaxLength="255" />
-          <Property Name="UserPassword" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_code" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_name" Type="nvarchar" MaxLength="255" />
-          <Property Name="logon_user_name" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_type" Type="nvarchar" MaxLength="255" />
-          <Property Name="user_group" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_grade" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_category" Type="nvarchar" MaxLength="255" />
-          <Property Name="remark" Type="nvarchar" MaxLength="255" />
-          <Property Name="strDepartmentName" Type="nvarchar" MaxLength="50" />
-          <Property Name="date_join" Type="datetime" />
-          <Property Name="date_confirm" Type="datetime" />
-          <Property Name="date_resign" Type="nvarchar" MaxLength="255" />
-          <Property Name="staff_id" Type="nvarchar" MaxLength="255" />
-          <Property Name="issue_store_code" Type="nvarchar" MaxLength="255" />
-          <Property Name="email" Type="nvarchar" MaxLength="255" />
-          <Property Name="bolIsApprovalLimit" Type="bit" />
-          <Property Name="bolIsNewUser" Type="bit" />
-          <Property Name="bolIsActive" Type="bit" />
-        </EntityType>
         <Association Name="FK_tblApproval_tblApproval">
           <End Role="tblApprovalLevel" Type="Self.tblApprovalLevel" Multiplicity="1" />
           <End Role="tblApprovalLevel1" Type="Self.tblApprovalLevel" Multiplicity="0..1" />
@@ -187,18 +161,6 @@
             </Principal>
             <Dependent Role="tblPOHistory">
               <PropertyRef Name="intPOCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblPOHistory_tblUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblPOHistory" Type="Self.tblPOHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblPOHistory">
-              <PropertyRef Name="intUserCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -289,7 +251,6 @@
           <EntitySet Name="tblPODetail" EntityType="Self.tblPODetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPOHistory" EntityType="Self.tblPOHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tblApproval_tblApproval" Association="Self.FK_tblApproval_tblApproval">
             <End Role="tblApprovalLevel" EntitySet="tblApprovalLevel" />
             <End Role="tblApprovalLevel1" EntitySet="tblApprovalLevel" />
@@ -300,10 +261,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_tblPOHistory_tblPO" Association="Self.FK_tblPOHistory_tblPO">
             <End Role="tblPO" EntitySet="tblPO" />
-            <End Role="tblPOHistory" EntitySet="tblPOHistory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblPOHistory_tblUser" Association="Self.FK_tblPOHistory_tblUser">
-            <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblPOHistory" EntitySet="tblPOHistory" />
           </AssociationSet>
         </EntityContainer>
@@ -334,7 +291,6 @@
           <Property Name="strPOStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="intUserCode" Type="Int32" />
           <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblUser" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblUser" FromRole="tblPOHistory" ToRole="tblUser" />
           <NavigationProperty Name="tblPO" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblPO" FromRole="tblPOHistory" ToRole="tblPO" />
         </EntityType>
         <Association Name="FK_tblApproval_tblApproval">
@@ -390,15 +346,6 @@
             <Parameter Name="strRejectReason" Mode="In" Type="String" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="tblUsers" EntityType="dbSASAApprovalModel.tblUser" />
-          <AssociationSet Name="FK_tblManageApproval_tblUser" Association="dbSASAApprovalModel.FK_tblManageApproval_tblUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblManageApproval" EntitySet="tblManageApprovals" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblPOHistory_tblUser" Association="dbSASAApprovalModel.FK_tblPOHistory_tblUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblPOHistory" EntitySet="tblPOHistories" />
-          </AssociationSet>
           <FunctionImport Name="procRptPOSubReport" ReturnType="Collection(dbSASAApprovalModel.procRptPOSubReport_Result)">
           <Parameter Name="intPoCode" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -419,10 +366,6 @@
           <EntitySet Name="tblBuyerDetails" EntityType="dbSASAApprovalModel.tblBuyerDetail" />
           <AssociationSet Name="FK_tblBuyerDetail_tblBuyer" Association="dbSASAApprovalModel.FK_tblBuyerDetail_tblBuyer">
             <End Role="tblBuyer" EntitySet="tblBuyers" />
-            <End Role="tblBuyerDetail" EntitySet="tblBuyerDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblBuyerDetail_tblUser" Association="dbSASAApprovalModel.FK_tblBuyerDetail_tblUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblBuyerDetail" EntitySet="tblBuyerDetails" />
           </AssociationSet>
           <FunctionImport Name="procSelectBuyer" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyer_Result)" />
@@ -505,7 +448,6 @@
           <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
           <Property Name="intModifyBy" Type="Int32" />
           <NavigationProperty Name="tblApprovalLevel" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblApproval" FromRole="tblManageApproval" ToRole="tblApprovalLevel" />
-          <NavigationProperty Name="tblUser" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblUser" FromRole="tblManageApproval" ToRole="tblUser" />
         </EntityType>
         <Association Name="FK_tblManageApproval_tblApproval">
           <End Type="dbSASAApprovalModel.tblApprovalLevel" Role="tblApprovalLevel" Multiplicity="1" />
@@ -516,59 +458,6 @@
             </Principal>
             <Dependent Role="tblManageApproval">
               <PropertyRef Name="intApprovalLevelCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="tblUser">
-          <Key>
-            <PropertyRef Name="intUserCode" />
-          </Key>
-          <Property Name="intUserCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="logon_user_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UserPassword" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="logon_user_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="user_group" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_grade" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="strDepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="date_join" Type="DateTime" Precision="3" />
-          <Property Name="date_confirm" Type="DateTime" Precision="3" />
-          <Property Name="date_resign" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="staff_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="issue_store_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="bolIsApprovalLimit" Type="Boolean" />
-          <Property Name="bolIsNewUser" Type="Boolean" />
-          <Property Name="bolIsActive" Type="Boolean" />
-          <NavigationProperty Name="tblManageApprovals" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblUser" FromRole="tblUser" ToRole="tblManageApproval" />
-          <NavigationProperty Name="tblPOHistories" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblUser" FromRole="tblUser" ToRole="tblPOHistory" />
-          <NavigationProperty Name="tblBuyerDetails" Relationship="dbSASAApprovalModel.FK_tblBuyerDetail_tblUser" FromRole="tblUser" ToRole="tblBuyerDetail" />
-        </EntityType>
-        <Association Name="FK_tblManageApproval_tblUser">
-          <End Type="dbSASAApprovalModel.tblUser" Role="tblUser" Multiplicity="0..1" />
-          <End Type="dbSASAApprovalModel.tblManageApproval" Role="tblManageApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblManageApproval">
-              <PropertyRef Name="intUserCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblPOHistory_tblUser">
-          <End Type="dbSASAApprovalModel.tblUser" Role="tblUser" Multiplicity="0..1" />
-          <End Type="dbSASAApprovalModel.tblPOHistory" Role="tblPOHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblPOHistory">
-              <PropertyRef Name="intUserCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -669,7 +558,6 @@
           <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
           <Property Name="intModifyBy" Type="Int32" />
           <NavigationProperty Name="tblBuyer" Relationship="dbSASAApprovalModel.FK_tblBuyerDetail_tblBuyer" FromRole="tblBuyerDetail" ToRole="tblBuyer" />
-          <NavigationProperty Name="tblUser" Relationship="dbSASAApprovalModel.FK_tblBuyerDetail_tblUser" FromRole="tblBuyerDetail" ToRole="tblUser" />
         </EntityType>
         <Association Name="FK_tblBuyerDetail_tblBuyer">
           <End Type="dbSASAApprovalModel.tblBuyer" Role="tblBuyer" Multiplicity="0..1" />
@@ -680,18 +568,6 @@
             </Principal>
             <Dependent Role="tblBuyerDetail">
               <PropertyRef Name="intBuyerCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblBuyerDetail_tblUser">
-          <End Type="dbSASAApprovalModel.tblUser" Role="tblUser" Multiplicity="0..1" />
-          <End Type="dbSASAApprovalModel.tblBuyerDetail" Role="tblBuyerDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="intUserCode" />
-            </Principal>
-            <Dependent Role="tblBuyerDetail">
-              <PropertyRef Name="intUserCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -934,33 +810,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="procInsertUpdatePOHistory" FunctionName="dbSASAApprovalModel.Store.procInsertUpdatePOHistory" />
-          <EntitySetMapping Name="tblUsers">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblUser">
-              <MappingFragment StoreEntitySet="tblUser">
-                <ScalarProperty Name="bolIsActive" ColumnName="bolIsActive" />
-                <ScalarProperty Name="bolIsNewUser" ColumnName="bolIsNewUser" />
-                <ScalarProperty Name="bolIsApprovalLimit" ColumnName="bolIsApprovalLimit" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="issue_store_code" ColumnName="issue_store_code" />
-                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
-                <ScalarProperty Name="date_resign" ColumnName="date_resign" />
-                <ScalarProperty Name="date_confirm" ColumnName="date_confirm" />
-                <ScalarProperty Name="date_join" ColumnName="date_join" />
-                <ScalarProperty Name="strDepartmentName" ColumnName="strDepartmentName" />
-                <ScalarProperty Name="remark" ColumnName="remark" />
-                <ScalarProperty Name="staff_category" ColumnName="staff_category" />
-                <ScalarProperty Name="staff_grade" ColumnName="staff_grade" />
-                <ScalarProperty Name="user_group" ColumnName="user_group" />
-                <ScalarProperty Name="staff_type" ColumnName="staff_type" />
-                <ScalarProperty Name="logon_user_name" ColumnName="logon_user_name" />
-                <ScalarProperty Name="staff_name" ColumnName="staff_name" />
-                <ScalarProperty Name="staff_code" ColumnName="staff_code" />
-                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-                <ScalarProperty Name="logon_user_id" ColumnName="logon_user_id" />
-                <ScalarProperty Name="intUserCode" ColumnName="intUserCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="procRptPOSubReport" FunctionName="dbSASAApprovalModel.Store.procRptPOSubReport">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procRptPOSubReport_Result">

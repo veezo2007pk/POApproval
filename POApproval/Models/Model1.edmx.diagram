@@ -10,14 +10,10 @@
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblApproval_tblApproval" ManuallyRouted="false" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblManageApproval" Width="1.5" PointX="3.125" PointY="6.125" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblManageApproval_tblApproval" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblUser" Width="1.5" PointX="0.875" PointY="4.875" />
-        <AssociationConnector Association="dbSASAApprovalModel.FK_tblManageApproval_tblUser" />
-        <AssociationConnector Association="dbSASAApprovalModel.FK_tblPOHistory_tblUser" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblStatu" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyer" Width="1.5" PointX="0.875" PointY="11.375" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyerDetail" Width="1.5" PointX="3.125" PointY="2.375" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblBuyerDetail_tblBuyer" />
-        <AssociationConnector Association="dbSASAApprovalModel.FK_tblBuyerDetail_tblUser" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblPO" Width="1.5" PointX="5.375" PointY="4.25" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblPODetail" Width="1.5" PointX="7.625" PointY="6.375" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblPODetail_tblPO" />

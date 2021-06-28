@@ -14,7 +14,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Staff ID</label>
                                 <div class="col-sm-10">
-                                    <select title="Select" class="form-control" ng-model="intUserCode" ng-required="true">
+                                    <select title="Select" class="form-control select-searchable" ng-model="intUserCode" ng-required="true" searchable="Search here..">
                                         <option value="">--Please select User--</option>
                                         @foreach (var item in ViewBag.userList)
                                         {
@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Buyer</label>
                                 <div class="col-sm-10">
-                                    <select title="Select" class="form-control" ng-model="intBuyerCode" ng-required="true">
+                                    <select title="Select" class="form-control select-searchable" ng-model="intBuyerCode" ng-required="true">
                                         <option value="">--Please select Buyer--</option>
                                         @foreach (var item in ViewBag.buyerList)
                                         {

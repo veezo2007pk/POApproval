@@ -61,8 +61,10 @@ var app = angular.module("myApp", [])
                 $scope.bolIsManageBuyer = data.data[0].bolIsManageBuyer;
                 $scope.bolIsNewBuyer = data.data[0].bolIsNewBuyer;
                 $scope.bolIsNewUser = data.data[0].bolIsNewUser;
-                
-                $scope.SuperAdmin = data.data[0].SuperAdmin;
+                if (data.data[0].SuperAdmin == "1") {
+                    $scope.SuperAdmin = true;
+                }
+               
                 $scope.xpertLoginID = data.data[0].xpertLoginID;
                
                 $("#wait").css("display", "none");
@@ -173,7 +175,7 @@ var app = angular.module("myApp", [])
                         //    return;
                         //}
                         //else {
-                        if (response.data == '2') {
+                       /* if (response.data == '2') {*/
                             alert('User updated successfully');
                             $scope.GetAllData();
                             $scope.logon_user_id = "";
@@ -185,7 +187,7 @@ var app = angular.module("myApp", [])
                             $scope.bolIsNewUser = "";
                           /*  $scope.bolIsActive = "";*/
                             window.location.href = "/poapproval/User/UserList"
-                        }
+                        /*}*/
 
 
                     }, function (error) {

@@ -23,13 +23,14 @@ namespace POApproval.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(tblUser objUser)
+        public ActionResult Login(procSelectUserData_Result objUser)
         {
             if (ModelState.IsValid)
             {
                 using (dbSASAApprovalEntities db = new dbSASAApprovalEntities())
                 {
-                    var obj = db.procValidateUserLogins(objUser.intUserCode,objUser.UserPassword).FirstOrDefault();
+                    int code = Convert.ToInt32(objUser.UserCode);
+                    var obj = db.procValidateUserLogins(code, objUser.Password).FirstOrDefault();
                   
                     if (obj != null  && obj.status == "ACTIVE")
                     {
