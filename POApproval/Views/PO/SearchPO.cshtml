@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label for="pwd">PO Number:</label>
-                            <input class="form-control" name="PO_Number" id="PO_Number">
+                            <input class="form-control" name="PO_Number" type="number" id="PO_Number">
                         </div>
 
                         <button type="submit" class="btn btn-default">Search</button>
@@ -69,20 +69,20 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <table id="myTable" class="table table-bordered table-striped table-responsive table-hover">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
-
+                                    <th>PO No</th>
                                     @*<th>S/N</th>*@
                                     @*<th>PO Code</th>*@
                                     <th>PO Status</th>
                                     <th></th>
                                     <th>Next PO Status</th>
-                                    <th>Action</th>
-                                   
-                                    <th>PO No</th>
+
+
+
                                     <th>Supplier Code</th>
                                     <th>Supplier Name</th>
                                     <th>Date</th>
@@ -90,6 +90,7 @@
                                     <th>Buyer</th>
                                     <th>Qty</th>
                                     <th>Amount</th>
+                                    <th>Action</th>
 
                                 </tr>
 
@@ -126,24 +127,24 @@
             @Html.HiddenFor(modelItem => Model[item].intPOCode)
             @Html.HiddenFor(modelItem => Model[item].NextPOStatus)
         </td>*@
-                                <td>
-                                    @Html.DisplayFor(modelItem => Model[item].strPOStatus)
-                                    @Html.HiddenFor(modelItem => Model[item].intPOCode)
-                                    @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
-                                </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                        @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                        @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
+                                    </td>
                                     <td><p style="color:black; font-weight:bold;">-></p></td>
                                     <td>
                                         <p style="color:darkred; font-weight:bold; font-size:13px">@Html.DisplayFor(modelItem => Model[item].NextPOStatus)</p>
                                         @Html.HiddenFor(modelItem => Model[item].NextPOStatus)
                                     </td>
-                                    <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].PO_Number)
-                                        @Html.HiddenFor(modelItem => Model[item].PO_Number)
-                                    </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
                                         @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
@@ -170,6 +171,8 @@
                                         @Html.DisplayFor(modelItem => Model[item].Amount)
                                         @Html.HiddenFor(modelItem => Model[item].Amount)
                                     </td>
+                                    <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+
                                 </tr>
                                     sn++;
                                 }
@@ -186,7 +189,8 @@
                         </table><div>
                             <input type="submit" value="Approve" id="btnSubmit" class=" btn btn-primary" />
                             <button id="btnMainReject" value="Reject" class=" btn btn-danger">Reject</button>
-                        </div><span class="error">Please select at-least one PO.</span><div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                        </div><span class="error">Please select at-least one PO.</span>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -201,9 +205,9 @@
                                         @Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForList" })
                                     }
                                         @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
-                                        <div class="form-group error">
+                                        <div class="form-group">
 
-                                            <div id="UserErrorMessage"></div>
+                                            <div style="color:red;" id="UserErrorMessages"></div>
 
                                         </div>
 
@@ -248,12 +252,12 @@
                                 <tr>
                                     <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
 
-                                    <th>S/N</th>
-                                    <th>PO Code</th>
+                                    @*<th>S/N</th>
+        <th>PO Code</th>*@
                                     <th>PO Status</th>
-                                    <th>Action</th>
-                                    <th>Approval Level</th>
                                     <th>PO No</th>
+                                    <th>Approval Level</th>
+
                                     <th>Supplier Code</th>
                                     <th>Supplier Name</th>
                                     <th>Date</th>
@@ -261,6 +265,7 @@
                                     <th>Buyer</th>
                                     <th>Qty</th>
                                     <th>Amount</th>
+                                    <th>Action</th>
 
                                 </tr>
 
@@ -271,149 +276,151 @@
                                 @for (int item = 0; item < Model.Count(); item++)
                                 {
 
-                                    <tr>
-                                        @if (Model[item].strPOStatus != "Approved")
+                                <tr>
+                                    @if (Model[item].strPOStatus != "Approved")
+                                    {
+                                        if (Model[item].strPOStatus == "Rejected")
                                         {
-                                            if (Model[item].strPOStatus == "Rejected")
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
                                             {
                                                 <td></td>
                                             }
+                                            else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].ApprovalLevel == null)
+                                            {
+                                                <td></td>
+
+                                            }
+
                                             else
                                             {
-                                                if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
-                                                {
-                                                    <td></td>
+                                                <td>
+                                                    @*<input type="checkbox" name="ID" value="@item.intPOCode " class="custom-checkbox chkCheckBoxId" />*@
+                                                    <div class="icheck-primary">
+                                                        @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                        <label for="checkboxPrimary1"></label>
+                                                    </div>
+                                                </td>
 
-                                                }
-                                                else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
-                                                {
-                                                    <td></td>
-                                                }
-                                                else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
-                                                {
-                                                    <td></td>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                        @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                    </td>
+                                    @*<td>@sn</td>*@
+                                    @*<td>
+            @Html.DisplayFor(modelItem => Model[item].intPOCode)
+            @Html.HiddenFor(modelItem => Model[item].intPOCode)
 
-                                                }
-                                                else if (Model[item].ApprovalLevel == null)
+        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
+                                    </td>
+                                    @if (Model[item].strPOStatus != "Approved")
+                                    {
+                                        if (Model[item].strPOStatus == "Rejected")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                            {
+                                                <td></td>
+
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
+                                            {
+                                                <td></td>
+                                            }
+                                            else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                            {
+                                                <td></td>
+
+                                            }
+
+                                            else
+                                            {
+                                                if (Model[item].ApprovalLevel == "Reviewer 1" || Model[item].ApprovalLevel == "Reviewer 2" || Model[item].ApprovalLevel == "Reviewer 3")
                                                 {
-                                                    <td></td>
-
+                                                    <td>
+                                                        Review
+                                                        @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                                    </td>
                                                 }
-
+                                                else if (Model[item].ApprovalLevel == "Approver")
+                                                {
+                                                    <td>
+                                                        Approve
+                                                        @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                                    </td>
+                                                }
                                                 else
                                                 {
                                                     <td>
-                                                        @*<input type="checkbox" name="ID" value="@item.intPOCode " class="custom-checkbox chkCheckBoxId" />*@
-                                                        <div class="icheck-primary">
-                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
-                                                            <label for="checkboxPrimary1"></label>
-                                                        </div>
                                                     </td>
-
                                                 }
+
                                             }
                                         }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
-                                        <td>@sn</td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].intPOCode)
-                                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
-                                           
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
-                                            @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
-                                        </td>
-                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" value='Update' HR> View</a></td>
-                                        @if (Model[item].strPOStatus != "Approved")
-                                        {
-                                            if (Model[item].strPOStatus == "Rejected")
-                                            {
-                                                <td></td>
-                                            }
-                                            else
-                                            {
-                                                if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
-                                                {
-                                                    <td></td>
-
-                                                }
-                                                else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
-                                                {
-                                                    <td></td>
-                                                }
-                                                else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
-                                                {
-                                                    <td></td>
-
-                                                }
-
-                                                else
-                                                {
-                                                    if (Model[item].ApprovalLevel == "Reviewer 1" || Model[item].ApprovalLevel == "Reviewer 2" || Model[item].ApprovalLevel == "Reviewer 3")
-                                                    {
-                                                        <td>
-                                                            Review
-                                                            @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
-                                                        </td>
-                                                    }
-                                                    else if (Model[item].ApprovalLevel == "Approver")
-                                                    {
-                                                        <td>
-                                                            Approve
-                                                            @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
-                                                        </td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>
-                                                        </td>
-                                                    }
-
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
 
 
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].PO_Number)
-                                            @Html.HiddenFor(modelItem => Model[item].PO_Number)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
-                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
-                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Creation_Date)
-                                            @Html.HiddenFor(modelItem => Model[item].Creation_Date)
 
-                                        </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                        @Html.HiddenFor(modelItem => Model[item].Creation_Date)
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Buyer)
-                                            @Html.HiddenFor(modelItem => Model[item].Buyer)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Qty)
-                                            @Html.HiddenFor(modelItem => Model[item].Qty)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => Model[item].Amount)
-                                            @Html.HiddenFor(modelItem => Model[item].Amount)
-                                        </td>
-                                    </tr>
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                        @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Qty)
+                                        @Html.HiddenFor(modelItem => Model[item].Qty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[item].Amount)
+                                        @Html.HiddenFor(modelItem => Model[item].Amount)
+                                    </td>
+                                    <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" value='Update' HR> View</a></td>
+
+                                </tr>
                                     sn++;
                                 }
 

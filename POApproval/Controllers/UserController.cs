@@ -28,7 +28,7 @@ namespace POApproval.Controllers
         {
             userDataViewModel UserVM = new userDataViewModel();
             
-            UserVM.getUserList = db.procSelectUserDetail().ToList();
+            UserVM.getUserList = db.procSelectUser().ToList();
 
             return View(UserVM);
         }

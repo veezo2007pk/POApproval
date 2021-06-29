@@ -26,7 +26,7 @@ var app = angular.module("myApp", [])
           
             $http({
                 method: "POST",
-                url: "http://localhost:61646/User/GetDepartment/",
+                url: "http://10.3.1.110/poapproval/User/GetDepartment/",
                 dataType: 'json',
                 data: { ID: $scope.strDepartmentName },
                 headers: { "Content-Type": "application/json" }
@@ -46,7 +46,7 @@ var app = angular.module("myApp", [])
             //alert($scope.usercode);
             $http({
                 method: "POST",
-                url: "http://localhost:61646/User/userDetail/",
+                url: "http://10.3.1.110/poapproval/User/userDetail/",
                 dataType: 'json',
                 data: { ID: $scope.usercode },
                 headers: { "Content-Type": "application/json" }
@@ -59,7 +59,7 @@ var app = angular.module("myApp", [])
                 $scope.pwd = data.data[0].pwd;
                 $scope.bolIsApprovalLimit = data.data[0].bolIsApprovalLimit;
                 $scope.bolIsManageBuyer = data.data[0].bolIsManageBuyer;
-                $scope.bolIsNewBuyer = data.data[0].bolIsNewBuyer;
+             
                 $scope.bolIsNewUser = data.data[0].bolIsNewUser;
                 if (data.data[0].SuperAdmin == "1") {
                     $scope.SuperAdmin = true;
@@ -87,14 +87,14 @@ var app = angular.module("myApp", [])
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
                     $scope.User.status = 1;
-                    $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
+                 /*   $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
                     console.log($scope.User)
                     //return
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/User/Insert_User",
+                        url: "http://10.3.1.110/poapproval/User/Insert_User",
                         datatype: "json",
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
@@ -111,7 +111,7 @@ var app = angular.module("myApp", [])
                         //    $("#btnSave").attr("disabled", false);
                         //    return;
                         //}
-                        if (response.data == '2')  {
+                      /*  if (response.data == '2')  {*/
                             alert('User added successfully');
                             window.location.href = "/poapproval/User/UserList"
                             
@@ -126,7 +126,7 @@ var app = angular.module("myApp", [])
                             $("#wait").css("display", "none");
                             $("#UserErrorMessage").text("");
                             $("#btnSave").attr("disabled", false);
-                        }
+                      /*  }*/
                     }, function (error) {
                             $("#btnSave").attr("disabled", false);
                         alert('Something went wrong, please try again');
@@ -146,7 +146,7 @@ var app = angular.module("myApp", [])
                     $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;
                     $scope.User.bolIsNewUser = $scope.bolIsNewUser;
                     $scope.User.status = 1;
-                    $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;
+                  /*  $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
                  /*   $scope.User.bolIsActive = $scope.bolIsActive;*/
@@ -157,7 +157,7 @@ var app = angular.module("myApp", [])
 
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/User/Update_User",
+                        url: "http://10.3.1.110/poapproval/User/Update_User",
                         datatype: "json",
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
@@ -200,7 +200,7 @@ var app = angular.module("myApp", [])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://localhost:61646/User/Get_AllUser"
+                url: "http://10.3.1.110/poapproval/User/Get_AllUser"
             }).then(function (response) {
                 $scope.Users = response.data;
             }, function () {
@@ -214,7 +214,7 @@ var app = angular.module("myApp", [])
                 //$scope.User.usercode = Emp;
                 $http({
                     method: "post",
-                    url: "http://localhost:61646/User/Delete_User",
+                    url: "http://10.3.1.110/poapproval/User/Delete_User",
                     dataType: 'json',
                     data: { usercode: Emp },
                 }).then(function (response) {
@@ -226,7 +226,7 @@ var app = angular.module("myApp", [])
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
-                url: "http://localhost:61646/User/Delete_User",
+                url: "http://10.3.1.110/poapproval/User/Delete_User",
                 datatype: "json",
                 data: JSON.stringify(Emp)
             }).then(function (response) {
@@ -252,7 +252,7 @@ var app = angular.module("myApp", [])
             $scope.bolIsApprovalLimit = User.bolIsApprovalLimit;
             $scope.bolIsNewUser = User.bolIsNewUser;
             $scope.bolIsManageBuyer = User.bolIsManageBuyer;
-            $scope.bolIsNewBuyer = User.bolIsNewBuyer;
+         /*   $scope.bolIsNewBuyer = User.bolIsNewBuyer;*/
             $scope.SuperAdmin = User.SuperAdmin;
             $scope.xpertLoginID = User.xpertLoginID;
         /*    $scope.bolIsActive = User.bolIsActive;*/

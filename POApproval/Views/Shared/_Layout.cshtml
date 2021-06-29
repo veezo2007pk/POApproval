@@ -88,10 +88,13 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.25/api/sum().js" type="text/javascript"></script>
+
 
 <script src="~/Scripts/select-searchable.js"></script>
 <script>
     $(document).ready(function () {
+    
         $(".select-searchable").select2({
           
             allowClear: true
@@ -109,7 +112,7 @@
         $(function () {
 
             $("#btnSubmit").click(function () {
-               
+                
               
                
                 var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
@@ -129,44 +132,50 @@
                     return false;
 
                 }
-
+                $('#strRejectReasonForList').text("");
                 return true;
             });
           
           
             $("#btnMainReject").click(function () {
-              
+               
                 var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();
                     return false;
                 }
                 else {
-                    $('#exampleModal').modal('show');
+                    //$('#exampleModal').modal('show');
+                    $('#exampleModal').modal({ backdrop: 'static', keyboard: false, show: true })  
+                    return false;
                 }
 
-                return true;
+                //return true;
             });
             $("#btnReject").click(function () {
                 $('#rejectstatus').val("reject");
                 
                 var strRejectReason = $('#strRejectReasonForList').val();
-                if (strRejectReason.length < 1) {
-                    $('#UserErrorMessage').text("This field is required");
-                    return;
-                }
-                if (confirm('Are you sure to reject selected PO?')) {
-               
-                    spinner.show();
-                    $("#btnMainReject").hide();
-                    
-                    $("#btnReject").hide();
-                    $("#btnSubmit").hide();
-                    $('#exampleModal').modal('hide');
-                } else {
-                    spinner.hide();
-                    return false;
+                //alert(strRejectReason);
+                if (strRejectReason == "") {
 
+                    $('#UserErrorMessages').text("This field is required");
+                    return false;
+                }
+
+                else {
+                    if (confirm('Are you sure to reject selected PO?')) {
+                        spinner.show();
+                        $("#btnMainReject").hide();
+
+                        $("#btnReject").hide();
+                        $("#btnSubmit").hide();
+                        $('#exampleModal').modal('hide');
+                    } else {
+                        spinner.hide();
+                        return false;
+
+                    }
                 }
 
                 return true;
@@ -189,20 +198,20 @@
                 $(".chkCheckBoxId").prop("checked", false)
             }
         });
-        $("#strRejectReason").keypress(function (event) {
-            if (event.keyCode == 13) {
+        //$("#strRejectReason").keypress(function (event) {
+        //    if (event.keyCode == 13) {
 
-                $("#btnRejectReason").click();
-            }
+        //        $("#btnRejectReason").click();
+        //    }
 
-        });
-        $("#strRejectReasonForList").keypress(function (event) {
-            if (event.keyCode == 13) {
+        //});
+        //$("#strRejectReasonForList").keypress(function (event) {
+        //    if (event.keyCode == 13) {
 
-                $("#btnReject").click();
-            }
+        //        $("#btnReject").click();
+        //    }
 
-        });
+        //});
         //$("#strRejectReason").keypress(function (event) {
         //    if (event.keyCode == 13) {
 
@@ -213,7 +222,7 @@
         var searchText = $("#searchText").val();
         var strUser = $("#strUser").val();
         //ASPX page URL to load report
-        var src = 'http://localhost:61646/Report/RptPO.aspx?';
+        var src = 'http://10.3.1.110/poapproval/Report/RptPO.aspx?';
         //We can add parameters here
         src = src + "searchText=" + searchText
         //We can append more than one parameter like below
@@ -239,7 +248,7 @@
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Approved', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -278,7 +287,7 @@
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 1', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -312,7 +321,7 @@
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 2', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -347,7 +356,7 @@
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Reviewed 3', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -388,7 +397,7 @@
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Rejected', 'strRejectReason': strRejectReason }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -424,16 +433,16 @@
     //}
 
 
-    jQuery(function () {
-        var requiredCheckboxes = $("input:checkbox[id^='option-']");
-        requiredCheckboxes.change(function () {
-            if (requiredCheckboxes.is(':checked')) {
-                requiredCheckboxes.removeAttr('required');
-            } else {
-                requiredCheckboxes.attr('required', 'required');
-            }
-        });
-    });
+    //jQuery(function () {
+    //    var requiredCheckboxes = $("input:checkbox[id^='option-']");
+    //    requiredCheckboxes.change(function () {
+    //        if (requiredCheckboxes.is(':checked')) {
+    //            requiredCheckboxes.removeAttr('required');
+    //        } else {
+    //            requiredCheckboxes.attr('required', 'required');
+    //        }
+    //    });
+    //});
     function getUserData() {
         //var address = $("#user option:selected");
         //var fullname = address.attr('data-fullname');

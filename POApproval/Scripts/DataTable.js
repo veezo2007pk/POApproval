@@ -90,8 +90,11 @@
             "ordering": true,
             "searching": true,
           
-            "pageLength": 50
-
+            "pageLength": 50,
+            //drawCallback: function () {
+            //    var sum = $('#myTable').DataTable().column(11).data().sum();
+            //    $('#total').html(sum);
+            //}
         });
     });
     //$(".datepicker input").datepicker({
