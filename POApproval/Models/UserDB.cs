@@ -96,7 +96,7 @@ namespace POApproval.Models
             {
                 user.status = "NOT ACTIVE";
             }
-            if (user.SuperAdmin == "1")
+            if (user.SuperAdmin == "True")
             {
                 user.SuperAdmin = "Y";
             }
@@ -108,7 +108,7 @@ namespace POApproval.Models
             //Int32 intUserCodeMaxCode = (Int32)get_nextCode();
             //if (intUserCodeMaxCode == 0)
             //    intUserCodeMaxCode = 1;
-            
+
 
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
@@ -158,7 +158,7 @@ namespace POApproval.Models
             {
                 user.status = "NOT ACTIVE";
             }
-            if (user.SuperAdmin == "1")
+            if (user.SuperAdmin == "True")
             {
                 user.SuperAdmin = "Y";
             }

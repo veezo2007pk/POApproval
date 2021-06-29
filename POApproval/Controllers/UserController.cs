@@ -19,8 +19,22 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult UserList()
         {
-            var data = db.procSelectUser().ToList();
-            return View(data);
+            String userCode = Session["intUserCode"].ToString();
+            //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+            //{
+
+            //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
+            //}
+            if (Session["SuperAdmin"].ToString() == "Y")
+            {
+                var data = db.procSelectUser().ToList();
+                return View(data);
+            }
+            else
+            {
+                var data = db.procSelectUser().Where(x => x.UserCode == userCode).ToList();
+                return View(data);
+            }
         }
         
         //[Authorize]
@@ -108,7 +122,7 @@ namespace POApproval.Controllers
 
 
         }
-        
+
 
         /// <summary>  
         ///   
@@ -119,13 +133,21 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult Get_AllUser()
         {
+            String userCode = Session["intUserCode"].ToString();
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
             //{
 
-               //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
+            //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
-            var data = db.procSelectUser().ToList();
+            if (Session["SuperAdmin"].ToString() == "Y") { 
+                var data = db.procSelectUser().ToList();
             return View(data);
+            }
+            else
+            {
+                var data = db.procSelectUser().Where(x=>x.UserCode== userCode).ToList();
+                return View(data);
+            }
         }
         [HttpPost]
         public JsonResult userDetail(string ID)

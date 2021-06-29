@@ -5,11 +5,14 @@
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
 <section class="col-md-12 text-right">
-    <div class="">
-        <a href="http://10.3.1.110/poapproval/User/AddUser" class="btn btn-success">Create New</a>
+    @if (Session["SuperAdmin"].ToString() == "Y")
+    {
+        <div class="">
+            <a href="http://10.3.1.110/poapproval/User/AddUser" class="btn btn-success">Create New</a>
 
-    </div>
-</section>
+        </div>
+    }
+    </section>
 <section class="col-md-12">
     <div ng-app="myApp">
         <div ng-controller="myCtrl" class="divList">
@@ -40,9 +43,11 @@
 
                             <td>
                                 <a href="http://10.3.1.110/poapproval/User/UpdateUser?ID=@item.UserCode" value="Update" class="btn btn-default">Update</a>
-                               
-                                <input type="button" value="Delete" class="btn btn-danger" ng-click='DeleteUser("@item.UserCode")' />
-                            </td>
+                                @if (Session["SuperAdmin"].ToString() == "Y")
+                                {
+                                    <input type="button" value="Delete" class="btn btn-danger" ng-click='DeleteUser("@item.UserCode")' />
+                                }
+                                </td>
                             <td>
                                @item.UserCode
                             </td>

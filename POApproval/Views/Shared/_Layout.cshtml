@@ -25,12 +25,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Search PO", "SearchPO", "PO")</li>
-                    @if (Convert.ToBoolean(Session["bolIsApprovalLimit"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    @if ( Session["SuperAdmin"].ToString() == "Y")
                     {
-                        if (Convert.ToBoolean(Session["bolIsApprovalLimit"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
-                        {
+                       
                             <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
-                        }
+                      
                     }
                     @if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
                     {
@@ -49,14 +48,13 @@
                             <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
                         }
                     }*@
-                    @if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
+                    @if (Session["SuperAdmin"].ToString() == "Y")
                     {
 
-                        if (Convert.ToBoolean(Session["bolIsManageBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
-                        {
+                        
 
                             <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
-                        }
+                       
                     }
                  
                 </ul>
