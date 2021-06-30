@@ -10,6 +10,10 @@ textarea {
   outline: none;
   border: none;
 }
+.dataTables_wrapper .dataTables_filter {
+    float: none !important;
+    text-align: center !important;
+}
 #total {
     text-align: center;
     font-weight: bold;
@@ -21,10 +25,13 @@ textarea {
     background: #a94442;
     padding: 10px;
     border-radius: 5px;
+    position:relative;
+    top:46px;
 }
-
-
-textarea:focus, input:focus {
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa !important;
+}
+    textarea: focus, input:focus {
     border-color: transparent !important;
 }
 
