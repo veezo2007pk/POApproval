@@ -26,7 +26,7 @@ var app = angular.module("myApp", [])
           
             $http({
                 method: "POST",
-                url: "http://10.3.1.110/poapproval/User/GetDepartment/",
+                url: "http://localhost:61646/User/GetDepartment/",
                 dataType: 'json',
                 data: { ID: $scope.strDepartmentName },
                 headers: { "Content-Type": "application/json" }
@@ -46,7 +46,7 @@ var app = angular.module("myApp", [])
             //alert($scope.usercode);
             $http({
                 method: "POST",
-                url: "http://10.3.1.110/poapproval/User/userDetail/",
+                url: "http://localhost:61646/User/userDetail/",
                 dataType: 'json',
                 data: { ID: $scope.usercode },
                 headers: { "Content-Type": "application/json" }
@@ -94,7 +94,7 @@ var app = angular.module("myApp", [])
                     //return
                     $http({
                         method: "post",
-                        url: "http://10.3.1.110/poapproval/User/Insert_User",
+                        url: "http://localhost:61646/User/Insert_User",
                         datatype: "json",
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
@@ -157,7 +157,7 @@ var app = angular.module("myApp", [])
 
                     $http({
                         method: "post",
-                        url: "http://10.3.1.110/poapproval/User/Update_User",
+                        url: "http://localhost:61646/User/Update_User",
                         datatype: "json",
                         data: JSON.stringify($scope.User)
                     }).then(function (response) {
@@ -200,7 +200,7 @@ var app = angular.module("myApp", [])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://10.3.1.110/poapproval/User/Get_AllUser"
+                url: "http://localhost:61646/User/Get_AllUser"
             }).then(function (response) {
                 $scope.Users = response.data;
             }, function () {
@@ -214,7 +214,7 @@ var app = angular.module("myApp", [])
                 //$scope.User.usercode = Emp;
                 $http({
                     method: "post",
-                    url: "http://10.3.1.110/poapproval/User/Delete_User",
+                    url: "http://localhost:61646/User/Delete_User",
                     dataType: 'json',
                     data: { usercode: Emp },
                 }).then(function (response) {
@@ -226,7 +226,7 @@ var app = angular.module("myApp", [])
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
-                url: "http://10.3.1.110/poapproval/User/Delete_User",
+                url: "http://localhost:61646/User/Delete_User",
                 datatype: "json",
                 data: JSON.stringify(Emp)
             }).then(function (response) {

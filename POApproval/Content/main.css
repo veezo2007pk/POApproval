@@ -10,9 +10,22 @@ textarea {
   outline: none;
   border: none;
 }
+#total {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 15px;
+    width: 258px;
+    float: right;
+    background: #a94442;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 
 textarea:focus, input:focus {
-  border-color: transparent !important;
+    border-color: transparent !important;
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }

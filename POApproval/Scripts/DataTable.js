@@ -96,7 +96,88 @@
             //    $('#total').html(sum);
             //}
         });
+        //$('#mytablepo').DataTable({
+
+        //    "ordering": true,
+        //    "searching": true,
+
+        //    "pagelength": 50,
+        //    //drawcallback: function () {
+        //    //    var sum = $('#mytable').datatable().column(11).data().sum();
+        //    //    $('#total').html(sum);
+        //    //}
+        //});
+        //var sum = $('#myTablePO').DataTable().column(10).data().sum();
+        //alert(sum);
+        //$('#total').html(sum);
+
+        //$('#myTablePO').DataTable({
+        //    drawCallback: function () {
+        //        var api = this.api();
+        //        $(api.table().footer()).html(
+                    
+        //            api.column(10, { page: 'current' }).nodes().sum()
+        //        );
+        //    }
+        //});
+
+        
     });
+
+    
+
+    $(document).ready(function () {
+        $('#myTablePO').DataTable({
+            "ordering": true,
+            "searching": true,
+            "pagelength": 50,
+            columns: [
+                { data: "" },
+                { data: "PO Number" },
+                { data: "PO Status" },
+                { data: "Next" },
+                { data: "Next PO Status" },
+                { data: "Supplier Code" },
+                { data: "Supplier Name" },
+                { data: "Date" },
+                { data: "Buyer" },
+                { data: "Qty", className: "qty" },
+                { data: "Amount", className: "sum" },
+                { data: "Action" }
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api();
+
+                api.columns('.sum', { page: 'current' }).every(function () {
+                    var sum = this
+                        .data()
+                        .reduce(function (a, b) {
+                            var x = parseFloat(a) || 0;
+                            var y = parseFloat(b) || 0;
+                            return x + y;
+                        }, 0);
+                    console.log(sum); //alert(sum);
+                    //$(this.footer()).html(sum);
+                    $('#total span').html(sum);
+                });
+
+                api.columns('.qty', { page: 'current' }).every(function () {
+                    var qty = this
+                        .data()
+                        .reduce(function (a, b) {
+                            var x = parseFloat(a) || 0;
+                            var y = parseFloat(b) || 0;
+                            return x + y;
+                        }, 0);
+                    //console.log("totalsum"+sum);
+                    console.log(qty); //alert(sum);
+                    //$(this.footer()).html(sum);
+                    //$('#total span').html(sum);
+                });
+            }
+        });
+    });
+
     //$(".datepicker input").datepicker({
     //    autoclose: true,
     //    todayHighlight: true
