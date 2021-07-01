@@ -117,7 +117,7 @@ namespace POApproval.Models
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@usercode", user.usercode);
                 //com.Parameters.AddWithValue("@fullname", user.fullname);
-                com.Parameters.AddWithValue("@pwd", user.pwd);
+                com.Parameters.AddWithValue("@pwd", user.pwd.Replace(" ","%"));
                 //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
                 //com.Parameters.AddWithValue("@usergroup", user.usergroup);
@@ -179,7 +179,7 @@ namespace POApproval.Models
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@usercode", user.usercode);
                 //com.Parameters.AddWithValue("@fullname", user.fullname);
-                com.Parameters.AddWithValue("@pwd", user.pwd);
+                com.Parameters.AddWithValue("@pwd", user.pwd.Replace(" ", "%"));
                 //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
                 //com.Parameters.AddWithValue("@usergroup", user.usergroup);

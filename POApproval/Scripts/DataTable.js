@@ -169,6 +169,7 @@
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
+                    $('#totalQty span').html(qty);
                     //console.log("totalsum"+sum);
                     console.log(qty); //alert(sum);
                     //$(this.footer()).html(sum);

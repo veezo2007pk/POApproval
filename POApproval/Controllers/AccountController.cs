@@ -29,8 +29,9 @@ namespace POApproval.Controllers
             {
                 using (dbSASAApprovalEntities db = new dbSASAApprovalEntities())
                 {
+                    string pasword = objUser.Password.Replace(" ", "%");
                     int code = Convert.ToInt32(objUser.UserCode);
-                    var obj = db.procValidateUserLogins(code, objUser.Password).FirstOrDefault();
+                    var obj = db.procValidateUserLogins(code, pasword).FirstOrDefault();
                   
                     if (obj != null  && obj.status == "ACTIVE")
                     {
