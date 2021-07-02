@@ -65,7 +65,7 @@
                 <div class="form-group row">
                     <label for="staticEmail" class="col-sm-3 col-form-label">Supplier Name</label>
                     <div class="col-sm-6">
-                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Supplier_Name">
+                        <input type="text" style="width:100%" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.Supplier_Name">
                     </div>
                 </div>
             </div>
@@ -104,6 +104,28 @@
                     </div>
                 </div>
             </div>
+            @if (Model.tblPO.strRejectReason == null || Model.tblPO.strRejectReason == "")
+            {
+                <div class="form-group">
+                    <div class="form-group row">
+                        <label hidden for="staticEmail" class="col-sm-3 col-form-label">Rejected Reason</label>
+                        <div class="col-sm-6">
+                            <input type="hidden" readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.strRejectReason">
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            { <div class="form-group">
+                    <div class="form-group row">
+                        <label  for="staticEmail" class="col-sm-3 col-form-label">Rejected Reason</label>
+                        <div class="col-sm-6">
+                            <input  readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.strRejectReason">
+                        </div>
+                    </div>
+                </div>
+
+            }
 
 
 

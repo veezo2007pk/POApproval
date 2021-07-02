@@ -143,19 +143,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPOSubReport_Result>("procRptPOSubReport", intPoCodeParameter);
         }
     
-        public virtual ObjectResult<procRptPO_Result> procRptPO(Nullable<int> intPOCode, string strUser)
-        {
-            var intPOCodeParameter = intPOCode.HasValue ?
-                new ObjectParameter("intPOCode", intPOCode) :
-                new ObjectParameter("intPOCode", typeof(int));
-    
-            var strUserParameter = strUser != null ?
-                new ObjectParameter("strUser", strUser) :
-                new ObjectParameter("strUser", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPO_Result>("procRptPO", intPOCodeParameter, strUserParameter);
-        }
-    
         public virtual ObjectResult<procPendingPO_Result> procPendingPO(Nullable<int> intUserCode)
         {
             var intUserCodeParameter = intUserCode.HasValue ?
@@ -327,6 +314,19 @@ namespace POApproval.Models
                 new ObjectParameter("intUserCode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteUser", intUserCodeParameter);
+        }
+    
+        public virtual ObjectResult<procRptPO_Result> procRptPO(Nullable<int> intPOCode, string strUser)
+        {
+            var intPOCodeParameter = intPOCode.HasValue ?
+                new ObjectParameter("intPOCode", intPOCode) :
+                new ObjectParameter("intPOCode", typeof(int));
+    
+            var strUserParameter = strUser != null ?
+                new ObjectParameter("strUser", strUser) :
+                new ObjectParameter("strUser", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPO_Result>("procRptPO", intPOCodeParameter, strUserParameter);
         }
     }
 }

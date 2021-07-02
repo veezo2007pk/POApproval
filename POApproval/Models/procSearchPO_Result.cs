@@ -10,15 +10,15 @@
 namespace POApproval.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class procSearchPO_Result
     {
+        public string strRejectReason { get; set; }
+        public bool IsSelected { get; set; }
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }
         public string Supplier_Code { get; set; }
         public string Supplier_Name { get; set; }
-        [DisplayFormat(DataFormatString = "{0: dd-MM-yyyy}")]
         public Nullable<System.DateTime> Creation_Date { get; set; }
         public string strPOStatus { get; set; }
         public string Buyer { get; set; }
@@ -26,8 +26,5 @@ namespace POApproval.Models
         public Nullable<decimal> Amount { get; set; }
         public string ApprovalLevel { get; set; }
         public string NextPOStatus { get; set; }
-        public string strRejectReason { get; set; }
-
-        public bool IsSelected { get; set; }
     }
 }

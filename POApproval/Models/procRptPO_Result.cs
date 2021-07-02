@@ -28,6 +28,7 @@ namespace POApproval.Models
         public Nullable<System.DateTime> Valid_Date { get; set; }
         public string Shipment_Terms { get; set; }
         public string Payment_Term { get; set; }
+        public string strRejectReason { get; set; }
         public string Contact_Person { get; set; }
         public string vendor_item_no { get; set; }
         public string product_code { get; set; }
