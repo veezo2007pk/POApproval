@@ -30,8 +30,8 @@ namespace POApproval.Report
 
                 using (var _context = new dbSASAApprovalEntities())
                 {
-                    intPOCode = Convert.ToInt32(searchText);
-                    var summary = _context.procRptPO(intPOCode, strUser).ToList();
+                    //intPOCode = Convert.ToInt32(searchText);
+                    var summary = _context.procRptPO(searchText, strUser).ToString();
       
                     CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPO.rdlc");
                     CustomerListReportViewer.LocalReport.DataSources.Clear();

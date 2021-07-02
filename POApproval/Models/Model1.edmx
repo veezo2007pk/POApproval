@@ -219,7 +219,7 @@
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procRptPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="intPOCode" Type="int" Mode="In" />
+          <Parameter Name="intPOCode" Type="varchar(max)" Mode="In" />
           <Parameter Name="strUser" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procRptPOSubReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -411,8 +411,8 @@
           <FunctionImport Name="procDeleteUser">
           <Parameter Name="intUserCode" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="procRptPO" ReturnType="Collection(dbSASAApprovalModel.procRptPO_Result)">
-            <Parameter Name="intPOCode" Mode="In" Type="Int32" />
+          <FunctionImport Name="procRptPO">
+            <Parameter Name="intPOCode" Mode="In" Type="String" />
             <Parameter Name="strUser" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -702,36 +702,6 @@
           <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
           <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
           <Property Type="Int32" Name="SuperAdmin" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="procRptPO_Result">
-          <Property Type="DateTime" Name="CurrentDate" Nullable="true" />
-          <Property Type="String" Name="CurrentTime" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="strPOStatus" Nullable="true" MaxLength="50" />
-          <Property Type="Int64" Name="PO_Number" Nullable="true" />
-          <Property Type="String" Name="Shipto" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Supplier_Code" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="Supplier_Name" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Store_Address" Nullable="true" MaxLength="60" />
-          <Property Type="DateTime" Name="Creation_Date" Nullable="true" Precision="23" />
-          <Property Type="String" Name="FOB" Nullable="true" MaxLength="25" />
-          <Property Type="String" Name="Buyer" Nullable="true" MaxLength="40" />
-          <Property Type="DateTime" Name="Delivery_Date" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="Valid_Date" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Shipment_Terms" Nullable="true" MaxLength="25" />
-          <Property Type="String" Name="Payment_Term" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="strRejectReason" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Contact_Person" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="vendor_item_no" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="product_code" Nullable="true" MaxLength="25" />
-          <Property Type="String" Name="Description" Nullable="true" MaxLength="120" />
-          <Property Type="Int32" Name="Qty" Nullable="true" />
-          <Property Type="Decimal" Name="Sugg_Price" Nullable="true" Precision="16" Scale="2" />
-          <Property Type="Decimal" Name="Unit_Price" Nullable="true" Precision="36" Scale="2" />
-          <Property Type="Decimal" Name="Foreign_Unit_Price" Nullable="true" Precision="36" Scale="2" />
-          <Property Type="Decimal" Name="Disc" Nullable="true" Precision="36" Scale="2" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="36" Scale="2" />
-          <Property Type="Decimal" Name="Foreign_Amount" Nullable="true" Precision="36" Scale="2" />
-          <Property Type="String" Name="strUser" Nullable="true" MaxLength="128" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1047,40 +1017,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procDeleteUser" FunctionName="dbSASAApprovalModel.Store.procDeleteUser" />
-          <FunctionImportMapping FunctionImportName="procRptPO" FunctionName="dbSASAApprovalModel.Store.procRptPO">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procRptPO_Result">
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-                <ScalarProperty Name="CurrentTime" ColumnName="CurrentTime" />
-                <ScalarProperty Name="strPOStatus" ColumnName="strPOStatus" />
-                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
-                <ScalarProperty Name="Shipto" ColumnName="Shipto" />
-                <ScalarProperty Name="Supplier_Code" ColumnName="Supplier_Code" />
-                <ScalarProperty Name="Supplier_Name" ColumnName="Supplier_Name" />
-                <ScalarProperty Name="Store_Address" ColumnName="Store_Address" />
-                <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
-                <ScalarProperty Name="FOB" ColumnName="FOB" />
-                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
-                <ScalarProperty Name="Delivery_Date" ColumnName="Delivery_Date" />
-                <ScalarProperty Name="Valid_Date" ColumnName="Valid_Date" />
-                <ScalarProperty Name="Shipment_Terms" ColumnName="Shipment_Terms" />
-                <ScalarProperty Name="Payment_Term" ColumnName="Payment_Term" />
-                <ScalarProperty Name="strRejectReason" ColumnName="strRejectReason" />
-                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
-                <ScalarProperty Name="vendor_item_no" ColumnName="vendor_item_no" />
-                <ScalarProperty Name="product_code" ColumnName="product_code" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="Sugg_Price" ColumnName="Sugg_Price" />
-                <ScalarProperty Name="Unit_Price" ColumnName="Unit_Price" />
-                <ScalarProperty Name="Foreign_Unit_Price" ColumnName="Foreign_Unit_Price" />
-                <ScalarProperty Name="Disc" ColumnName="Disc" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Foreign_Amount" ColumnName="Foreign_Amount" />
-                <ScalarProperty Name="strUser" ColumnName="strUser" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procRptPO" FunctionName="dbSASAApprovalModel.Store.procRptPO" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

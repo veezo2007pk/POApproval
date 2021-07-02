@@ -93,7 +93,7 @@
 <script>
     $(document).ready(function () {
     
-        $(".select-searchable").select2({
+        $(".listbox").select2({
           
             allowClear: true
         });
@@ -101,11 +101,11 @@
         var spinner = $('#loader');
         $(function () {
            
-            $('.listbox').multiselect({
-                includeSelectAllOption: true,
-                selectedClass: 'active',
+            //$('.listbox').multiselect({
+            //    includeSelectAllOption: true,
+            //    selectedClass: 'active',
 
-            });
+            //});
         });
         $(function () {
 
@@ -133,7 +133,32 @@
                 $('#strRejectReasonForList').text("");
                 return true;
             });
-          
+            $("#btnPrint").click(function () {
+
+                $('#rejectstatus').val("report");
+
+                var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    spinner.hide();
+                    return false;
+                }
+
+                var r = confirm("Are you sure to open report for selected PO?");
+                if (r == true) {
+                    spinner.show();
+                    $("#btnPrint").hide();
+                    $("#btnReject").hide();
+                    $("#btnSubmit").hide();
+                } else {
+                    spinner.hide();
+                    return false;
+
+                }
+                $('#strRejectReasonForList').text("");
+                return true;
+            });
+
           
             $("#btnMainReject").click(function () {
                

@@ -87,6 +87,37 @@ namespace POApproval.Models
                 return lst;
             }
         }
+        public List<string> POReport(string strPOStatus, long PO_Number)
+        {
+            List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
+            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+            {
+                con.Open();
+                SqlCommand com = new SqlCommand("procSearchPO", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@PO_Number", PO_Number);
+                com.Parameters.Add("@strPOStatus", strPOStatus);
+                SqlDataReader rdr = com.ExecuteReader();
+                while (rdr.Read())
+                {
+                    lst.Add(new procSearchPO_Result
+                    {
+                        Supplier_Name = rdr["Supplier_Name"].ToString(),
+                        strPOStatus = rdr["strPOStatus"].ToString(),
+                        Supplier_Code = rdr["Supplier_Code"].ToString(),
+                        Buyer = rdr["Buyer"].ToString(),
+                        Creation_Date = Convert.ToDateTime(rdr["Creation_Date"].ToString()),
+                        intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString()),
+                        PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString())
+
+
+
+
+                    });
+                }
+                return lst;
+            }
+        }
 
         public List<procSearchPO_Result> ListAll(string strPOStatus, long PO_Number)
         {

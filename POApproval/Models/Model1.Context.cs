@@ -316,17 +316,17 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteUser", intUserCodeParameter);
         }
     
-        public virtual ObjectResult<procRptPO_Result> procRptPO(Nullable<int> intPOCode, string strUser)
+        public virtual int procRptPO(string intPOCode, string strUser)
         {
-            var intPOCodeParameter = intPOCode.HasValue ?
+            var intPOCodeParameter = intPOCode != null ?
                 new ObjectParameter("intPOCode", intPOCode) :
-                new ObjectParameter("intPOCode", typeof(int));
+                new ObjectParameter("intPOCode", typeof(string));
     
             var strUserParameter = strUser != null ?
                 new ObjectParameter("strUser", strUser) :
                 new ObjectParameter("strUser", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPO_Result>("procRptPO", intPOCodeParameter, strUserParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
         }
     }
 }

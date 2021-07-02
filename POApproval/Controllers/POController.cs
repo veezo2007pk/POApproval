@@ -88,8 +88,55 @@ namespace POApproval.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (searchPO_Results[0].strPOStatus == "report")
+                {
+                    List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
+                    string myCodes = string.Empty;
+                    foreach (var item in searchPO_Results)
+                    {
 
-                if (searchPO_Results[0].strPOStatus == "reject")
+                        if (item.IsSelected)
+                        {
+                            using (var transaction = db.Database.BeginTransaction())
+                            {
+                                try
+                                {
+
+
+
+                                           
+                                    
+                                       
+                                            if (myCodes.Length > 0)
+                                            {
+                                                myCodes += ", "; // Add a comma if data already exists
+                                            }
+
+                                            myCodes += item.intPOCode.ToString() ;
+
+
+                                   
+
+
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    // roll back all database operations, if any thing goes wrong
+                                   
+                                    ViewBag.ResultMessage = ex.Message + "Error occured, records rolledback.";
+                                }
+                            }
+
+                        }
+                    }
+                    ViewBag.intPOCode = "'" + myCodes + "'";
+                    return View("PORpt");
+
+
+                }
+
+                else if (searchPO_Results[0].strPOStatus == "reject")
                 {
                     int userCode = Convert.ToInt32(Session["intUserCode"]);
 
