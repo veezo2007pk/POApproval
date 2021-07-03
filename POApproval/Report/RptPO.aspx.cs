@@ -34,7 +34,7 @@ namespace POApproval.Report
                     //intPOCode = Convert.ToInt32(searchText);
                     var summary = PODB.GetPOReport(searchText).ToList();
       
-                    CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPO.rdlc");
+                    CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPOList.rdlc");
                     CustomerListReportViewer.LocalReport.DataSources.Clear();
                     ReportDataSource rdc = new ReportDataSource("DataSet1", summary);
                     CustomerListReportViewer.LocalReport.DataSources.Add(rdc);
