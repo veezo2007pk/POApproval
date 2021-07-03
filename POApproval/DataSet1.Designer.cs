@@ -26,7 +26,7 @@ namespace POApproval {
         
         private procRptPOSubReportDataTable tableprocRptPOSubReport;
         
-        private procRptPODataTable tableprocRptPO;
+        private procRptReportDataTable tableprocRptReport;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -59,8 +59,8 @@ namespace POApproval {
                 if ((ds.Tables["procRptPOSubReport"] != null)) {
                     base.Tables.Add(new procRptPOSubReportDataTable(ds.Tables["procRptPOSubReport"]));
                 }
-                if ((ds.Tables["procRptPO"] != null)) {
-                    base.Tables.Add(new procRptPODataTable(ds.Tables["procRptPO"]));
+                if ((ds.Tables["procRptReport"] != null)) {
+                    base.Tables.Add(new procRptReportDataTable(ds.Tables["procRptReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -94,9 +94,9 @@ namespace POApproval {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public procRptPODataTable procRptPO {
+        public procRptReportDataTable procRptReport {
             get {
-                return this.tableprocRptPO;
+                return this.tableprocRptReport;
             }
         }
         
@@ -170,8 +170,8 @@ namespace POApproval {
                 if ((ds.Tables["procRptPOSubReport"] != null)) {
                     base.Tables.Add(new procRptPOSubReportDataTable(ds.Tables["procRptPOSubReport"]));
                 }
-                if ((ds.Tables["procRptPO"] != null)) {
-                    base.Tables.Add(new procRptPODataTable(ds.Tables["procRptPO"]));
+                if ((ds.Tables["procRptReport"] != null)) {
+                    base.Tables.Add(new procRptReportDataTable(ds.Tables["procRptReport"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -212,10 +212,10 @@ namespace POApproval {
                     this.tableprocRptPOSubReport.InitVars();
                 }
             }
-            this.tableprocRptPO = ((procRptPODataTable)(base.Tables["procRptPO"]));
+            this.tableprocRptReport = ((procRptReportDataTable)(base.Tables["procRptReport"]));
             if ((initTable == true)) {
-                if ((this.tableprocRptPO != null)) {
-                    this.tableprocRptPO.InitVars();
+                if ((this.tableprocRptReport != null)) {
+                    this.tableprocRptReport.InitVars();
                 }
             }
         }
@@ -230,8 +230,8 @@ namespace POApproval {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableprocRptPOSubReport = new procRptPOSubReportDataTable();
             base.Tables.Add(this.tableprocRptPOSubReport);
-            this.tableprocRptPO = new procRptPODataTable();
-            base.Tables.Add(this.tableprocRptPO);
+            this.tableprocRptReport = new procRptReportDataTable();
+            base.Tables.Add(this.tableprocRptReport);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -242,7 +242,7 @@ namespace POApproval {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializeprocRptPO() {
+        private bool ShouldSerializeprocRptReport() {
             return false;
         }
         
@@ -305,7 +305,7 @@ namespace POApproval {
         public delegate void procRptPOSubReportRowChangeEventHandler(object sender, procRptPOSubReportRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void procRptPORowChangeEventHandler(object sender, procRptPORowChangeEvent e);
+        public delegate void procRptReportRowChangeEventHandler(object sender, procRptReportRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -702,11 +702,13 @@ namespace POApproval {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class procRptPODataTable : global::System.Data.TypedTableBase<procRptPORow> {
+        public partial class procRptReportDataTable : global::System.Data.TypedTableBase<procRptReportRow> {
             
             private global::System.Data.DataColumn columnCurrentDate;
             
             private global::System.Data.DataColumn columnCurrentTime;
+            
+            private global::System.Data.DataColumn columnintPOCode;
             
             private global::System.Data.DataColumn columnstrPOStatus;
             
@@ -762,8 +764,8 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPODataTable() {
-                this.TableName = "procRptPO";
+            public procRptReportDataTable() {
+                this.TableName = "procRptReport";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -771,7 +773,7 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal procRptPODataTable(global::System.Data.DataTable table) {
+            internal procRptReportDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -788,7 +790,7 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected procRptPODataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected procRptReportDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -806,6 +808,14 @@ namespace POApproval {
             public global::System.Data.DataColumn CurrentTimeColumn {
                 get {
                     return this.columnCurrentTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn intPOCodeColumn {
+                get {
+                    return this.columnintPOCode;
                 }
             }
             
@@ -1028,33 +1038,33 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPORow this[int index] {
+            public procRptReportRow this[int index] {
                 get {
-                    return ((procRptPORow)(this.Rows[index]));
+                    return ((procRptReportRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event procRptPORowChangeEventHandler procRptPORowChanging;
+            public event procRptReportRowChangeEventHandler procRptReportRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event procRptPORowChangeEventHandler procRptPORowChanged;
+            public event procRptReportRowChangeEventHandler procRptReportRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event procRptPORowChangeEventHandler procRptPORowDeleting;
+            public event procRptReportRowChangeEventHandler procRptReportRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event procRptPORowChangeEventHandler procRptPORowDeleted;
+            public event procRptReportRowChangeEventHandler procRptReportRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddprocRptPORow(procRptPORow row) {
+            public void AddprocRptReportRow(procRptReportRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPORow AddprocRptPORow(
+            public procRptReportRow AddprocRptReportRow(
                         System.DateTime CurrentDate, 
                         string CurrentTime, 
                         string strPOStatus, 
@@ -1083,10 +1093,11 @@ namespace POApproval {
                         decimal Amount, 
                         decimal Foreign_Amount, 
                         string strUser) {
-                procRptPORow rowprocRptPORow = ((procRptPORow)(this.NewRow()));
+                procRptReportRow rowprocRptReportRow = ((procRptReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CurrentDate,
                         CurrentTime,
+                        null,
                         strPOStatus,
                         PO_Number,
                         Shipto,
@@ -1113,15 +1124,22 @@ namespace POApproval {
                         Amount,
                         Foreign_Amount,
                         strUser};
-                rowprocRptPORow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowprocRptPORow);
-                return rowprocRptPORow;
+                rowprocRptReportRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowprocRptReportRow);
+                return rowprocRptReportRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public procRptReportRow FindByintPOCode(int intPOCode) {
+                return ((procRptReportRow)(this.Rows.Find(new object[] {
+                            intPOCode})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                procRptPODataTable cln = ((procRptPODataTable)(base.Clone()));
+                procRptReportDataTable cln = ((procRptReportDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -1129,7 +1147,7 @@ namespace POApproval {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new procRptPODataTable();
+                return new procRptReportDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1137,6 +1155,7 @@ namespace POApproval {
             internal void InitVars() {
                 this.columnCurrentDate = base.Columns["CurrentDate"];
                 this.columnCurrentTime = base.Columns["CurrentTime"];
+                this.columnintPOCode = base.Columns["intPOCode"];
                 this.columnstrPOStatus = base.Columns["strPOStatus"];
                 this.columnPO_Number = base.Columns["PO_Number"];
                 this.columnShipto = base.Columns["Shipto"];
@@ -1172,6 +1191,8 @@ namespace POApproval {
                 base.Columns.Add(this.columnCurrentDate);
                 this.columnCurrentTime = new global::System.Data.DataColumn("CurrentTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCurrentTime);
+                this.columnintPOCode = new global::System.Data.DataColumn("intPOCode", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnintPOCode);
                 this.columnstrPOStatus = new global::System.Data.DataColumn("strPOStatus", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnstrPOStatus);
                 this.columnPO_Number = new global::System.Data.DataColumn("PO_Number", typeof(long), null, global::System.Data.MappingType.Element);
@@ -1224,9 +1245,17 @@ namespace POApproval {
                 base.Columns.Add(this.columnForeign_Amount);
                 this.columnstrUser = new global::System.Data.DataColumn("strUser", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnstrUser);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnintPOCode}, true));
                 this.columnCurrentDate.ReadOnly = true;
                 this.columnCurrentTime.ReadOnly = true;
                 this.columnCurrentTime.MaxLength = 8;
+                this.columnintPOCode.AutoIncrement = true;
+                this.columnintPOCode.AutoIncrementSeed = -1;
+                this.columnintPOCode.AutoIncrementStep = -1;
+                this.columnintPOCode.AllowDBNull = false;
+                this.columnintPOCode.ReadOnly = true;
+                this.columnintPOCode.Unique = true;
                 this.columnstrPOStatus.MaxLength = 50;
                 this.columnShipto.MaxLength = 30;
                 this.columnSupplier_Code.MaxLength = 10;
@@ -1246,28 +1275,28 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPORow NewprocRptPORow() {
-                return ((procRptPORow)(this.NewRow()));
+            public procRptReportRow NewprocRptReportRow() {
+                return ((procRptReportRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new procRptPORow(builder);
+                return new procRptReportRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(procRptPORow);
+                return typeof(procRptReportRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.procRptPORowChanged != null)) {
-                    this.procRptPORowChanged(this, new procRptPORowChangeEvent(((procRptPORow)(e.Row)), e.Action));
+                if ((this.procRptReportRowChanged != null)) {
+                    this.procRptReportRowChanged(this, new procRptReportRowChangeEvent(((procRptReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1275,8 +1304,8 @@ namespace POApproval {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.procRptPORowChanging != null)) {
-                    this.procRptPORowChanging(this, new procRptPORowChangeEvent(((procRptPORow)(e.Row)), e.Action));
+                if ((this.procRptReportRowChanging != null)) {
+                    this.procRptReportRowChanging(this, new procRptReportRowChangeEvent(((procRptReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1284,8 +1313,8 @@ namespace POApproval {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.procRptPORowDeleted != null)) {
-                    this.procRptPORowDeleted(this, new procRptPORowChangeEvent(((procRptPORow)(e.Row)), e.Action));
+                if ((this.procRptReportRowDeleted != null)) {
+                    this.procRptReportRowDeleted(this, new procRptReportRowChangeEvent(((procRptReportRow)(e.Row)), e.Action));
                 }
             }
             
@@ -1293,14 +1322,14 @@ namespace POApproval {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.procRptPORowDeleting != null)) {
-                    this.procRptPORowDeleting(this, new procRptPORowChangeEvent(((procRptPORow)(e.Row)), e.Action));
+                if ((this.procRptReportRowDeleting != null)) {
+                    this.procRptReportRowDeleting(this, new procRptReportRowChangeEvent(((procRptReportRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoveprocRptPORow(procRptPORow row) {
+            public void RemoveprocRptReportRow(procRptReportRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -1327,7 +1356,7 @@ namespace POApproval {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "procRptPODataTable";
+                attribute2.FixedValue = "procRptReportDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -1629,15 +1658,15 @@ namespace POApproval {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class procRptPORow : global::System.Data.DataRow {
+        public partial class procRptReportRow : global::System.Data.DataRow {
             
-            private procRptPODataTable tableprocRptPO;
+            private procRptReportDataTable tableprocRptReport;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal procRptPORow(global::System.Data.DataRowBuilder rb) : 
+            internal procRptReportRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableprocRptPO = ((procRptPODataTable)(this.Table));
+                this.tableprocRptReport = ((procRptReportDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1645,14 +1674,14 @@ namespace POApproval {
             public System.DateTime CurrentDate {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableprocRptPO.CurrentDateColumn]));
+                        return ((global::System.DateTime)(this[this.tableprocRptReport.CurrentDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentDate\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentDate\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.CurrentDateColumn] = value;
+                    this[this.tableprocRptReport.CurrentDateColumn] = value;
                 }
             }
             
@@ -1661,14 +1690,25 @@ namespace POApproval {
             public string CurrentTime {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.CurrentTimeColumn]));
+                        return ((string)(this[this.tableprocRptReport.CurrentTimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentTime\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentTime\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.CurrentTimeColumn] = value;
+                    this[this.tableprocRptReport.CurrentTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int intPOCode {
+                get {
+                    return ((int)(this[this.tableprocRptReport.intPOCodeColumn]));
+                }
+                set {
+                    this[this.tableprocRptReport.intPOCodeColumn] = value;
                 }
             }
             
@@ -1677,14 +1717,14 @@ namespace POApproval {
             public string strPOStatus {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.strPOStatusColumn]));
+                        return ((string)(this[this.tableprocRptReport.strPOStatusColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'strPOStatus\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'strPOStatus\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.strPOStatusColumn] = value;
+                    this[this.tableprocRptReport.strPOStatusColumn] = value;
                 }
             }
             
@@ -1693,14 +1733,14 @@ namespace POApproval {
             public long PO_Number {
                 get {
                     try {
-                        return ((long)(this[this.tableprocRptPO.PO_NumberColumn]));
+                        return ((long)(this[this.tableprocRptReport.PO_NumberColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PO_Number\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PO_Number\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.PO_NumberColumn] = value;
+                    this[this.tableprocRptReport.PO_NumberColumn] = value;
                 }
             }
             
@@ -1709,14 +1749,14 @@ namespace POApproval {
             public string Shipto {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.ShiptoColumn]));
+                        return ((string)(this[this.tableprocRptReport.ShiptoColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Shipto\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Shipto\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.ShiptoColumn] = value;
+                    this[this.tableprocRptReport.ShiptoColumn] = value;
                 }
             }
             
@@ -1725,14 +1765,14 @@ namespace POApproval {
             public string Supplier_Code {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Supplier_CodeColumn]));
+                        return ((string)(this[this.tableprocRptReport.Supplier_CodeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Supplier_Code\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Supplier_Code\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Supplier_CodeColumn] = value;
+                    this[this.tableprocRptReport.Supplier_CodeColumn] = value;
                 }
             }
             
@@ -1741,14 +1781,14 @@ namespace POApproval {
             public string Supplier_Name {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Supplier_NameColumn]));
+                        return ((string)(this[this.tableprocRptReport.Supplier_NameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Supplier_Name\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Supplier_Name\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Supplier_NameColumn] = value;
+                    this[this.tableprocRptReport.Supplier_NameColumn] = value;
                 }
             }
             
@@ -1757,14 +1797,14 @@ namespace POApproval {
             public string Store_Address {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Store_AddressColumn]));
+                        return ((string)(this[this.tableprocRptReport.Store_AddressColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Store_Address\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Store_Address\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Store_AddressColumn] = value;
+                    this[this.tableprocRptReport.Store_AddressColumn] = value;
                 }
             }
             
@@ -1773,14 +1813,14 @@ namespace POApproval {
             public System.DateTime Creation_Date {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableprocRptPO.Creation_DateColumn]));
+                        return ((global::System.DateTime)(this[this.tableprocRptReport.Creation_DateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Creation_Date\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Creation_Date\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Creation_DateColumn] = value;
+                    this[this.tableprocRptReport.Creation_DateColumn] = value;
                 }
             }
             
@@ -1789,14 +1829,14 @@ namespace POApproval {
             public string FOB {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.FOBColumn]));
+                        return ((string)(this[this.tableprocRptReport.FOBColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'FOB\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'FOB\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.FOBColumn] = value;
+                    this[this.tableprocRptReport.FOBColumn] = value;
                 }
             }
             
@@ -1805,14 +1845,14 @@ namespace POApproval {
             public string Buyer {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.BuyerColumn]));
+                        return ((string)(this[this.tableprocRptReport.BuyerColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Buyer\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Buyer\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.BuyerColumn] = value;
+                    this[this.tableprocRptReport.BuyerColumn] = value;
                 }
             }
             
@@ -1821,14 +1861,14 @@ namespace POApproval {
             public System.DateTime Delivery_Date {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableprocRptPO.Delivery_DateColumn]));
+                        return ((global::System.DateTime)(this[this.tableprocRptReport.Delivery_DateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Delivery_Date\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Delivery_Date\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Delivery_DateColumn] = value;
+                    this[this.tableprocRptReport.Delivery_DateColumn] = value;
                 }
             }
             
@@ -1837,14 +1877,14 @@ namespace POApproval {
             public System.DateTime Valid_Date {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableprocRptPO.Valid_DateColumn]));
+                        return ((global::System.DateTime)(this[this.tableprocRptReport.Valid_DateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Valid_Date\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Valid_Date\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Valid_DateColumn] = value;
+                    this[this.tableprocRptReport.Valid_DateColumn] = value;
                 }
             }
             
@@ -1853,14 +1893,14 @@ namespace POApproval {
             public string Shipment_Terms {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Shipment_TermsColumn]));
+                        return ((string)(this[this.tableprocRptReport.Shipment_TermsColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Shipment_Terms\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Shipment_Terms\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Shipment_TermsColumn] = value;
+                    this[this.tableprocRptReport.Shipment_TermsColumn] = value;
                 }
             }
             
@@ -1869,14 +1909,14 @@ namespace POApproval {
             public string Payment_Term {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Payment_TermColumn]));
+                        return ((string)(this[this.tableprocRptReport.Payment_TermColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Payment_Term\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Payment_Term\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Payment_TermColumn] = value;
+                    this[this.tableprocRptReport.Payment_TermColumn] = value;
                 }
             }
             
@@ -1885,14 +1925,14 @@ namespace POApproval {
             public string strRejectReason {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.strRejectReasonColumn]));
+                        return ((string)(this[this.tableprocRptReport.strRejectReasonColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'strRejectReason\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'strRejectReason\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.strRejectReasonColumn] = value;
+                    this[this.tableprocRptReport.strRejectReasonColumn] = value;
                 }
             }
             
@@ -1901,14 +1941,14 @@ namespace POApproval {
             public string Contact_Person {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.Contact_PersonColumn]));
+                        return ((string)(this[this.tableprocRptReport.Contact_PersonColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Contact_Person\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Contact_Person\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Contact_PersonColumn] = value;
+                    this[this.tableprocRptReport.Contact_PersonColumn] = value;
                 }
             }
             
@@ -1917,14 +1957,14 @@ namespace POApproval {
             public string vendor_item_no {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.vendor_item_noColumn]));
+                        return ((string)(this[this.tableprocRptReport.vendor_item_noColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'vendor_item_no\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'vendor_item_no\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.vendor_item_noColumn] = value;
+                    this[this.tableprocRptReport.vendor_item_noColumn] = value;
                 }
             }
             
@@ -1933,14 +1973,14 @@ namespace POApproval {
             public string product_code {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.product_codeColumn]));
+                        return ((string)(this[this.tableprocRptReport.product_codeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'product_code\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'product_code\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.product_codeColumn] = value;
+                    this[this.tableprocRptReport.product_codeColumn] = value;
                 }
             }
             
@@ -1949,14 +1989,14 @@ namespace POApproval {
             public string Description {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.DescriptionColumn]));
+                        return ((string)(this[this.tableprocRptReport.DescriptionColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.DescriptionColumn] = value;
+                    this[this.tableprocRptReport.DescriptionColumn] = value;
                 }
             }
             
@@ -1965,14 +2005,14 @@ namespace POApproval {
             public int Qty {
                 get {
                     try {
-                        return ((int)(this[this.tableprocRptPO.QtyColumn]));
+                        return ((int)(this[this.tableprocRptReport.QtyColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Qty\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Qty\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.QtyColumn] = value;
+                    this[this.tableprocRptReport.QtyColumn] = value;
                 }
             }
             
@@ -1981,14 +2021,14 @@ namespace POApproval {
             public decimal Sugg_Price {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.Sugg_PriceColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.Sugg_PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Sugg_Price\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Sugg_Price\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Sugg_PriceColumn] = value;
+                    this[this.tableprocRptReport.Sugg_PriceColumn] = value;
                 }
             }
             
@@ -1997,14 +2037,14 @@ namespace POApproval {
             public decimal Unit_Price {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.Unit_PriceColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.Unit_PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Unit_Price\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Unit_Price\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Unit_PriceColumn] = value;
+                    this[this.tableprocRptReport.Unit_PriceColumn] = value;
                 }
             }
             
@@ -2013,14 +2053,14 @@ namespace POApproval {
             public decimal Foreign_Unit_Price {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.Foreign_Unit_PriceColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.Foreign_Unit_PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Foreign_Unit_Price\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Foreign_Unit_Price\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Foreign_Unit_PriceColumn] = value;
+                    this[this.tableprocRptReport.Foreign_Unit_PriceColumn] = value;
                 }
             }
             
@@ -2029,14 +2069,14 @@ namespace POApproval {
             public decimal Disc {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.DiscColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.DiscColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Disc\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Disc\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.DiscColumn] = value;
+                    this[this.tableprocRptReport.DiscColumn] = value;
                 }
             }
             
@@ -2045,14 +2085,14 @@ namespace POApproval {
             public decimal Amount {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.AmountColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.AmountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Amount\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Amount\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.AmountColumn] = value;
+                    this[this.tableprocRptReport.AmountColumn] = value;
                 }
             }
             
@@ -2061,14 +2101,14 @@ namespace POApproval {
             public decimal Foreign_Amount {
                 get {
                     try {
-                        return ((decimal)(this[this.tableprocRptPO.Foreign_AmountColumn]));
+                        return ((decimal)(this[this.tableprocRptReport.Foreign_AmountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Foreign_Amount\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Foreign_Amount\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.Foreign_AmountColumn] = value;
+                    this[this.tableprocRptReport.Foreign_AmountColumn] = value;
                 }
             }
             
@@ -2077,351 +2117,351 @@ namespace POApproval {
             public string strUser {
                 get {
                     try {
-                        return ((string)(this[this.tableprocRptPO.strUserColumn]));
+                        return ((string)(this[this.tableprocRptReport.strUserColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'strUser\' in table \'procRptPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'strUser\' in table \'procRptReport\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableprocRptPO.strUserColumn] = value;
+                    this[this.tableprocRptReport.strUserColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsCurrentDateNull() {
-                return this.IsNull(this.tableprocRptPO.CurrentDateColumn);
+                return this.IsNull(this.tableprocRptReport.CurrentDateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetCurrentDateNull() {
-                this[this.tableprocRptPO.CurrentDateColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.CurrentDateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsCurrentTimeNull() {
-                return this.IsNull(this.tableprocRptPO.CurrentTimeColumn);
+                return this.IsNull(this.tableprocRptReport.CurrentTimeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetCurrentTimeNull() {
-                this[this.tableprocRptPO.CurrentTimeColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.CurrentTimeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsstrPOStatusNull() {
-                return this.IsNull(this.tableprocRptPO.strPOStatusColumn);
+                return this.IsNull(this.tableprocRptReport.strPOStatusColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetstrPOStatusNull() {
-                this[this.tableprocRptPO.strPOStatusColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.strPOStatusColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsPO_NumberNull() {
-                return this.IsNull(this.tableprocRptPO.PO_NumberColumn);
+                return this.IsNull(this.tableprocRptReport.PO_NumberColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetPO_NumberNull() {
-                this[this.tableprocRptPO.PO_NumberColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.PO_NumberColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsShiptoNull() {
-                return this.IsNull(this.tableprocRptPO.ShiptoColumn);
+                return this.IsNull(this.tableprocRptReport.ShiptoColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetShiptoNull() {
-                this[this.tableprocRptPO.ShiptoColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.ShiptoColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsSupplier_CodeNull() {
-                return this.IsNull(this.tableprocRptPO.Supplier_CodeColumn);
+                return this.IsNull(this.tableprocRptReport.Supplier_CodeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSupplier_CodeNull() {
-                this[this.tableprocRptPO.Supplier_CodeColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Supplier_CodeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsSupplier_NameNull() {
-                return this.IsNull(this.tableprocRptPO.Supplier_NameColumn);
+                return this.IsNull(this.tableprocRptReport.Supplier_NameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSupplier_NameNull() {
-                this[this.tableprocRptPO.Supplier_NameColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Supplier_NameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsStore_AddressNull() {
-                return this.IsNull(this.tableprocRptPO.Store_AddressColumn);
+                return this.IsNull(this.tableprocRptReport.Store_AddressColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetStore_AddressNull() {
-                this[this.tableprocRptPO.Store_AddressColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Store_AddressColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsCreation_DateNull() {
-                return this.IsNull(this.tableprocRptPO.Creation_DateColumn);
+                return this.IsNull(this.tableprocRptReport.Creation_DateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetCreation_DateNull() {
-                this[this.tableprocRptPO.Creation_DateColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Creation_DateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsFOBNull() {
-                return this.IsNull(this.tableprocRptPO.FOBColumn);
+                return this.IsNull(this.tableprocRptReport.FOBColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetFOBNull() {
-                this[this.tableprocRptPO.FOBColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.FOBColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsBuyerNull() {
-                return this.IsNull(this.tableprocRptPO.BuyerColumn);
+                return this.IsNull(this.tableprocRptReport.BuyerColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetBuyerNull() {
-                this[this.tableprocRptPO.BuyerColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.BuyerColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsDelivery_DateNull() {
-                return this.IsNull(this.tableprocRptPO.Delivery_DateColumn);
+                return this.IsNull(this.tableprocRptReport.Delivery_DateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDelivery_DateNull() {
-                this[this.tableprocRptPO.Delivery_DateColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Delivery_DateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsValid_DateNull() {
-                return this.IsNull(this.tableprocRptPO.Valid_DateColumn);
+                return this.IsNull(this.tableprocRptReport.Valid_DateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetValid_DateNull() {
-                this[this.tableprocRptPO.Valid_DateColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Valid_DateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsShipment_TermsNull() {
-                return this.IsNull(this.tableprocRptPO.Shipment_TermsColumn);
+                return this.IsNull(this.tableprocRptReport.Shipment_TermsColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetShipment_TermsNull() {
-                this[this.tableprocRptPO.Shipment_TermsColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Shipment_TermsColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsPayment_TermNull() {
-                return this.IsNull(this.tableprocRptPO.Payment_TermColumn);
+                return this.IsNull(this.tableprocRptReport.Payment_TermColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetPayment_TermNull() {
-                this[this.tableprocRptPO.Payment_TermColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Payment_TermColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsstrRejectReasonNull() {
-                return this.IsNull(this.tableprocRptPO.strRejectReasonColumn);
+                return this.IsNull(this.tableprocRptReport.strRejectReasonColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetstrRejectReasonNull() {
-                this[this.tableprocRptPO.strRejectReasonColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.strRejectReasonColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsContact_PersonNull() {
-                return this.IsNull(this.tableprocRptPO.Contact_PersonColumn);
+                return this.IsNull(this.tableprocRptReport.Contact_PersonColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetContact_PersonNull() {
-                this[this.tableprocRptPO.Contact_PersonColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Contact_PersonColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool Isvendor_item_noNull() {
-                return this.IsNull(this.tableprocRptPO.vendor_item_noColumn);
+                return this.IsNull(this.tableprocRptReport.vendor_item_noColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void Setvendor_item_noNull() {
-                this[this.tableprocRptPO.vendor_item_noColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.vendor_item_noColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool Isproduct_codeNull() {
-                return this.IsNull(this.tableprocRptPO.product_codeColumn);
+                return this.IsNull(this.tableprocRptReport.product_codeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void Setproduct_codeNull() {
-                this[this.tableprocRptPO.product_codeColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.product_codeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsDescriptionNull() {
-                return this.IsNull(this.tableprocRptPO.DescriptionColumn);
+                return this.IsNull(this.tableprocRptReport.DescriptionColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDescriptionNull() {
-                this[this.tableprocRptPO.DescriptionColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.DescriptionColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsQtyNull() {
-                return this.IsNull(this.tableprocRptPO.QtyColumn);
+                return this.IsNull(this.tableprocRptReport.QtyColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetQtyNull() {
-                this[this.tableprocRptPO.QtyColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.QtyColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsSugg_PriceNull() {
-                return this.IsNull(this.tableprocRptPO.Sugg_PriceColumn);
+                return this.IsNull(this.tableprocRptReport.Sugg_PriceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSugg_PriceNull() {
-                this[this.tableprocRptPO.Sugg_PriceColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Sugg_PriceColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsUnit_PriceNull() {
-                return this.IsNull(this.tableprocRptPO.Unit_PriceColumn);
+                return this.IsNull(this.tableprocRptReport.Unit_PriceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetUnit_PriceNull() {
-                this[this.tableprocRptPO.Unit_PriceColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Unit_PriceColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsForeign_Unit_PriceNull() {
-                return this.IsNull(this.tableprocRptPO.Foreign_Unit_PriceColumn);
+                return this.IsNull(this.tableprocRptReport.Foreign_Unit_PriceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetForeign_Unit_PriceNull() {
-                this[this.tableprocRptPO.Foreign_Unit_PriceColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Foreign_Unit_PriceColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsDiscNull() {
-                return this.IsNull(this.tableprocRptPO.DiscColumn);
+                return this.IsNull(this.tableprocRptReport.DiscColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDiscNull() {
-                this[this.tableprocRptPO.DiscColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.DiscColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsAmountNull() {
-                return this.IsNull(this.tableprocRptPO.AmountColumn);
+                return this.IsNull(this.tableprocRptReport.AmountColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetAmountNull() {
-                this[this.tableprocRptPO.AmountColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.AmountColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsForeign_AmountNull() {
-                return this.IsNull(this.tableprocRptPO.Foreign_AmountColumn);
+                return this.IsNull(this.tableprocRptReport.Foreign_AmountColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetForeign_AmountNull() {
-                this[this.tableprocRptPO.Foreign_AmountColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.Foreign_AmountColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsstrUserNull() {
-                return this.IsNull(this.tableprocRptPO.strUserColumn);
+                return this.IsNull(this.tableprocRptReport.strUserColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetstrUserNull() {
-                this[this.tableprocRptPO.strUserColumn] = global::System.Convert.DBNull;
+                this[this.tableprocRptReport.strUserColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2463,22 +2503,22 @@ namespace POApproval {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class procRptPORowChangeEvent : global::System.EventArgs {
+        public class procRptReportRowChangeEvent : global::System.EventArgs {
             
-            private procRptPORow eventRow;
+            private procRptReportRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPORowChangeEvent(procRptPORow row, global::System.Data.DataRowAction action) {
+            public procRptReportRowChangeEvent(procRptReportRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public procRptPORow Row {
+            public procRptReportRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -2695,7 +2735,7 @@ namespace POApproval.DataSet1TableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class procRptPOTableAdapter : global::System.ComponentModel.Component {
+    public partial class procRptReportTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -2709,7 +2749,7 @@ namespace POApproval.DataSet1TableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public procRptPOTableAdapter() {
+        public procRptReportTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -2806,9 +2846,10 @@ namespace POApproval.DataSet1TableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "procRptPO";
+            tableMapping.DataSetTable = "procRptReport";
             tableMapping.ColumnMappings.Add("CurrentDate", "CurrentDate");
             tableMapping.ColumnMappings.Add("CurrentTime", "CurrentTime");
+            tableMapping.ColumnMappings.Add("intPOCode", "intPOCode");
             tableMapping.ColumnMappings.Add("strPOStatus", "strPOStatus");
             tableMapping.ColumnMappings.Add("PO_Number", "PO_Number");
             tableMapping.ColumnMappings.Add("Shipto", "Shipto");
@@ -2851,31 +2892,46 @@ namespace POApproval.DataSet1TableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "dbo.procRptPO";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@intPOCode", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@strUser", global::System.Data.SqlDbType.VarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].CommandText = @"SELECT convert(date, getdate()) as CurrentDate, 
+	   CONVERT(varchar(8), convert(time, getdate())) as CurrentTime,
+	   tblPO.intPOCode,
+	   tblPO.strPOStatus,
+	   tblPO.PO_Number,
+	   tblPO.Ship_Store Shipto,
+	   tblPO.Supplier_Code,
+	   tblPO.Supplier_Name,
+	   tblPO.Store_Address,
+	   tblPO.Creation_Date,
+	   tblPO.FOB,
+	   tblPO.Buyer,
+	   tblPO.Delivery_Date,
+	   tblPO.Valid_Date,
+	   tblPO.Shipment_Terms,
+	   tblPO.Payment_Term,
+	   tblPO.strRejectReason,
+	   tblPO.Contact_Person,
+	   tblPODetail.vendor_item_no,
+	   tblPODetail.product_code,
+	   tblPODetail.Description,
+	   tblPODetail.Qty,
+	   tblPODetail.Sugg_Price,
+	   tblPODetail.Unit_Price,
+	   tblPODetail.Foreign_Unit_Price,
+	   tblPODetail.[Dis%] Disc,
+	   tblPODetail.Amount,
+	   tblPODetail.Foreign_Amount,
+	   tblPO.username strUser 
+ FROM tblPO
+INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.procRptPODataTable dataTable, global::System.Nullable<int> intPOCode, string strUser) {
+        public virtual int Fill(DataSet1.procRptReportDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((intPOCode.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((int)(intPOCode.Value));
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            if ((strUser == null)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(strUser));
-            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -2887,21 +2943,9 @@ namespace POApproval.DataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.procRptPODataTable GetData(global::System.Nullable<int> intPOCode, string strUser) {
+        public virtual DataSet1.procRptReportDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((intPOCode.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((int)(intPOCode.Value));
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            if ((strUser == null)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(strUser));
-            }
-            DataSet1.procRptPODataTable dataTable = new DataSet1.procRptPODataTable();
+            DataSet1.procRptReportDataTable dataTable = new DataSet1.procRptReportDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }

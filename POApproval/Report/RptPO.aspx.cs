@@ -12,6 +12,7 @@ namespace POApproval.Report
     public partial class RptPO : System.Web.UI.Page
     {
         public int intPOCode;
+        PODB PODB = new PODB();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -31,7 +32,7 @@ namespace POApproval.Report
                 using (var _context = new dbSASAApprovalEntities())
                 {
                     //intPOCode = Convert.ToInt32(searchText);
-                    var summary = _context.procRptPO(searchText, strUser).ToString();
+                    var summary = PODB.GetPOReport(searchText).ToList();
       
                     CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPO.rdlc");
                     CustomerListReportViewer.LocalReport.DataSources.Clear();

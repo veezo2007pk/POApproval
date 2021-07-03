@@ -112,10 +112,11 @@ namespace POApproval.Controllers
                                                 myCodes += ", "; // Add a comma if data already exists
                                             }
 
-                                            myCodes += item.intPOCode.ToString() ;
+                                           
+                                    myCodes += "'" + item.intPOCode.ToString() + "'";
 
 
-                                   
+
 
 
 
@@ -130,7 +131,7 @@ namespace POApproval.Controllers
 
                         }
                     }
-                    ViewBag.intPOCode = "'" + myCodes + "'";
+                    ViewBag.intPOCode = myCodes;
                     return View("PORpt");
 
 

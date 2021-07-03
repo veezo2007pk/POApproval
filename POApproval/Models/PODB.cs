@@ -46,7 +46,7 @@ namespace POApproval.Models
                 {
                     if (strPOStatus != null && PONumber == null)
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode, tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approve' WHEN tblPO.strPOStatus = 'Approve' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus = 'Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN[BI_Staging].[dbo].system_user_login tblBuyer ON tblBuyer.fullname = tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.usercode INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.usercode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode ="+intUserCode+" AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount AND tblPO.Amount <= tblManageApproval.numToApprovalAmount and  strPOStatus in (" + strPOStatus + ") and YEAR(Creation_Date)='2021'", con);
+                        com = new SqlCommand("SELECT tblPO.intPOCode, tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approve' WHEN tblPO.strPOStatus = 'Approve' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus = 'Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN[BI_Staging].[dbo].system_user_login tblBuyer ON tblBuyer.fullname = tblPO.Buyer INNER JOIN tblBuyerDetail ON tblBuyerDetail.intBuyerCode = tblBuyer.usercode INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblBuyerDetail.intUserCode INNER JOIN tblManageApproval ON tblManageApproval.intUserCode = tblUser.usercode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode  WHERE tblManageApproval.intUserCode =" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount AND tblPO.Amount <= tblManageApproval.numToApprovalAmount and  strPOStatus in (" + strPOStatus + ") and YEAR(Creation_Date)='2021'", con);
                     }
                     else if (PONumber != null && strPOStatus == null)
                     {
@@ -81,13 +81,362 @@ namespace POApproval.Models
                     details.Qty = Convert.ToInt32(rdr["Qty"].ToString());
                     details.NextPOStatus = rdr["NextPOStatus"].ToString();
                     details.Amount = Convert.ToDecimal(rdr["Amount"].ToString());
-                    details.ApprovalLevel =rdr["ApprovalLevel"].ToString();
+                    details.ApprovalLevel = rdr["ApprovalLevel"].ToString();
                     lst.Add(details);
                 }
                 return lst;
             }
         }
-        public List<string> POReport(string strPOStatus, long PO_Number)
+        public List<procRptPO_Result> GetPOReport(string intPOCode)
+        {
+            List<procRptPO_Result> lst = new List<procRptPO_Result>();
+           procRptPO_Result rptPO = new procRptPO_Result();
+            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+            {
+                con.Open();
+                SqlCommand com = new SqlCommand("procRptPO", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@intPOCode", intPOCode);
+                com.Parameters.Add("@strUser", "dww");
+                SqlDataReader rdr = com.ExecuteReader();
+                while (rdr.Read())
+                {
+                    
+                    if (rdr["intPOCode"] == DBNull.Value)
+                    {
+                        rptPO.intPOCode =0;
+                    }
+
+                    else
+                    {
+                        rptPO.intPOCode = Convert.ToInt32(rdr["intPOCode"]);
+                    }
+
+                    if (rdr["CurrentDate"] == DBNull.Value)
+                    {
+                        rptPO.CurrentDate = null;
+                    }
+
+                    else
+                    {
+                        rptPO.CurrentDate = Convert.ToDateTime(rdr["CurrentDate"]);
+                    }
+
+                    if (rdr["CurrentTime"] == DBNull.Value)
+                    {
+                        rptPO.CurrentTime = null;
+                    }
+
+                    else
+                    {
+                        rptPO.CurrentTime = rdr["CurrentTime"].ToString();
+                    }
+
+                    if (rdr["strPOStatus"] == DBNull.Value)
+                    {
+                        rptPO.strPOStatus = null;
+                    }
+
+                    else
+                    {
+                        rptPO.strPOStatus = rdr["strPOStatus"].ToString();
+                    }
+
+                    if (rdr["PO_Number"] == DBNull.Value)
+                    {
+                        rptPO.PO_Number = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.PO_Number = Convert.ToInt64(rdr["PO_Number"]);
+                    }
+
+                    if (rdr["Shipto"] == DBNull.Value)
+                    {
+                        rptPO.Shipto = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Shipto = rdr["Shipto"].ToString();
+                    }
+
+                    if (rdr["Supplier_Code"] == DBNull.Value)
+                    {
+                        rptPO.Supplier_Code = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Supplier_Code = rdr["Supplier_Code"].ToString();
+                    }
+
+                    if (rdr["Supplier_Name"] == DBNull.Value)
+                    {
+                        rptPO.Supplier_Name = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Supplier_Name =rdr["Supplier_Name"].ToString();
+                    }
+
+                    if (rdr["Store_Address"] == DBNull.Value)
+                    {
+                        rptPO.Store_Address = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Store_Address = rdr["Store_Address"].ToString();
+                    }
+
+                    if (rdr["Creation_Date"] == DBNull.Value)
+                    {
+                        rptPO.Creation_Date = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Creation_Date = Convert.ToDateTime(rdr["Creation_Date"]);
+                    }
+
+                    if (rdr["FOB"] == DBNull.Value)
+                    {
+                        rptPO.FOB = null;
+                    }
+
+                    else
+                    {
+                        rptPO.FOB = rdr["FOB"].ToString();
+                    }
+
+                    if (rdr["Buyer"] == DBNull.Value)
+                    {
+                        rptPO.Buyer =null;
+                    }
+
+                    else
+                    {
+                        rptPO.Buyer = rdr["Buyer"].ToString();
+                    }
+
+                    if (rdr["Delivery_Date"] == DBNull.Value)
+                    {
+                        rptPO.Delivery_Date = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Delivery_Date = Convert.ToDateTime(rdr["Delivery_Date"]);
+                    }
+
+                    if (rdr["Valid_Date"] == DBNull.Value)
+                    {
+                        rptPO.Valid_Date = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Valid_Date = Convert.ToDateTime(rdr["Valid_Date"]);
+                    }
+
+                    if (rdr["Shipment_Terms"] == DBNull.Value)
+                    {
+                        rptPO.Shipment_Terms = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Shipment_Terms = rdr["Shipment_Terms"].ToString();
+                    }
+
+                    if (rdr["Payment_Term"] == DBNull.Value)
+                    {
+                        rptPO.Payment_Term = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Payment_Term = rdr["Payment_Term"].ToString();
+                    }
+
+                    if (rdr["strRejectReason"] == DBNull.Value)
+                    {
+                        rptPO.strRejectReason =null;
+                    }
+
+                    else
+                    {
+                        rptPO.strRejectReason = rdr["strRejectReason"].ToString();
+                    }
+
+                    if (rdr["Contact_Person"] == DBNull.Value)
+                    {
+                        rptPO.Contact_Person = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Contact_Person = rdr["Contact_Person"].ToString();
+                    }
+
+                    if (rdr["vendor_item_no"] == DBNull.Value)
+                    {
+                        rptPO.vendor_item_no = null;
+                    }
+
+                    else
+                    {
+                        rptPO.vendor_item_no = rdr["vendor_item_no"].ToString();
+                    }
+
+                    if (rdr["product_code"] == DBNull.Value)
+                    {
+                        rptPO.product_code = null;
+                    }
+
+                    else
+                    {
+                        rptPO.product_code = rdr["product_code"].ToString();
+                    }
+
+                    if (rdr["Description"] == DBNull.Value)
+                    {
+                        rptPO.Description = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Description = rdr["Description"].ToString();
+                    }
+
+                    if (rdr["Qty"] == DBNull.Value)
+                    {
+                        rptPO.Qty = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Qty = Convert.ToInt32(rdr["Qty"]);
+                    }
+
+                    if (rdr["Sugg_Price"] == DBNull.Value)
+                    {
+                        rptPO.Sugg_Price = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Sugg_Price = Convert.ToDecimal(rdr["Sugg_Price"]);
+                    }
+
+                    if (rdr["Unit_Price"] == DBNull.Value)
+                    {
+                        rptPO.Unit_Price = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Unit_Price = Convert.ToDecimal(rdr["Unit_Price"]);
+                    }
+
+                    if (rdr["Foreign_Unit_Price"] == DBNull.Value)
+                    {
+                        rptPO.Foreign_Unit_Price = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Foreign_Unit_Price = Convert.ToDecimal(rdr["Foreign_Unit_Price"]);
+                    }
+
+                    if (rdr["Disc"] == DBNull.Value)
+                    {
+                        rptPO.Disc = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Disc = Convert.ToDecimal(rdr["Disc"]);
+                    }
+
+                    if (rdr["Amount"] == DBNull.Value)
+                    {
+                        rptPO.Amount = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Amount = Convert.ToDecimal(rdr["Amount"]);
+                    }
+
+                    if (rdr["Foreign_Amount"] == DBNull.Value)
+                    {
+                        rptPO.Foreign_Amount = 0;
+                    }
+
+                    else
+                    {
+                        rptPO.Foreign_Amount = Convert.ToDecimal(rdr["Foreign_Amount"]);
+                    }
+
+
+                    if (rdr["strUser"] == DBNull.Value)
+                    {
+                        rptPO.strUser = null;
+                    }
+
+                    else
+                    {
+                        rptPO.strUser = rdr["strUser"].ToString();
+                    }
+
+                    lst.Add(new procRptPO_Result
+                    {
+                        Supplier_Name = rptPO.Supplier_Name,
+                        strPOStatus = rptPO.strPOStatus,
+                        Supplier_Code = rptPO.Supplier_Code,
+                        Buyer = rptPO.Buyer,
+                        Creation_Date = rptPO.Creation_Date,
+
+                        PO_Number = rptPO.PO_Number,
+                        strRejectReason = rptPO.strRejectReason,
+                        strUser = rptPO.strUser,
+                        Delivery_Date = rptPO.Delivery_Date,
+                        Shipment_Terms = rptPO.Shipment_Terms,
+                        Shipto = rptPO.Shipto,
+                        Store_Address = rptPO.Store_Address,
+                        Sugg_Price = rptPO.Sugg_Price,
+                        Description = rptPO.Description,
+                        Amount = rptPO.Amount,
+                        Contact_Person = rptPO.Contact_Person,
+                        CurrentDate = rptPO.CurrentDate,
+                        CurrentTime = rptPO.CurrentTime,
+                        intPOCode = rptPO.intPOCode,
+                        Disc = rptPO.Disc,
+                        FOB = rptPO.FOB,
+                        Foreign_Amount = rptPO.Foreign_Amount,
+                        Valid_Date = rptPO.Valid_Date,
+                        Foreign_Unit_Price = rptPO.Foreign_Unit_Price,
+                        Payment_Term = rptPO.Payment_Term,
+                        product_code = rptPO.product_code,
+                        Qty = rptPO.Qty,
+                        Unit_Price = rptPO.Unit_Price,
+                        vendor_item_no = rptPO.vendor_item_no
+
+
+
+
+
+                    });
+                }
+                return lst;
+            }
+        }
+
+        public List<procSearchPO_Result> ListAll(string strPOStatus, long PO_Number)
         {
             List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
@@ -118,38 +467,6 @@ namespace POApproval.Models
                 return lst;
             }
         }
-
-        public List<procSearchPO_Result> ListAll(string strPOStatus, long PO_Number)
-        {
-            List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
-            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
-            {
-                con.Open();
-                SqlCommand com = new SqlCommand("procSearchPO", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.Add("@PO_Number", PO_Number);
-                com.Parameters.Add("@strPOStatus", strPOStatus);
-                SqlDataReader rdr = com.ExecuteReader();
-                while (rdr.Read())
-                {
-                    lst.Add(new procSearchPO_Result
-                    {
-                        Supplier_Name= rdr["Supplier_Name"].ToString(),
-                        strPOStatus= rdr["strPOStatus"].ToString(),
-                        Supplier_Code= rdr["Supplier_Code"].ToString(),
-                        Buyer= rdr["Buyer"].ToString(),
-                        Creation_Date=Convert.ToDateTime( rdr["Creation_Date"].ToString()),
-                        intPOCode=Convert.ToInt32( rdr["intPOCode"].ToString()),
-                        PO_Number= Convert.ToInt64(rdr["PO_Number"].ToString())
-
-                     
-
-
-                    });
-                }
-                return lst;
-            }
-        }
         public int Add(int ID, int userCode, string status, string strRejectReason)
         {
             int i;
@@ -159,14 +476,14 @@ namespace POApproval.Models
             //{
 
             con.Open();
-           // Tran = con.BeginTransaction();
-                try
-                {
-                    SqlCommand com = new SqlCommand("procInsertUpdatePOHistory", con);
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@intPOCode", ID);
-                    com.Parameters.AddWithValue("@strPOStatus", status);
-                    com.Parameters.AddWithValue("@intUserCode", userCode);
+            // Tran = con.BeginTransaction();
+            try
+            {
+                SqlCommand com = new SqlCommand("procInsertUpdatePOHistory", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@intPOCode", ID);
+                com.Parameters.AddWithValue("@strPOStatus", status);
+                com.Parameters.AddWithValue("@intUserCode", userCode);
                 if (strRejectReason != null)
                 {
                     com.Parameters.AddWithValue("@strRejectReason", strRejectReason);
@@ -176,15 +493,15 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@strRejectReason", DBNull.Value);
                 }
                 com.Parameters.AddWithValue("@Action", "Insert");
-                    i = com.ExecuteNonQuery();
-                   // Tran.Commit();
-                }
-                catch (Exception ex)
-                {
-                    //Tran.Rollback();
-                    throw ex;
-                }
-               
+                i = com.ExecuteNonQuery();
+                // Tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                //Tran.Rollback();
+                throw ex;
+            }
+
             //}
             return i;
         }

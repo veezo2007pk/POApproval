@@ -3035,7 +3035,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>c511233b-26ed-4eea-b513-d3fe4a930af3</rd:DataSourceID>
+      <rd:DataSourceID>67f825cc-3580-4868-9a63-2ac073982fbb</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -3052,6 +3052,10 @@
         <Field Name="CurrentTime">
           <DataField>CurrentTime</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="intPOCode">
+          <DataField>intPOCode</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="strPOStatus">
           <DataField>strPOStatus</DataField>
@@ -3161,10 +3165,10 @@
       <rd:DataSetInfo>
         <rd:DataSetName>DataSet1</rd:DataSetName>
         <rd:SchemaPath>E:\SASA\POApproval\POApproval\DataSet1.xsd</rd:SchemaPath>
-        <rd:TableName>procRptPO</rd:TableName>
+        <rd:TableName>procRptReport</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>procRptPOTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>procRptReportTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
