@@ -97,6 +97,10 @@
           
             allowClear: true
         });
+        $(".select-searchable").select2({
+
+            allowClear: true
+        });
        
         var spinner = $('#loader');
         $(function () {
@@ -108,7 +112,30 @@
             //});
         });
         $(function () {
+            $("#btnSubmitnormal").click(function () {
 
+
+
+                var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    spinner.hide();
+                    return false;
+                }
+
+                var r = confirm("Are you sure to update selected PO?");
+                if (r == true) {
+                    spinner.show();
+                    $("#btnSubmitnormal").hide();
+                    $("#btnRejectnormal").hide();
+                } else {
+                    spinner.hide();
+                    return false;
+
+                }
+                $('#strRejectReasonForListnormal').text("");
+                return true;
+            });
             $("#btnSubmit").click(function () {
                 
               
@@ -144,7 +171,7 @@
                     return false;
                 }
 
-                var r = confirm("Are you sure to open report for selected PO?");
+                var r = confirm("Are you sure to view po for selected PO?");
                 if (r == true) {
                     spinner.show();
                     $("#btnPrint").hide();
@@ -158,8 +185,47 @@
                 $('#strRejectReasonForList').text("");
                 return true;
             });
+            $("#btnPrintnormal").click(function () {
 
-          
+                $('#rejectstatus').val("report");
+
+                var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    spinner.hide();
+                    return false;
+                }
+
+                var r = confirm("Are you sure to view po for selected PO?");
+                if (r == true) {
+                    spinner.show();
+                    $("#btnPrintnormal").hide();
+                    $("#btnRejectnormal").hide();
+                    $("#btnSubmitnormal").hide();
+                } else {
+                    spinner.hide();
+                    return false;
+
+                }
+                $('#strRejectReasonForListnormal').text("");
+                return true;
+            });
+            $("#btnMainRejectnormal").click(function () {
+
+                var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+                if (checked_checkboxes.length == 0) {
+                    $(".error").show();
+                    return false;
+                }
+                else {
+                    //$('#exampleModal').modal('show');
+                    $('#exampleModalnormal').modal({ backdrop: 'static', keyboard: false, show: true })
+                    return false;
+                }
+
+                //return true;
+            });
+
             $("#btnMainReject").click(function () {
                
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
@@ -175,6 +241,35 @@
 
                 //return true;
             });
+            $("#btnRejectnormal").click(function () {
+                $('#rejectstatus').val("reject");
+
+                var strRejectReason = $('#strRejectReasonForListnormal').val();
+                //alert(strRejectReason);
+                if (strRejectReason == "") {
+
+                    $('#UserErrorMessagesnormal').text("This field is required");
+                    return false;
+                }
+
+                else {
+                    if (confirm('Are you sure to reject selected PO?')) {
+                        spinner.show();
+                        $("#btnMainRejectnormal").hide();
+
+                        $("#btnRejectnormal").hide();
+                        $("#btnSubmitnormal").hide();
+                        $('#exampleModalnormal').modal('hide');
+                    } else {
+                        spinner.hide();
+                        return false;
+
+                    }
+                }
+
+                return true;
+            });
+
             $("#btnReject").click(function () {
                 $('#rejectstatus').val("reject");
                 

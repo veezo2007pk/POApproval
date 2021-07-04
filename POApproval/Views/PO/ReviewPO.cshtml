@@ -295,6 +295,15 @@
         @*<button >View PO</button>*@
         @{
             decimal? amount = Model.tblPO.Amount;
+            string Approver = null;
+            string Reviewer1 = null;
+            string Reviewer2 = null;
+            string Reviewer3 = null;
+
+            string ApproverNext = null;
+            string Reviewer1Next = null;
+            string Reviewer2Next = null;
+            string Reviewer3Next = null;
         }
         @if (Session["SuperAdmin"].ToString() == "Y")
         {
@@ -321,28 +330,92 @@
         }
         else
         {
+
             foreach (var item in Model.tblManageApprovals)
             {
 
+                if (Model.tblPO.strPOStatus == "Pending")
+                {
+                    Reviewer1Next = "Reviewed 1";
+                }
+                else if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+                    Reviewer2Next = "Reviewed 2";
+                }
+                else if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+                    Reviewer3Next = "Reviewed 3";
+                }
+                else if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+                    ApproverNext = "Approved";
+                }
+
+
+
+                if (item.tblApprovalLevel.strApprovalLevelName == "Approver")
+                {
+                    Approver = "Approved";
+                }
+                else if (item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1")
+                {
+                    Reviewer1 = "Reviewed 1";
+                }
+                else if (item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2")
+                {
+                    Reviewer2 = "Reviewed 2";
+                }
+                else if (item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3")
+                {
+                    Reviewer2 = "Reviewed 3";
+                }
                 if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
                 {
-                    <button id="approve" class="btn btn-success">Approve</button>
-                    return;
+                    if (ApproverNext == Approver)
+                    {
+                        <button id="approve" class="btn btn-success">Approve</button>
+                        return;
+                    }
+                    else
+                    {
+                        <p style=" color:red; font-weight:bold">User cannot proceed to next status for this PO</p>
+                    }
                 }
                 if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
                 {
-                    <button id="Reviewer1" class="btn btn-success">Review</button>
-                    return;
+                    if (Reviewer1Next == Reviewer1)
+                    {
+                        <button id="Reviewer1" class="btn btn-success">Review</button>
+                        return;
+                    }
+                    else
+                    {
+                        <p style=" color:red; font-weight:bold">User cannot proceed to next status for this PO</p>
+                    }
                 }
                 if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
                 {
-                    <button id="Reviewer2" class="btn btn-success">Review</button>
-                    return;
+                    if (Reviewer2Next == Reviewer2)
+                    {
+                        <button id="Reviewer2" class="btn btn-success">Review</button>
+                        return;
+                    }
+                    else
+                    {
+                        <p style=" color:red; font-weight:bold">User cannot proceed to next status for this PO</p>
+                    }
                 }
                 if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
                 {
-                    <button id="Reviewer3" class="btn btn-success">Review</button>
-                    return;
+                    if (Reviewer3Next == Reviewer3)
+                    {
+                        <button id="Reviewer3" class="btn btn-success">Review</button>
+                        return;
+                    }
+                    else
+                    {
+                        <p style=" color:red; font-weight:bold">User cannot proceed to next status for this PO</p>
+                    }
                 }
 
             }

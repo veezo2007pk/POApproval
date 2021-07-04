@@ -76,7 +76,7 @@ namespace POApproval.Controllers
             else
             {
                 int userCode = Convert.ToInt32(Session["intUserCode"]);
-                 data = db.procSearchPO(userCode, null, "Pending").ToList();
+                 data = PODB.ListAll(userCode,null,0);
                 
             }
             return View(data);

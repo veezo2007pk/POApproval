@@ -41,6 +41,34 @@ textarea {
     position: relative;
     top: 46px;
 }
+#totalnormal {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 15px;
+    float: right;
+    background: #d9534f;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 46px;
+}
+
+#totalQtynormal {
+    margin-right: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 15px;
+    float: right;
+    background: #d9534f;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 46px;
+}
 .dataTables_wrapper .dataTables_filter input {
     border: 1px solid #aaa !important;
 }

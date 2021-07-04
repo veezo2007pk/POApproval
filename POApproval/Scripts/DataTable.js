@@ -86,15 +86,57 @@
     });
     $(document).ready(function () {
         $('#myTable').DataTable({
-
             "ordering": true,
             "searching": true,
-          
-            "pageLength": 50,
-            //drawCallback: function () {
-            //    var sum = $('#myTable').DataTable().column(11).data().sum();
-            //    $('#total').html(sum);
-            //}
+            "pagelength": 50000,
+            "paging": false,
+            columns: [
+                { data: "" },
+                { data: "PO Number" },
+                { data: "PO Status" },
+                { data: "Next" },
+                { data: "Next PO Status" },
+              /*  { data: "Approval Level" },*/
+                { data: "Supplier Code" },
+                { data: "Supplier Name" },
+                { data: "Date" },
+                { data: "Buyer" },
+               
+                { data: "Qty", className: "qty" },
+                { data: "Amount", className: "sum" },
+                { data: "Action" }
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api();
+
+                api.columns('.sum', { page: 'current' }).every(function () {
+                    var sum = this
+                        .data()
+                        .reduce(function (a, b) {
+                            var x = parseFloat(a) || 0;
+                            var y = parseFloat(b) || 0;
+                            return x + y;
+                        }, 0);
+                    console.log(sum); //alert(sum);
+                    //$(this.footer()).html(sum);
+                    $('#totalnormal span').html(sum.toFixed(2));
+                });
+
+                api.columns('.qty', { page: 'current' }).every(function () {
+                    var qty = this
+                        .data()
+                        .reduce(function (a, b) {
+                            var x = parseFloat(a) || 0;
+                            var y = parseFloat(b) || 0;
+                            return x + y;
+                        }, 0);
+                    $('#totalQtynormal span').html(qty);
+                    //console.log("totalsum"+sum);
+                    console.log(qty); //alert(sum);
+                    //$(this.footer()).html(sum);
+                    //$('#total span').html(sum);
+                });
+            }
         });
         //$('#mytablepo').DataTable({
 
@@ -130,13 +172,15 @@
         $('#myTablePO').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 50,
+            "pagelength": 50000,
+            "paging":false,
             columns: [
                 { data: "" },
                 { data: "PO Number" },
                 { data: "PO Status" },
                 { data: "Next" },
                 { data: "Next PO Status" },
+              
                 { data: "Supplier Code" },
                 { data: "Supplier Name" },
                 { data: "Date" },
@@ -158,7 +202,7 @@
                         }, 0);
                     console.log(sum); //alert(sum);
                     //$(this.footer()).html(sum);
-                    $('#total span').html(sum);
+                    $('#total span').html(sum.toFixed(2));
                 });
 
                 api.columns('.qty', { page: 'current' }).every(function () {

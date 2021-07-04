@@ -436,28 +436,146 @@ namespace POApproval.Models
             }
         }
 
-        public List<procSearchPO_Result> ListAll(string strPOStatus, long PO_Number)
+        public List<procSearchPO_Result> ListAll(int intUserCode,string strPOStatus, long PO_Number)
         {
             List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
+            procSearchPO_Result SearchPO = new procSearchPO_Result();
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
-                SqlCommand com = new SqlCommand("procSearchPO", con);
+                SqlCommand com = new SqlCommand("procSearchPOMainPage", con);
                 com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@intUserCode", intUserCode);
                 com.Parameters.Add("@PO_Number", PO_Number);
-                com.Parameters.Add("@strPOStatus", strPOStatus);
+                com.Parameters.Add("@strPOStatus", "sdsd");
                 SqlDataReader rdr = com.ExecuteReader();
                 while (rdr.Read())
                 {
+                    if (rdr["Supplier_Name"] == DBNull.Value)
+                    {
+                        SearchPO.Supplier_Name = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Supplier_Name = rdr["Supplier_Name"].ToString();
+                    }
+
+                    if (rdr["strPOStatus"] == DBNull.Value)
+                    {
+                        SearchPO.strPOStatus = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.strPOStatus = rdr["strPOStatus"].ToString();
+                    }
+
+                    if (rdr["Supplier_Code"] == DBNull.Value)
+                    {
+                        SearchPO.Supplier_Code = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Supplier_Code = rdr["Supplier_Code"].ToString();
+                    }
+
+                    if (rdr["Buyer"] == DBNull.Value)
+                    {
+                        SearchPO.Buyer = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Buyer = rdr["Buyer"].ToString();
+                    }
+
+                    if (rdr["Creation_Date"] == DBNull.Value)
+                    {
+                        SearchPO.Creation_Date = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Creation_Date =Convert.ToDateTime( rdr["Creation_Date"].ToString());
+                    }
+
+                    if (rdr["intPOCode"] == DBNull.Value)
+                    {
+                        SearchPO.intPOCode = 0;
+                    }
+
+                    else
+                    {
+                        SearchPO.intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString());
+                    }
+
+                    if (rdr["PO_Number"] == DBNull.Value)
+                    {
+                        SearchPO.PO_Number = 0;
+                    }
+
+                    else
+                    {
+                        SearchPO.PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString());
+                    }
+
+                    if (rdr["NextPOStatus"] == DBNull.Value)
+                    {
+                        SearchPO.NextPOStatus =null;
+                    }
+
+                    else
+                    {
+                        SearchPO.NextPOStatus = rdr["NextPOStatus"].ToString();
+                    }
+
+                    if (rdr["Amount"] == DBNull.Value)
+                    {
+                        SearchPO.Amount = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Amount = Convert.ToDecimal( rdr["Amount"].ToString());
+                    }
+
+
+                    if (rdr["Qty"] == DBNull.Value)
+                    {
+                        SearchPO.Qty = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.Qty = Convert.ToInt32(rdr["Qty"].ToString());
+                    }
+
+                    if (rdr["ApprovalLevel"] == DBNull.Value)
+                    {
+                        SearchPO.ApprovalLevel = null;
+                    }
+
+                    else
+                    {
+                        SearchPO.ApprovalLevel = rdr["ApprovalLevel"].ToString();
+                    }
                     lst.Add(new procSearchPO_Result
                     {
-                        Supplier_Name = rdr["Supplier_Name"].ToString(),
-                        strPOStatus = rdr["strPOStatus"].ToString(),
-                        Supplier_Code = rdr["Supplier_Code"].ToString(),
-                        Buyer = rdr["Buyer"].ToString(),
-                        Creation_Date = Convert.ToDateTime(rdr["Creation_Date"].ToString()),
-                        intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString()),
-                        PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString())
+                        Supplier_Name = SearchPO.Supplier_Name,
+                        strPOStatus = SearchPO.strPOStatus,
+                        Supplier_Code = SearchPO.Supplier_Code,
+                        Buyer = SearchPO.Buyer,
+                        Creation_Date = SearchPO.Creation_Date,
+                        intPOCode = SearchPO.intPOCode,
+                        PO_Number = SearchPO.PO_Number,
+                        NextPOStatus= SearchPO.NextPOStatus,
+                        Amount= SearchPO.Amount,
+                        Qty= SearchPO.Qty,
+                        ApprovalLevel= SearchPO.ApprovalLevel
+                       
+
 
 
 
