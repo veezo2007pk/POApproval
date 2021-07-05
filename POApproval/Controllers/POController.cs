@@ -311,25 +311,25 @@ namespace POApproval.Controllers
                                     try
                                     {
 
-                                        if (item.ApprovalLevel == "Reviewer 1")
+                                        //if (item.ApprovalLevel == "Reviewer 1")
+                                        //{
+                                        //    approvalLevel = "Reviewed 1";
+                                        //}
+                                        //else if (item.ApprovalLevel == "Reviewer 2")
+                                        //{
+                                        //    approvalLevel = "Reviewed 2";
+                                        //}
+                                        //else if (item.ApprovalLevel == "Reviewer 3")
+                                        //{
+                                        //    approvalLevel = "Reviewed 3";
+                                        //}
+                                        //else if (item.ApprovalLevel == "Approver")
+                                        //{
+                                        //    approvalLevel = "Approved";
+                                        //}
+                                        if (item.NextPOStatus == "Approved")
                                         {
-                                            approvalLevel = "Reviewed 1";
-                                        }
-                                        else if (item.ApprovalLevel == "Reviewer 2")
-                                        {
-                                            approvalLevel = "Reviewed 2";
-                                        }
-                                        else if (item.ApprovalLevel == "Reviewer 3")
-                                        {
-                                            approvalLevel = "Reviewed 3";
-                                        }
-                                        else if (item.ApprovalLevel == "Approver")
-                                        {
-                                            approvalLevel = "Approved";
-                                        }
-                                        if (approvalLevel == "Approved")
-                                        {
-                                            PODB.Add(item.intPOCode, userCode, approvalLevel, null);
+                                            PODB.Add(item.intPOCode, userCode, item.NextPOStatus, null);
                                         }
                                         else
                                         {
@@ -340,7 +340,7 @@ namespace POApproval.Controllers
 
                                                 dtCreatedAt = DateTime.Now,
                                                 intPOCode = item.intPOCode,
-                                                strPOStatus = approvalLevel,
+                                                strPOStatus = item.NextPOStatus,
                                                 intUserCode = userCode
 
                                             };
@@ -352,7 +352,7 @@ namespace POApproval.Controllers
 
                                             var POData = this.db.tblPOes.Find(item.intPOCode);
 
-                                            POData.strPOStatus = approvalLevel;
+                                            POData.strPOStatus = item.NextPOStatus;
 
                                             db.Entry(POData).State = EntityState.Modified;
                                             db.SaveChanges();
