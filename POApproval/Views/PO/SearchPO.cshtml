@@ -24,6 +24,32 @@
 
                         <div class="form-group">
                             <label for="email" class="statuslabel">Status:</label>
+                            <select class="form-control listbox" multiple="multiple" name="strStatusName">
+                                @foreach (var item in (MultiSelectList)ViewBag.Status)
+                                {
+                                    if (ViewBag.strStatusName != null)
+                                    {
+                                        string[] arr = ViewBag.strStatusName;
+                                        var target = item.Text;
+                                        var results = Array.Find(arr, s => s.Equals(target));
+                                        if (results == target)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+
+
+                                }
+                            </select>
                             @*<select title="Select Status" class="form-control" name="strPOStatus" id="strPOStatus">
                                     <option value="">Select Status</option>
                                     <option value="PENDING">PENDING</option>
@@ -33,7 +59,7 @@
                                     <option value="REVIEWED 3">REVIEWED 3</option>
                                     <option value="REJECTED">REJECTED</option>
                                 </select>*@
-                            @Html.DropDownList("strStatusName", (MultiSelectList)ViewBag.Status, new { multiple = "multiple", @class = "form-control listbox" })
+                            @*@Html.DropDownList("strStatusName", (MultiSelectList)ViewBag.Status, new { multiple = "multiple", @class = "form-control listbox" })*@
                         </div>
                         <div class="form-group">
                             <label for="pwd">PO Number:</label>

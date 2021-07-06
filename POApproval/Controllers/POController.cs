@@ -400,6 +400,7 @@ namespace POApproval.Controllers
             string myCodes = string.Empty;
             if (tblPO.strStatusName != null)
             {
+                ViewBag.strStatusName = tblPO.strStatusName;
                 foreach (var item in tblPO.strStatusName)
                 {
                     if (myCodes.Length > 0)
