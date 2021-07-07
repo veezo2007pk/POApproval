@@ -253,6 +253,9 @@
     <Compile Include="Models\procSelectUserDetail_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\procSelectUserxpert_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\procSelectUser_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

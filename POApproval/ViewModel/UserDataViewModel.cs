@@ -10,6 +10,8 @@ namespace POApproval.ViewModel
     public class userDataViewModel
     {
         public IEnumerable<procSelectUser_Result> getUserList { get; set; }
+
+        public IEnumerable<procSelectUserxpert_Result> getUserLists { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         public string xpertLoginID { get; set; }

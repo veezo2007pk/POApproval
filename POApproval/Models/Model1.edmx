@@ -238,6 +238,7 @@
           <Parameter Name="usercode" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="procSelectUserDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="procSelectUserxpert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procValidateUserLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="strLoginName" Type="int" Mode="In" />
           <Parameter Name="strUserPassword" Type="nvarchar" Mode="In" />
@@ -415,6 +416,7 @@
             <Parameter Name="intPOCode" Mode="In" Type="String" />
             <Parameter Name="strUser" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="procSelectUserxpert" ReturnType="Collection(dbSASAApprovalModel.procSelectUserxpert_Result)" />
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -702,6 +704,13 @@
           <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
           <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
           <Property Type="Int32" Name="SuperAdmin" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="procSelectUserxpert_Result">
+          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1018,6 +1027,17 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procDeleteUser" FunctionName="dbSASAApprovalModel.Store.procDeleteUser" />
           <FunctionImportMapping FunctionImportName="procRptPO" FunctionName="dbSASAApprovalModel.Store.procRptPO" />
+          <FunctionImportMapping FunctionImportName="procSelectUserxpert" FunctionName="dbSASAApprovalModel.Store.procSelectUserxpert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUserxpert_Result">
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

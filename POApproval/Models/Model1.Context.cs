@@ -328,5 +328,10 @@ namespace POApproval.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
         }
+    
+        public virtual ObjectResult<procSelectUserxpert_Result> procSelectUserxpert()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
+        }
     }
 }

@@ -29,7 +29,7 @@
                             <th>User Name</th>
                             <th>User Email</th>
                             <th>Department</th>
-                            <th>Status</th>
+                            @*<th>Status</th>*@
 
 
                         </tr>
@@ -43,10 +43,10 @@
 
                             <td>
                                 <a href="http://localhost:61646/User/UpdateUser?ID=@item.UserCode" value="Update" class="btn btn-default">Update</a>
-                                @if (Session["SuperAdmin"].ToString() == "Y")
+                                @*@if (Session["SuperAdmin"].ToString() == "Y")
                                 {
                                     <input type="button" value="Delete" class="btn btn-danger" ng-click='DeleteUser("@item.UserCode")' />
-                                }
+                                }*@
                                 </td>
                             <td>
                                @item.UserCode
@@ -60,9 +60,8 @@
                             <td>
                                 @item.Department
                             </td>
-                            <td>
-                                @item.Status
-                            </td>
+
+                           
 
                         </tr>
                         }

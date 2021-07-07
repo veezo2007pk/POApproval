@@ -17,7 +17,7 @@
                             <div class="col-sm-10">
                                 <select title="Select" class="form-control select-searchable" ng-model="usercode" ng-required="true" id="user" ng-change="getdetails($element.target)">
                                     <option value="">--Please select user--</option>
-                                    @foreach (var item in Model.getUserList)
+                                    @foreach (var item in Model.getUserLists)
                                     {
                                 <option  value="@item.UserCode">
                                     @item.UserCode -- @item.Username 
