@@ -93,6 +93,9 @@
           <Property Name="strPOStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="strRejectReason" Type="varchar" MaxLength="150" />
           <Property Name="bolIsRejectedPOEmailSent" Type="bit" />
+          <Property Name="staff_code" Type="nvarchar" MaxLength="50" />
+          <Property Name="brand_name" Type="varchar" MaxLength="50" />
+          <Property Name="supplier_email" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblPODetail">
           <Key>
@@ -374,16 +377,7 @@
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectBuyerManager" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManager_Result)" />
-          <EntitySet Name="tblPOes" EntityType="dbSASAApprovalModel.tblPO" />
           <EntitySet Name="tblPODetails" EntityType="dbSASAApprovalModel.tblPODetail" />
-          <AssociationSet Name="FK_tblPODetail_tblPO" Association="dbSASAApprovalModel.FK_tblPODetail_tblPO">
-            <End Role="tblPO" EntitySet="tblPOes" />
-            <End Role="tblPODetail" EntitySet="tblPODetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblPOHistory_tblPO" Association="dbSASAApprovalModel.FK_tblPOHistory_tblPO">
-            <End Role="tblPO" EntitySet="tblPOes" />
-            <End Role="tblPOHistory" EntitySet="tblPOHistories" />
-          </AssociationSet>
           <FunctionImport Name="procSelectUser" ReturnType="Collection(dbSASAApprovalModel.procSelectUser_Result)" />
           <FunctionImport Name="procValidateUserLogins" ReturnType="Collection(dbSASAApprovalModel.procValidateUserLogins_Result)">
             <Parameter Name="strLoginName" Mode="In" Type="Int32" />
@@ -417,6 +411,15 @@
             <Parameter Name="strUser" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectUserxpert" ReturnType="Collection(dbSASAApprovalModel.procSelectUserxpert_Result)" />
+          <EntitySet Name="tblPOes" EntityType="dbSASAApprovalModel.tblPO" />
+          <AssociationSet Name="FK_tblPODetail_tblPO" Association="dbSASAApprovalModel.FK_tblPODetail_tblPO">
+            <End Role="tblPO" EntitySet="tblPOes" />
+            <End Role="tblPODetail" EntitySet="tblPODetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPOHistory_tblPO" Association="dbSASAApprovalModel.FK_tblPOHistory_tblPO">
+            <End Role="tblPO" EntitySet="tblPOes" />
+            <End Role="tblPOHistory" EntitySet="tblPOHistories" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -556,47 +559,6 @@
           <Property Type="String" Name="logon_user_id" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="intUserCode" Nullable="true" MaxLength="10" />
         </ComplexType>
-        <EntityType Name="tblPO">
-          <Key>
-            <PropertyRef Name="intPOCode" />
-          </Key>
-          <Property Name="intPOCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PO_Number" Type="Int64" />
-          <Property Name="Store_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Delivery_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Creation_Date" Type="DateTime" Precision="3" />
-          <Property Name="Delivery_Date" Type="DateTime" Precision="3" />
-          <Property Name="Company_Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="Ship_Store" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Store_Address" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Store_Tel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Store_Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Supplier_Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Supplier_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Supplier_Address" Type="String" MaxLength="90" FixedLength="false" Unicode="false" />
-          <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="po_print_date" Type="DateTime" Precision="3" />
-          <Property Name="username" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PO_Status" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="FOB" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
-          <Property Name="Buyer" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="Valid_Date" Type="DateTime" Precision="3" />
-          <Property Name="Shipment_Terms" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
-          <Property Name="Payment_Term" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="approved" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
-          <Property Name="approved_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Approved_Date" Type="DateTime" Precision="3" />
-          <Property Name="Cancelled" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Cancelled_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Cancelled_date" Type="DateTime" Precision="3" />
-          <Property Name="Qty" Type="Int32" />
-          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="strPOStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="strRejectReason" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="bolIsRejectedPOEmailSent" Type="Boolean" />
-          <NavigationProperty Name="tblPODetails" Relationship="dbSASAApprovalModel.FK_tblPODetail_tblPO" FromRole="tblPO" ToRole="tblPODetail" />
-          <NavigationProperty Name="tblPOHistories" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblPO" FromRole="tblPO" ToRole="tblPOHistory" />
-        </EntityType>
         <EntityType Name="tblPODetail">
           <Key>
             <PropertyRef Name="intPODetailCode" />
@@ -615,30 +577,6 @@
           <Property Name="Foreign_Amount" Type="Decimal" Precision="36" Scale="2" />
           <NavigationProperty Name="tblPO" Relationship="dbSASAApprovalModel.FK_tblPODetail_tblPO" FromRole="tblPODetail" ToRole="tblPO" />
         </EntityType>
-        <Association Name="FK_tblPODetail_tblPO">
-          <End Type="dbSASAApprovalModel.tblPO" Role="tblPO" Multiplicity="0..1" />
-          <End Type="dbSASAApprovalModel.tblPODetail" Role="tblPODetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblPO">
-              <PropertyRef Name="intPOCode" />
-            </Principal>
-            <Dependent Role="tblPODetail">
-              <PropertyRef Name="intPOCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblPOHistory_tblPO">
-          <End Type="dbSASAApprovalModel.tblPO" Role="tblPO" Multiplicity="0..1" />
-          <End Type="dbSASAApprovalModel.tblPOHistory" Role="tblPOHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblPO">
-              <PropertyRef Name="intPOCode" />
-            </Principal>
-            <Dependent Role="tblPOHistory">
-              <PropertyRef Name="intPOCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="procSelectUser_Result">
           <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
@@ -712,6 +650,74 @@
           <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
+        <EntityType Name="tblPO">
+          <Key>
+            <PropertyRef Name="intPOCode" />
+          </Key>
+          <Property Name="intPOCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PO_Number" Type="Int64" />
+          <Property Name="Store_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Delivery_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Creation_Date" Type="DateTime" Precision="3" />
+          <Property Name="Delivery_Date" Type="DateTime" Precision="3" />
+          <Property Name="Company_Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Ship_Store" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Address" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Tel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Supplier_Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Supplier_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Supplier_Address" Type="String" MaxLength="90" FixedLength="false" Unicode="false" />
+          <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="po_print_date" Type="DateTime" Precision="3" />
+          <Property Name="username" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PO_Status" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="FOB" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="Buyer" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Valid_Date" Type="DateTime" Precision="3" />
+          <Property Name="Shipment_Terms" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="Payment_Term" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="approved" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Approved_Date" Type="DateTime" Precision="3" />
+          <Property Name="Cancelled" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cancelled_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cancelled_date" Type="DateTime" Precision="3" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="strPOStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strRejectReason" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="bolIsRejectedPOEmailSent" Type="Boolean" />
+          <Property Name="staff_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="brand_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="supplier_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPODetails" Relationship="dbSASAApprovalModel.FK_tblPODetail_tblPO" FromRole="tblPO" ToRole="tblPODetail" />
+          <NavigationProperty Name="tblPOHistories" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblPO" FromRole="tblPO" ToRole="tblPOHistory" />
+        </EntityType>
+        <Association Name="FK_tblPODetail_tblPO">
+          <End Type="dbSASAApprovalModel.tblPO" Role="tblPO" Multiplicity="0..1" />
+          <End Type="dbSASAApprovalModel.tblPODetail" Role="tblPODetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPO">
+              <PropertyRef Name="intPOCode" />
+            </Principal>
+            <Dependent Role="tblPODetail">
+              <PropertyRef Name="intPOCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPOHistory_tblPO">
+          <End Type="dbSASAApprovalModel.tblPO" Role="tblPO" Multiplicity="0..1" />
+          <End Type="dbSASAApprovalModel.tblPOHistory" Role="tblPOHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPO">
+              <PropertyRef Name="intPOCode" />
+            </Principal>
+            <Dependent Role="tblPOHistory">
+              <PropertyRef Name="intPOCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -876,46 +882,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblPOes">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPO">
-              <MappingFragment StoreEntitySet="tblPO">
-                <ScalarProperty Name="bolIsRejectedPOEmailSent" ColumnName="bolIsRejectedPOEmailSent" />
-                <ScalarProperty Name="strRejectReason" ColumnName="strRejectReason" />
-                <ScalarProperty Name="strPOStatus" ColumnName="strPOStatus" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="Cancelled_date" ColumnName="Cancelled_date" />
-                <ScalarProperty Name="Cancelled_By" ColumnName="Cancelled_By" />
-                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
-                <ScalarProperty Name="Approved_Date" ColumnName="Approved_Date" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
-                <ScalarProperty Name="approved" ColumnName="approved" />
-                <ScalarProperty Name="Payment_Term" ColumnName="Payment_Term" />
-                <ScalarProperty Name="Shipment_Terms" ColumnName="Shipment_Terms" />
-                <ScalarProperty Name="Valid_Date" ColumnName="Valid_Date" />
-                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
-                <ScalarProperty Name="FOB" ColumnName="FOB" />
-                <ScalarProperty Name="PO_Status" ColumnName="PO_Status" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="po_print_date" ColumnName="po_print_date" />
-                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
-                <ScalarProperty Name="Supplier_Address" ColumnName="Supplier_Address" />
-                <ScalarProperty Name="Supplier_Name" ColumnName="Supplier_Name" />
-                <ScalarProperty Name="Supplier_Code" ColumnName="Supplier_Code" />
-                <ScalarProperty Name="Store_Fax" ColumnName="Store_Fax" />
-                <ScalarProperty Name="Store_Tel" ColumnName="Store_Tel" />
-                <ScalarProperty Name="Store_Address" ColumnName="Store_Address" />
-                <ScalarProperty Name="Ship_Store" ColumnName="Ship_Store" />
-                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
-                <ScalarProperty Name="Delivery_Date" ColumnName="Delivery_Date" />
-                <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
-                <ScalarProperty Name="Delivery_Location" ColumnName="Delivery_Location" />
-                <ScalarProperty Name="Store_Code" ColumnName="Store_Code" />
-                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
-                <ScalarProperty Name="intPOCode" ColumnName="intPOCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblPODetails">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPODetail">
               <MappingFragment StoreEntitySet="tblPODetail">
@@ -1038,6 +1004,49 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblPOes">
+            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPO">
+              <MappingFragment StoreEntitySet="tblPO">
+                <ScalarProperty Name="supplier_email" ColumnName="supplier_email" />
+                <ScalarProperty Name="brand_name" ColumnName="brand_name" />
+                <ScalarProperty Name="staff_code" ColumnName="staff_code" />
+                <ScalarProperty Name="bolIsRejectedPOEmailSent" ColumnName="bolIsRejectedPOEmailSent" />
+                <ScalarProperty Name="strRejectReason" ColumnName="strRejectReason" />
+                <ScalarProperty Name="strPOStatus" ColumnName="strPOStatus" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Cancelled_date" ColumnName="Cancelled_date" />
+                <ScalarProperty Name="Cancelled_By" ColumnName="Cancelled_By" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved_Date" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="approved" ColumnName="approved" />
+                <ScalarProperty Name="Payment_Term" ColumnName="Payment_Term" />
+                <ScalarProperty Name="Shipment_Terms" ColumnName="Shipment_Terms" />
+                <ScalarProperty Name="Valid_Date" ColumnName="Valid_Date" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+                <ScalarProperty Name="FOB" ColumnName="FOB" />
+                <ScalarProperty Name="PO_Status" ColumnName="PO_Status" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="po_print_date" ColumnName="po_print_date" />
+                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
+                <ScalarProperty Name="Supplier_Address" ColumnName="Supplier_Address" />
+                <ScalarProperty Name="Supplier_Name" ColumnName="Supplier_Name" />
+                <ScalarProperty Name="Supplier_Code" ColumnName="Supplier_Code" />
+                <ScalarProperty Name="Store_Fax" ColumnName="Store_Fax" />
+                <ScalarProperty Name="Store_Tel" ColumnName="Store_Tel" />
+                <ScalarProperty Name="Store_Address" ColumnName="Store_Address" />
+                <ScalarProperty Name="Ship_Store" ColumnName="Ship_Store" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+                <ScalarProperty Name="Delivery_Date" ColumnName="Delivery_Date" />
+                <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
+                <ScalarProperty Name="Delivery_Location" ColumnName="Delivery_Location" />
+                <ScalarProperty Name="Store_Code" ColumnName="Store_Code" />
+                <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
+                <ScalarProperty Name="intPOCode" ColumnName="intPOCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

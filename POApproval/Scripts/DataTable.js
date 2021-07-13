@@ -85,6 +85,13 @@
 
     });
     $(document).ready(function () {
+        $('#otherTable').DataTable({
+            "ordering": true,
+            "searching": true,
+            "pagelength": 50,
+            "paging": true,
+        });
+
         $('#myTable').DataTable({
             "ordering": true,
             "searching": true,

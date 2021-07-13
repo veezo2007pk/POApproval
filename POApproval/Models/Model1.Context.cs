@@ -33,8 +33,8 @@ namespace POApproval.Models
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblBuyer> tblBuyers { get; set; }
         public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }
-        public virtual DbSet<tblPO> tblPOes { get; set; }
         public virtual DbSet<tblPODetail> tblPODetails { get; set; }
+        public virtual DbSet<tblPO> tblPOes { get; set; }
     
         public virtual ObjectResult<procCmbApprovalLevel_Result> procCmbApprovalLevel()
         {

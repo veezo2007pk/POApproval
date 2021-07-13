@@ -1,11 +1,18 @@
-﻿using Microsoft.Reporting.WebForms;
+﻿using Aspose.Zip;
+using Microsoft.Reporting.WebForms;
 using POApproval.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 
 namespace POApproval.Report
 {
@@ -27,26 +34,34 @@ namespace POApproval.Report
                 {
                     strUser = Request.QueryString["strUser"].ToString();
                 }
-
+               
 
                 using (var _context = new dbSASAApprovalEntities())
                 {
-                    //intPOCode = Convert.ToInt32(searchText);
-                    var summary = PODB.GetPOReport(searchText).ToList();
-      
-                    CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPOList.rdlc");
-                    CustomerListReportViewer.LocalReport.DataSources.Clear();
-                    ReportDataSource rdc = new ReportDataSource("DataSet1", summary);
-                    CustomerListReportViewer.LocalReport.DataSources.Add(rdc);
+                    
+                        var summary = PODB.GetPOReport(searchText).ToList();
+
+                        CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPOList.rdlc");
+                        CustomerListReportViewer.LocalReport.DataSources.Clear();
+                        ReportDataSource rdc = new ReportDataSource("DataSet1", summary);
+                        CustomerListReportViewer.LocalReport.DataSources.Add(rdc);
+
+
+
+                        CustomerListReportViewer.LocalReport.SubreportProcessing += new SubreportProcessingEventHandler(SetSubDataSource);
+                        CustomerListReportViewer.ShowReportBody = true;
+                        CustomerListReportViewer.ShowPromptAreaButton = true;
+
+                        CustomerListReportViewer.LocalReport.Refresh();
+                        CustomerListReportViewer.DataBind();
+
+                       
+
+                    
                   
 
-                      
-                    CustomerListReportViewer.LocalReport.SubreportProcessing += new SubreportProcessingEventHandler(SetSubDataSource);
-                    CustomerListReportViewer.ShowReportBody = true;
-                    CustomerListReportViewer.ShowPromptAreaButton = true;
-                
-                    CustomerListReportViewer.LocalReport.Refresh();
-                    CustomerListReportViewer.DataBind();
+
+
                 }
             }
         }
