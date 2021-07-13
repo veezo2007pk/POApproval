@@ -20,7 +20,7 @@ namespace POApproval.Models
             this.tblPODetails = new HashSet<tblPODetail>();
             this.tblPOHistories = new HashSet<tblPOHistory>();
         }
-    
+        public string[] strStatusName { get; set; }
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }
         public string Store_Code { get; set; }
@@ -32,7 +32,6 @@ namespace POApproval.Models
         public string Store_Address { get; set; }
         public string Store_Tel { get; set; }
         public string Store_Fax { get; set; }
-        public string strStatusName { get; set; }
         public string Supplier_Code { get; set; }
         public string Supplier_Name { get; set; }
         public string Supplier_Address { get; set; }
@@ -56,6 +55,9 @@ namespace POApproval.Models
         public string strPOStatus { get; set; }
         public string strRejectReason { get; set; }
         public Nullable<bool> bolIsRejectedPOEmailSent { get; set; }
+        public string staff_code { get; set; }
+        public string brand_name { get; set; }
+        public string supplier_email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPODetail> tblPODetails { get; set; }
