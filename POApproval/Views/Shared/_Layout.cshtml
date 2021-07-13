@@ -25,38 +25,40 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Search PO", "SearchPO", "PO")</li>
-                    @if ( Session["SuperAdmin"].ToString() == "Y")
+                    @*<li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
+                    <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>*@
+                    @if (Session["SuperAdmin"].ToString() == "Y")
                     {
-                       
-                            <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
-                      
+
+                    <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
+
                     }
                     @if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
                     {
 
                         if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
                         {
-                            <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
+                    <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
                         }
                     }
                     @*@if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
-                    {
+        {
 
-                        if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
-                        {
+            if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+            {
 
-                            <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
-                        }
-                    }*@
+                <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
+            }
+        }*@
                     @if (Session["SuperAdmin"].ToString() == "Y")
                     {
 
-                        
 
-                            <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
-                       
+
+                    <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
+
                     }
-                 
+
                 </ul>
               
                 <ul style="padding-top:7px;" class=" navbar-right">

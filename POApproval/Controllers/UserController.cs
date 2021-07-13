@@ -43,6 +43,7 @@ namespace POApproval.Controllers
             userDataViewModel UserVM = new userDataViewModel();
             
             UserVM.getUserLists = db.procSelectUserxpert().ToList();
+            UserVM.GetAccessLevels = db.procGetAccessLevels().ToList();
 
             return View(UserVM);
         }

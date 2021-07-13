@@ -12,10 +12,13 @@ namespace POApproval.ViewModel
         public IEnumerable<procSelectUser_Result> getUserList { get; set; }
 
         public IEnumerable<procSelectUserxpert_Result> getUserLists { get; set; }
+
+        public IEnumerable<procGetAccessLevels_Result> GetAccessLevels { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         public string xpertLoginID { get; set; }
         public string usercode { get; set; }
+        public string[] accesslevels { get; set; }
         public string pwd { get; set; }
         public string status { get; set; }
         public string usergroup { get; set; }

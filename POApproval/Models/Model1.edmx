@@ -175,6 +175,7 @@
         <Function Name="procDeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="intUserCode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="procGetAccessLevels" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procGetAllBuyersByStaffType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="stafftype" Type="nvarchar" Mode="In" />
         </Function>
@@ -420,6 +421,7 @@
             <End Role="tblPO" EntitySet="tblPOes" />
             <End Role="tblPOHistory" EntitySet="tblPOHistories" />
           </AssociationSet>
+          <FunctionImport Name="procGetAccessLevels" ReturnType="Collection(dbSASAApprovalModel.procGetAccessLevels_Result)" />
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -718,6 +720,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="procGetAccessLevels_Result">
+          <Property Type="Int32" Name="menuCode" Nullable="true" />
+          <Property Type="String" Name="strMenuSystenName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="strMenuName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="strSubMenuName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1047,6 +1056,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="procGetAccessLevels" FunctionName="dbSASAApprovalModel.Store.procGetAccessLevels">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procGetAccessLevels_Result">
+                <ScalarProperty Name="menuCode" ColumnName="menuCode" />
+                <ScalarProperty Name="strMenuSystenName" ColumnName="strMenuSystenName" />
+                <ScalarProperty Name="strMenuName" ColumnName="strMenuName" />
+                <ScalarProperty Name="strSubMenuName" ColumnName="strSubMenuName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

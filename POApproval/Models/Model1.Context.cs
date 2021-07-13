@@ -333,5 +333,10 @@ namespace POApproval.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
         }
+    
+        public virtual ObjectResult<procGetAccessLevels_Result> procGetAccessLevels()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAccessLevels_Result>("procGetAccessLevels");
+        }
     }
 }

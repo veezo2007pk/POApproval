@@ -60,7 +60,7 @@ var app = angular.module("myApp", [])
                 //$scope.bolIsApprovalLimit = data.data[0].bolIsApprovalLimit;
                 //$scope.bolIsManageBuyer = data.data[0].bolIsManageBuyer;
              
-                $scope.bolIsNewUser = data.data[0].bolIsNewUser;
+                //$scope.bolIsNewUser = data.data[0].bolIsNewUser;
                 if (data.data[0].SuperAdmin == "1") {
                     $scope.SuperAdmin = true;
                 }
@@ -76,11 +76,21 @@ var app = angular.module("myApp", [])
             var Action = document.getElementById("btnSave").getAttribute("value");
             if (Action == "Submit") {
                 if (confirm('Are you sure you want to insert this?')) {
+                    debugger;
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
+                    var arrMembersToNotify = [];
+                    var arrMembersToNotifyNew = [];
+                    var iCount = 0;
+                    $("#membersToNotify input[type=checkbox]:checked").each(function () {
+                        arrMembersToNotify = $(this).val().split(":");
+                        arrMembersToNotifyNew.push({ "menuids": arrMembersToNotify[1] });
+                    });
                     $scope.User.usercode = $scope.usercode;
                     $scope.User.fullname = $scope.fullname;
                     $scope.User.pwd = $scope.pwd;
+                    $scope.User.accesslevels = arrMembersToNotifyNew;
+                   
                     $scope.User.email = $scope.email;
                     $scope.User.xpertLoginID = $scope.xpertLoginID;
                     $scope.User.usergroup = $scope.usergroup;

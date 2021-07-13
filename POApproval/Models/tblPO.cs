@@ -20,7 +20,7 @@ namespace POApproval.Models
             this.tblPODetails = new HashSet<tblPODetail>();
             this.tblPOHistories = new HashSet<tblPOHistory>();
         }
-        public string[] strStatusName { get; set; }
+    
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }
         public string Store_Code { get; set; }
@@ -56,6 +56,7 @@ namespace POApproval.Models
         public string strRejectReason { get; set; }
         public Nullable<bool> bolIsRejectedPOEmailSent { get; set; }
         public string staff_code { get; set; }
+        public string strStatusName { get; set; }
         public string brand_name { get; set; }
         public string supplier_email { get; set; }
     
