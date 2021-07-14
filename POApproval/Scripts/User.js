@@ -76,7 +76,7 @@ var app = angular.module("myApp", [])
             var Action = document.getElementById("btnSave").getAttribute("value");
             if (Action == "Submit") {
                 if (confirm('Are you sure you want to insert this?')) {
-                    debugger;
+                  
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
                     var arrMembersToNotify = [];
@@ -84,12 +84,13 @@ var app = angular.module("myApp", [])
                     var iCount = 0;
                     $("#membersToNotify input[type=checkbox]:checked").each(function () {
                         arrMembersToNotify = $(this).val().split(":");
-                        arrMembersToNotifyNew.push({ "menuids": arrMembersToNotify[1] });
+                        arrMembersToNotifyNew.push({ "menuCode": arrMembersToNotify[1] });
                     });
+                    
                     $scope.User.usercode = $scope.usercode;
                     $scope.User.fullname = $scope.fullname;
                     $scope.User.pwd = $scope.pwd;
-                    $scope.User.accesslevels = arrMembersToNotifyNew;
+                    //$scope.User.accesslevels = arrMembersToNotifyNew;
                    
                     $scope.User.email = $scope.email;
                     $scope.User.xpertLoginID = $scope.xpertLoginID;
@@ -100,14 +101,11 @@ var app = angular.module("myApp", [])
                  /*   $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                /*     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;*/
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
-                    console.log($scope.User)
-                    //return
-                    $http({
-                        method: "post",
-                        url: "http://localhost:61646/User/Insert_User",
-                        datatype: "json",
-                        data: JSON.stringify($scope.User)
-                    }).then(function (response) {
+                    
+                    $http.post("http://localhost:61646/User/Insert_User", JSON.stringify({
+                        data: $scope.User,
+                        lstMembersToNotify: arrMembersToNotifyNew
+                    })).then(function (response) {
                         //alert(response.data);
                         //if (response.data == '2') {
 

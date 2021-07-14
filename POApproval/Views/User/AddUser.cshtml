@@ -66,7 +66,7 @@
                                     foreach (var item in Model.GetAccessLevels)
                                     {
                                         <div class="checkbox">
-                                            <label><input type="checkbox" ng-model="menu@_recordCount" value="0:@item.menuCode" id="option-@_recordCount">@item.strMenuName</label>
+                                            <label><input type="checkbox" ng-model="menuCode@_recordCount" value="0:@item.menuCode" id="option-@_recordCount">@item.strMenuName</label>
                                         </div>
                                         _recordCount = _recordCount + 1;
                                     }

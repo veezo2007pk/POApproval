@@ -184,7 +184,7 @@ namespace POApproval.Controllers
         /// </summary>  
         /// <param name="user"></param>  
         /// <returns></returns>  
-        public int Insert_User(userDataViewModel userdata)
+        public int Insert_User(userDataViewModel data, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
             //var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == userdata.email).FirstOrDefault();
             //var checkUsernameExist = db.procGetAllUsers().Where(x =>  x.usercode == userdata.usercode.ToString()).FirstOrDefault();
@@ -196,11 +196,11 @@ namespace POApproval.Controllers
             //{
             //    return 3;
             //}
-            if (userdata != null)
+            if (data != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-                    return userDB.Add(userdata);
+                    return userDB.Add(data);
                 }
             }
             else
