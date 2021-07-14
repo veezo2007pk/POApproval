@@ -73,21 +73,21 @@ namespace POApproval.Models
         }
 
         //Method for Adding an User  
-        public int Add(userDataViewModel user)
+        public int Add(userDataViewModel user, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
 
             int i;
-            if (user.bolIsApprovalLimit == null)
-                user.bolIsApprovalLimit = false;
+            //if (user.bolIsApprovalLimit == null)
+            //    user.bolIsApprovalLimit = false;
 
-            if (user.bolIsNewUser == null)
-                user.bolIsNewUser = false;
+            //if (user.bolIsNewUser == null)
+            //    user.bolIsNewUser = false;
 
-            if (user.bolIsManageBuyer == null)
-                user.bolIsManageBuyer = false;
+            //if (user.bolIsManageBuyer == null)
+            //    user.bolIsManageBuyer = false;
 
-            if (user.bolIsNewBuyer == null)
-                user.bolIsNewBuyer = false;
+            //if (user.bolIsNewBuyer == null)
+            //    user.bolIsNewBuyer = false;
             if (user.status == "1")
             {
                 user.status = "ACTIVE";
@@ -121,35 +121,52 @@ namespace POApproval.Models
                 //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
                 //com.Parameters.AddWithValue("@usergroup", user.usergroup);
-                com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
-                com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
-                com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
-                com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
+                //com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
+                //com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
+                //com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
+                //com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
                 com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
                 com.Parameters.AddWithValue("@status", user.status);
-            
           
                 com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
+
+                if (lstMembersToNotify.Count > 0)
+                {
+                    foreach (var item in lstMembersToNotify)
+                    {
+                        if (item.menuCode != 0)
+                        {
+                            SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
+                            comm.CommandType = CommandType.StoredProcedure;
+                            comm.Parameters.AddWithValue("@usercode", user.usercode);
+                            comm.Parameters.AddWithValue("@menu_code", item.menuCode);
+                            comm.Parameters.AddWithValue("@Action", "Insert");
+                            i = comm.ExecuteNonQuery();
+                        }
+                        
+                    }
+                }
             }
             return i;
         }
 
         //Method for Updating User record  
-        public int Update(userDataViewModel user)
+        public int Update(userDataViewModel user, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
+
             int i;
-            if (user.bolIsApprovalLimit == null)
-                user.bolIsApprovalLimit = false;
+            //if (user.bolIsApprovalLimit == null)
+            //    user.bolIsApprovalLimit = false;
 
-            if (user.bolIsNewUser == null)
-                user.bolIsNewUser = false;
+            //if (user.bolIsNewUser == null)
+            //    user.bolIsNewUser = false;
 
-            if (user.bolIsManageBuyer == null)
-                user.bolIsManageBuyer = false;
+            //if (user.bolIsManageBuyer == null)
+            //    user.bolIsManageBuyer = false;
 
-            if (user.bolIsNewBuyer == null)
-                user.bolIsNewBuyer = false;
+            //if (user.bolIsNewBuyer == null)
+            //    user.bolIsNewBuyer = false;
             if (user.status == "1")
             {
                 user.status = "ACTIVE";
@@ -183,16 +200,32 @@ namespace POApproval.Models
                 //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
                 //com.Parameters.AddWithValue("@usergroup", user.usergroup);
-                com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
-                com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
-                com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
-                com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
+                //com.Parameters.AddWithValue("@bolIsApprovalLimit", user.bolIsApprovalLimit);
+                //com.Parameters.AddWithValue("@bolIsNewUser", user.bolIsNewUser);
+                //com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
+                //com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
                 com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
                 com.Parameters.AddWithValue("@status", user.status);
 
 
                 com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
+                if (lstMembersToNotify.Count > 0)
+                {
+                    foreach (var item in lstMembersToNotify)
+                    {
+                        if (item.menuCode != 0)
+                        {
+                            SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
+                            comm.CommandType = CommandType.StoredProcedure;
+                            comm.Parameters.AddWithValue("@usercode", user.usercode);
+                            comm.Parameters.AddWithValue("@menu_code", item.menuCode);
+                            comm.Parameters.AddWithValue("@Action", "Insert");
+                            i = comm.ExecuteNonQuery();
+                        }
+
+                    }
+                }
             }
             return i;
         }

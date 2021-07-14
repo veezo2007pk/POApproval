@@ -91,6 +91,7 @@
           <Property Name="Qty" Type="int" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="strPOStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtApproved" Type="datetime" />
           <Property Name="strRejectReason" Type="varchar" MaxLength="150" />
           <Property Name="bolIsRejectedPOEmailSent" Type="bit" />
           <Property Name="staff_code" Type="nvarchar" MaxLength="50" />
@@ -216,10 +217,11 @@
           <Parameter Name="pwd" Type="nvarchar" Mode="In" />
           <Parameter Name="status" Type="nvarchar" Mode="In" />
           <Parameter Name="SuperAdmin" Type="nvarchar" Mode="In" />
-          <Parameter Name="bolIsApprovalLimit" Type="bit" Mode="In" />
-          <Parameter Name="bolIsNewUser" Type="bit" Mode="In" />
-          <Parameter Name="bolIsNewBuyer" Type="bit" Mode="In" />
-          <Parameter Name="bolIsManageBuyer" Type="bit" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="procInsertUpdateUserAccess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usercode" Type="nvarchar" Mode="In" />
+          <Parameter Name="menu_code" Type="nvarchar" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procRptPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -388,18 +390,6 @@
           <FunctionImport Name="procGetAllBuyersByStaffType" ReturnType="Collection(dbSASAApprovalModel.procGetAllBuyersByStaffType_Result)">
           <Parameter Name="stafftype" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="procInsertUpdateUser">
-            <Parameter Name="usercode" Mode="In" Type="String" />
-            <Parameter Name="xpertLoginID" Mode="In" Type="String" />
-            <Parameter Name="pwd" Mode="In" Type="String" />
-            <Parameter Name="status" Mode="In" Type="String" />
-            <Parameter Name="SuperAdmin" Mode="In" Type="String" />
-            <Parameter Name="bolIsApprovalLimit" Mode="In" Type="Boolean" />
-            <Parameter Name="bolIsNewUser" Mode="In" Type="Boolean" />
-            <Parameter Name="bolIsNewBuyer" Mode="In" Type="Boolean" />
-            <Parameter Name="bolIsManageBuyer" Mode="In" Type="Boolean" />
-            <Parameter Name="Action" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="procSelectUserData" ReturnType="Collection(dbSASAApprovalModel.procSelectUserData_Result)">
           <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
@@ -422,6 +412,19 @@
             <End Role="tblPOHistory" EntitySet="tblPOHistories" />
           </AssociationSet>
           <FunctionImport Name="procGetAccessLevels" ReturnType="Collection(dbSASAApprovalModel.procGetAccessLevels_Result)" />
+          <FunctionImport Name="procInsertUpdateUserAccess">
+            <Parameter Name="usercode" Mode="In" Type="String" />
+            <Parameter Name="menu_code" Mode="In" Type="String" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="procInsertUpdateUser">
+            <Parameter Name="usercode" Mode="In" Type="String" />
+            <Parameter Name="xpertLoginID" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="String" />
+            <Parameter Name="SuperAdmin" Mode="In" Type="String" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -695,6 +698,7 @@
           <Property Name="supplier_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblPODetails" Relationship="dbSASAApprovalModel.FK_tblPODetail_tblPO" FromRole="tblPO" ToRole="tblPODetail" />
           <NavigationProperty Name="tblPOHistories" Relationship="dbSASAApprovalModel.FK_tblPOHistory_tblPO" FromRole="tblPO" ToRole="tblPOHistory" />
+          <Property Name="dtApproved" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_tblPODetail_tblPO">
           <End Type="dbSASAApprovalModel.tblPO" Role="tblPO" Multiplicity="0..1" />
@@ -963,7 +967,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procInsertUpdateUser" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateUser" />
           <FunctionImportMapping FunctionImportName="procSelectUserData" FunctionName="dbSASAApprovalModel.Store.procSelectUserData">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUserData_Result">
@@ -1016,6 +1019,7 @@
           <EntitySetMapping Name="tblPOes">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPO">
               <MappingFragment StoreEntitySet="tblPO">
+                <ScalarProperty Name="dtApproved" ColumnName="dtApproved" />
                 <ScalarProperty Name="supplier_email" ColumnName="supplier_email" />
                 <ScalarProperty Name="brand_name" ColumnName="brand_name" />
                 <ScalarProperty Name="staff_code" ColumnName="staff_code" />
@@ -1067,6 +1071,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procInsertUpdateUserAccess" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateUserAccess" />
+          <FunctionImportMapping FunctionImportName="procInsertUpdateUser" FunctionName="dbSASAApprovalModel.Store.procInsertUpdateUser" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -186,6 +186,7 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_User(userDataViewModel data, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
+            int length=lstMembersToNotify.Count;
             //var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == userdata.email).FirstOrDefault();
             //var checkUsernameExist = db.procGetAllUsers().Where(x =>  x.usercode == userdata.usercode.ToString()).FirstOrDefault();
             //if (checkUsernameExist != null)
@@ -200,13 +201,21 @@ namespace POApproval.Controllers
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-                    return userDB.Add(data);
+                    return userDB.Add(data, lstMembersToNotify);
                 }
             }
             else
             {
                 return 0;
             }
+        }
+        public JsonResult GetAccessMenus()
+        {
+            List<procGetAccessLevels_Result> GetAccessMenus = db.procGetAccessLevels().ToList();
+
+
+
+            return Json(GetAccessMenus, JsonRequestBehavior.AllowGet);
         }
         /// <summary>  
         /// Delete User Information  
@@ -234,35 +243,24 @@ namespace POApproval.Controllers
             /// </summary>  
             /// <param name="Emp"></param>  
             /// <returns></returns>  
-            public int Update_User(userDataViewModel userdatas)
+            public int Update_User(userDataViewModel data, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
-            //var user = db.tblUsers.Where(x => x.intUserCode == User.intUserCode).FirstOrDefault();
-
-            //if (user.logon_user_id != User.logon_user_id)
+            int length = lstMembersToNotify.Count;
+            //var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == userdata.email).FirstOrDefault();
+            //var checkUsernameExist = db.procGetAllUsers().Where(x =>  x.usercode == userdata.usercode.ToString()).FirstOrDefault();
+            //if (checkUsernameExist != null)
             //{
-            //    var checkUsernameExist = db.tblUsers.Where(x => x.logon_user_id == user.logon_user_id).FirstOrDefault();
-
-            //    if (checkUsernameExist != null)
-            //    {
-            //        return 2;
-            //    }
+            //    return 2;
             //}
-            //if (user.email != User.email)
+            //if (checkUserEmailExist != null)
             //{
-            //    var checkUserEmailExist = db.tblUsers.Where(x => x.email == user.email).FirstOrDefault();
-
-            //    if (checkUserEmailExist != null)
-            //    {
-            //        return 3;
-            //    }
+            //    return 3;
             //}
-           
-            if (userdatas != null)
+            if (data != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
                 {
-                    //return userDB.Update(userdatas);
-                    return userDB.Update(userdatas);
+                    return userDB.Update(data, lstMembersToNotify);
                 }
             }
             else

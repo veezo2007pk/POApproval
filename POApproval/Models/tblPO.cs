@@ -29,6 +29,7 @@ namespace POApproval.Models
         public Nullable<System.DateTime> Delivery_Date { get; set; }
         public string Company_Name { get; set; }
         public string Ship_Store { get; set; }
+        public string strStatusName { get; set; }
         public string Store_Address { get; set; }
         public string Store_Tel { get; set; }
         public string Store_Fax { get; set; }
@@ -56,9 +57,9 @@ namespace POApproval.Models
         public string strRejectReason { get; set; }
         public Nullable<bool> bolIsRejectedPOEmailSent { get; set; }
         public string staff_code { get; set; }
-        public string[] strStatusName { get; set; }
         public string brand_name { get; set; }
         public string supplier_email { get; set; }
+        public Nullable<System.DateTime> dtApproved { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPODetail> tblPODetails { get; set; }

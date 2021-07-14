@@ -36,7 +36,22 @@ var app = angular.module("myApp", [])
                 $("#wait").css("display", "none");
             })
         }
+        $scope.checkedAll  = function () {
+            alert("cehck all");
+        }
+        $scope.GetAccessMenus = function () {
+            //debugger;
+            $http({
+                method: "GET",
+                url: "http://localhost:61646/User/GetAccessMenus/",
+                dataType: 'json',
+                data: {},
+                headers: { "Content-Type": "application/json" }
+            }).then(function (data) {
 
+                $scope.GetAccessMenus = data.data;
+            })
+        }
         $scope.getdetails = function () {
 
             //$scope.User = {};
@@ -83,7 +98,9 @@ var app = angular.module("myApp", [])
                     var arrMembersToNotifyNew = [];
                     var iCount = 0;
                     $("#membersToNotify input[type=checkbox]:checked").each(function () {
-                        arrMembersToNotify = $(this).val().split(":");
+                        //arrMembersToNotify = $(this).val().split(":");
+                        //data("foo")
+                        arrMembersToNotify = $(this).data("id").split(":");
                         arrMembersToNotifyNew.push({ "menuCode": arrMembersToNotify[1] });
                     });
                     
@@ -145,6 +162,14 @@ var app = angular.module("myApp", [])
                 if (confirm('Are you sure you want to update this?')) {
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
+                    var arrMembersToNotify = [];
+                    var arrMembersToNotifyNew = [];
+                    var iCount = 0;
+                    $("#membersToNotify input[type=checkbox]:checked").each(function () {
+                        arrMembersToNotify = $(this).val().split(":");
+                        arrMembersToNotifyNew.push({ "menuCode": arrMembersToNotify[1] });
+                    });
+
                     $scope.User.usercode = $scope.usercode;
                     /*$scope.User.fullname = $scope.fullname;*/
                     $scope.User.pwd = $scope.pwd;
@@ -162,13 +187,10 @@ var app = angular.module("myApp", [])
                     //$scope.User.intCreatedByCode = $scope.intCreatedByCode;
                     //$scope.User.dtModifyAt = $scope.dtModifyAt;
                     //$scope.User.intModifyByCode = $scope.intModifyByCode;
-
-                    $http({
-                        method: "post",
-                        url: "http://localhost:61646/User/Update_User",
-                        datatype: "json",
-                        data: JSON.stringify($scope.User)
-                    }).then(function (response) {
+                    $http.post("http://localhost:61646/User/Update_User", JSON.stringify({
+                        data: $scope.User,
+                        lstMembersToNotify: arrMembersToNotifyNew
+                    })).then(function (response) {
 
                         //if (response.data == '2') {
 
@@ -243,6 +265,7 @@ var app = angular.module("myApp", [])
             })
         };
         $scope.UpdateUser = function (User) {
+            //debugger;
             console.log(User);
             //document.getElementById("EmpID_").value = Emp.Emp_Id;
             //$scope.EmpName = Emp.Emp_Name;
@@ -263,6 +286,7 @@ var app = angular.module("myApp", [])
          /*   $scope.bolIsNewBuyer = User.bolIsNewBuyer;*/
             $scope.SuperAdmin = User.SuperAdmin;
             $scope.xpertLoginID = User.xpertLoginID;
+            $scope.GetAccessMenus;
         /*    $scope.bolIsActive = User.bolIsActive;*/
             //$scope.dtCreatedAt = User.dtCreatedAt;
             //$scope.intCreatedByCode = User.intCreatedByCode;

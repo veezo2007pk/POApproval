@@ -248,51 +248,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
         }
     
-        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, Nullable<bool> bolIsApprovalLimit, Nullable<bool> bolIsNewUser, Nullable<bool> bolIsNewBuyer, Nullable<bool> bolIsManageBuyer, string action)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            var xpertLoginIDParameter = xpertLoginID != null ?
-                new ObjectParameter("xpertLoginID", xpertLoginID) :
-                new ObjectParameter("xpertLoginID", typeof(string));
-    
-            var pwdParameter = pwd != null ?
-                new ObjectParameter("pwd", pwd) :
-                new ObjectParameter("pwd", typeof(string));
-    
-            var statusParameter = status != null ?
-                new ObjectParameter("status", status) :
-                new ObjectParameter("status", typeof(string));
-    
-            var superAdminParameter = superAdmin != null ?
-                new ObjectParameter("SuperAdmin", superAdmin) :
-                new ObjectParameter("SuperAdmin", typeof(string));
-    
-            var bolIsApprovalLimitParameter = bolIsApprovalLimit.HasValue ?
-                new ObjectParameter("bolIsApprovalLimit", bolIsApprovalLimit) :
-                new ObjectParameter("bolIsApprovalLimit", typeof(bool));
-    
-            var bolIsNewUserParameter = bolIsNewUser.HasValue ?
-                new ObjectParameter("bolIsNewUser", bolIsNewUser) :
-                new ObjectParameter("bolIsNewUser", typeof(bool));
-    
-            var bolIsNewBuyerParameter = bolIsNewBuyer.HasValue ?
-                new ObjectParameter("bolIsNewBuyer", bolIsNewBuyer) :
-                new ObjectParameter("bolIsNewBuyer", typeof(bool));
-    
-            var bolIsManageBuyerParameter = bolIsManageBuyer.HasValue ?
-                new ObjectParameter("bolIsManageBuyer", bolIsManageBuyer) :
-                new ObjectParameter("bolIsManageBuyer", typeof(bool));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, bolIsApprovalLimitParameter, bolIsNewUserParameter, bolIsNewBuyerParameter, bolIsManageBuyerParameter, actionParameter);
-        }
-    
         public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
         {
             var usercodeParameter = usercode != null ?
@@ -337,6 +292,52 @@ namespace POApproval.Models
         public virtual ObjectResult<procGetAccessLevels_Result> procGetAccessLevels()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAccessLevels_Result>("procGetAccessLevels");
+        }
+    
+        public virtual int procInsertUpdateUserAccess(string usercode, string menu_code, string action)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            var menu_codeParameter = menu_code != null ?
+                new ObjectParameter("menu_code", menu_code) :
+                new ObjectParameter("menu_code", typeof(string));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUserAccess", usercodeParameter, menu_codeParameter, actionParameter);
+        }
+    
+        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string action)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            var xpertLoginIDParameter = xpertLoginID != null ?
+                new ObjectParameter("xpertLoginID", xpertLoginID) :
+                new ObjectParameter("xpertLoginID", typeof(string));
+    
+            var pwdParameter = pwd != null ?
+                new ObjectParameter("pwd", pwd) :
+                new ObjectParameter("pwd", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("status", status) :
+                new ObjectParameter("status", typeof(string));
+    
+            var superAdminParameter = superAdmin != null ?
+                new ObjectParameter("SuperAdmin", superAdmin) :
+                new ObjectParameter("SuperAdmin", typeof(string));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, actionParameter);
         }
     }
 }

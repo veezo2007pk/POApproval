@@ -557,9 +557,19 @@
     //    var requiredCheckboxes = $("input:checkbox[id^='option-']");
     //    requiredCheckboxes.change(function () {
     //        if (requiredCheckboxes.is(':checked')) {
-    //            requiredCheckboxes.removeAttr('required');
+    //            requiredCheckboxes.removeAttr('required', 'required');
+    //            //requiredCheckboxes.removeAttr('ng-required', 'false');
+    //            requiredCheckboxes.attr('ng-required', 'false');
+    //            requiredCheckboxes.removeClass('ng-invalid-required');
+    //            requiredCheckboxes.removeClass('ng-invalid');
+    //            requiredCheckboxes.addClass('ng-valid-required');
+    //            requiredCheckboxes.addClass('ng-valid');
+
+               
+    //            //attr('ng-required', 'required');
     //        } else {
     //            requiredCheckboxes.attr('required', 'required');
+    //            requiredCheckboxes.attr('ng-required', 'true');
     //        }
     //    });
     //});
