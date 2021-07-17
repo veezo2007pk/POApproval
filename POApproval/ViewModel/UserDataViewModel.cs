@@ -27,5 +27,6 @@ namespace POApproval.ViewModel
         public bool bolIsNewBuyer { get; set; }
         public bool bolIsManageBuyer { get; set; }
         public string SuperAdmin { get; set; }
+        public string UserApprover { get; set; }
     }
 }

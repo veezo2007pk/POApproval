@@ -67,6 +67,9 @@ var app = angular.module("myApp", ["checklist-model"])
                 if (data.data[0].SuperAdmin == "1") {
                     $scope.SuperAdmin = true;
                 }
+                if (data.data[0].UserApprover == "1") {
+                    $scope.UserApprover = true;
+                }
                
                 $scope.xpertLoginID = data.data[0].xpertLoginID;
                
@@ -106,6 +109,7 @@ var app = angular.module("myApp", ["checklist-model"])
                  /*   $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                /*     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;*/
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
+                    $scope.User.UserApprover = $scope.UserApprover;
                     
                     $http.post("http://localhost:61646/User/Insert_User", JSON.stringify({
                         data: $scope.User,
@@ -173,6 +177,7 @@ var app = angular.module("myApp", ["checklist-model"])
                   /*  $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                    /* $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;*/
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
+                    $scope.User.UserApprover = $scope.UserApprover;
                  /*   $scope.User.bolIsActive = $scope.bolIsActive;*/
                     //$scope.User.dtCreatedAt = $scope.dtCreatedAt;
                     //$scope.User.intCreatedByCode = $scope.intCreatedByCode;
@@ -298,6 +303,7 @@ var app = angular.module("myApp", ["checklist-model"])
           /*  $scope.bolIsManageBuyer = User.bolIsManageBuyer;*/
          /*   $scope.bolIsNewBuyer = User.bolIsNewBuyer;*/
             $scope.SuperAdmin = User.SuperAdmin;
+            $scope.UserApprover = User.UserApprover;
             $scope.xpertLoginID = User.xpertLoginID;
             //$scope.usermenuids = User.usermenuids;
             //s= $scope.usermenuids.replace("", "");

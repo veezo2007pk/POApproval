@@ -104,6 +104,16 @@ namespace POApproval.Models
             {
                 user.SuperAdmin = "N";
             }
+            if (user.UserApprover == "True")
+            {
+                user.UserApprover = "Y";
+            }
+            else
+            {
+                user.UserApprover = "N";
+            }
+
+            
 
             //Int32 intUserCodeMaxCode = (Int32)get_nextCode();
             //if (intUserCodeMaxCode == 0)
@@ -126,6 +136,7 @@ namespace POApproval.Models
                 //com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
                 //com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
                 com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
+                com.Parameters.AddWithValue("@UserApprover", user.UserApprover);
                 com.Parameters.AddWithValue("@status", user.status);
 
                 com.Parameters.AddWithValue("@Action", "Update");
@@ -192,6 +203,14 @@ namespace POApproval.Models
             {
                 user.SuperAdmin = "N";
             }
+            if (user.UserApprover == "True")
+            {
+                user.UserApprover = "Y";
+            }
+            else
+            {
+                user.UserApprover = "N";
+            }
 
             //Int32 intUserCodeMaxCode = (Int32)get_nextCode();
             //if (intUserCodeMaxCode == 0)
@@ -214,6 +233,7 @@ namespace POApproval.Models
                 //com.Parameters.AddWithValue("@bolIsManageBuyer", user.bolIsManageBuyer);
                 //com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
                 com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
+                com.Parameters.AddWithValue("@UserApprover", user.UserApprover);
                 com.Parameters.AddWithValue("@status", user.status);
 
 

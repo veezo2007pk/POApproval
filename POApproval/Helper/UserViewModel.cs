@@ -10,6 +10,7 @@ namespace POApproval.Helper
         public Nullable<bool> bolIsNewBuyer { get; set; }
         public Nullable<bool> bolIsManageBuyer { get; set; }
         public Nullable<bool> SuperAdmin { get; set; }
+        public Nullable<bool> UserApprover { get; set; }
         public int intUserCode { get; set; }
         public string fullname { get; set; }
         public string usermenustring { get; set; }

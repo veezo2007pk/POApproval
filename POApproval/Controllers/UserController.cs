@@ -90,6 +90,7 @@ namespace POApproval.Controllers
             if (userInfo != null)
             {
                 bool admin;
+                bool UserApprover;
                 if (userInfo.SuperAdmin == "Y")
                 {
                     admin = true;
@@ -97,6 +98,14 @@ namespace POApproval.Controllers
                 else
                 {
                     admin = false;
+                }
+                if (userInfo.UserApprover == "Y")
+                {
+                    UserApprover = true;
+                }
+                else
+                {
+                    UserApprover = false;
                 }
                 UserViewModel objUser = new UserViewModel()
                 {
@@ -108,6 +117,7 @@ namespace POApproval.Controllers
                     status = userInfo.Status,
                     usermenuids = usermeuids,
                     SuperAdmin =admin,
+                    UserApprover = UserApprover,
                     xpertLoginID=userInfo.xpertLoginID
                 };
                 return View(objUser);

@@ -747,6 +747,7 @@
           <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="UserApprover" Nullable="false" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1104,6 +1105,7 @@
                 <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
+                <ScalarProperty Name="UserApprover" ColumnName="UserApprover" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
