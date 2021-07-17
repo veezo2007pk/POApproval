@@ -10,7 +10,7 @@ namespace POApproval.ViewModel
     {
         public tblPO tblPO { get; set; }
         public List<tblPODetail> tblPODetails { get; set; }
-        public List<tblPOHistory> tblPOHistories { get; set; }
+        public List<procGetUserApprovalLog_Result> tblPOHistories { get; set; }
         public List<tblManageApproval> tblManageApprovals { get; set; }
     }
 }

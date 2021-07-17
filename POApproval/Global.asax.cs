@@ -13,6 +13,24 @@ namespace POApproval
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        protected void Application_EndRequest()
+        {
+            if (Context.Items["AjaxPermissionDenied"] is bool)
+            {
+                Context.Response.StatusCode = 401;
+                Context.Response.End();
+            }
+        }
+        void Session_Start(object sender, EventArgs e)
+        {
+
+            if (Session.IsNewSession)
+            {
+                //do things that need to happen
+                //when a new session starts.
+                Session.Timeout = 120;
+            }
+        }
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

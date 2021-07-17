@@ -12,7 +12,9 @@ namespace POApproval.Helper
         public Nullable<bool> SuperAdmin { get; set; }
         public int intUserCode { get; set; }
         public string fullname { get; set; }
+        public string usermenustring { get; set; }
         public string pwd { get; set; }
+        public List<int?> usermenuids { get; set; }
         public string staff_code { get; set; }
         public string staff_name { get; set; }
         public string logon_user_name { get; set; }

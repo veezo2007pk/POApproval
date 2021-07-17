@@ -2848,9 +2848,9 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox7</rd:DefaultName>
-          <Left>5.83765in</Left>
+          <Left>5.97932in</Left>
           <Height>0.21181in</Height>
-          <Width>0.70834in</Width>
+          <Width>0.50625in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -2882,9 +2882,9 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Left>6.74599in</Left>
+          <Left>6.88766in</Left>
           <Height>0.21181in</Height>
-          <Width>1.20417in</Width>
+          <Width>1.00208in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>

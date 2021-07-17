@@ -28,7 +28,7 @@ namespace POApproval.Models
                 {
                     lst.Add(new procSelectUser_Result
                     {
-                        UserCode= rdr["UserCode"].ToString(),
+                        UserCode = rdr["UserCode"].ToString(),
                         Username = rdr["Username"].ToString(),
                         Email = rdr["Email"].ToString(),
                         Department = rdr["Department"].ToString(),
@@ -117,7 +117,7 @@ namespace POApproval.Models
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@usercode", user.usercode);
                 //com.Parameters.AddWithValue("@fullname", user.fullname);
-                com.Parameters.AddWithValue("@pwd", user.pwd.Replace(" ","%"));
+                com.Parameters.AddWithValue("@pwd", user.pwd.Replace(" ", "%"));
                 //com.Parameters.AddWithValue("@email", user.email);
                 com.Parameters.AddWithValue("@xpertLoginID", user.xpertLoginID);
                 //com.Parameters.AddWithValue("@usergroup", user.usergroup);
@@ -127,24 +127,33 @@ namespace POApproval.Models
                 //com.Parameters.AddWithValue("@bolIsNewBuyer", user.bolIsNewBuyer);
                 com.Parameters.AddWithValue("@SuperAdmin", user.SuperAdmin);
                 com.Parameters.AddWithValue("@status", user.status);
-          
+
                 com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
 
                 if (lstMembersToNotify.Count > 0)
                 {
+                    SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
+                    comm.CommandType = CommandType.StoredProcedure;
+                    comm.Parameters.AddWithValue("@usercode", user.usercode);
+                    comm.Parameters.AddWithValue("@menu_code", 0);
+                    comm.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+
+                    comm.Parameters.AddWithValue("@Action", "Delete");
+                    i = comm.ExecuteNonQuery();
                     foreach (var item in lstMembersToNotify)
                     {
                         if (item.menuCode != 0)
                         {
-                            SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
-                            comm.CommandType = CommandType.StoredProcedure;
-                            comm.Parameters.AddWithValue("@usercode", user.usercode);
-                            comm.Parameters.AddWithValue("@menu_code", item.menuCode);
-                            comm.Parameters.AddWithValue("@Action", "Insert");
-                            i = comm.ExecuteNonQuery();
+                            SqlCommand comm1 = new SqlCommand("procInsertUpdateUserAccess", con);
+                            comm1.CommandType = CommandType.StoredProcedure;
+                            comm1.Parameters.AddWithValue("@usercode", user.usercode);
+                            comm1.Parameters.AddWithValue("@menu_code", item.menuCode);
+                            comm1.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+                            comm1.Parameters.AddWithValue("@Action", "Insert");
+                            i = comm1.ExecuteNonQuery();
                         }
-                        
+
                     }
                 }
             }
@@ -212,16 +221,24 @@ namespace POApproval.Models
                 i = com.ExecuteNonQuery();
                 if (lstMembersToNotify.Count > 0)
                 {
+                    SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
+                    comm.CommandType = CommandType.StoredProcedure;
+                    comm.Parameters.AddWithValue("@usercode", user.usercode);
+                    comm.Parameters.AddWithValue("@menu_code", 0);
+                    comm.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+                    comm.Parameters.AddWithValue("@Action", "Delete");
+                    i = comm.ExecuteNonQuery();
                     foreach (var item in lstMembersToNotify)
                     {
                         if (item.menuCode != 0)
                         {
-                            SqlCommand comm = new SqlCommand("procInsertUpdateUserAccess", con);
-                            comm.CommandType = CommandType.StoredProcedure;
-                            comm.Parameters.AddWithValue("@usercode", user.usercode);
-                            comm.Parameters.AddWithValue("@menu_code", item.menuCode);
-                            comm.Parameters.AddWithValue("@Action", "Insert");
-                            i = comm.ExecuteNonQuery();
+                            SqlCommand comm1 = new SqlCommand("procInsertUpdateUserAccess", con);
+                            comm1.CommandType = CommandType.StoredProcedure;
+                            comm1.Parameters.AddWithValue("@usercode", user.usercode);
+                            comm1.Parameters.AddWithValue("@menu_code", item.menuCode);
+                            comm1.Parameters.AddWithValue("@created_by",user.xpertLoginID);
+                            comm1.Parameters.AddWithValue("@Action", "Insert");
+                            i = comm1.ExecuteNonQuery();
                         }
 
                     }

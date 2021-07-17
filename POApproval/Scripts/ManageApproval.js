@@ -64,6 +64,12 @@ var app = angular.module("myManageApprovalApp", [])
                     $scope.ManageApproval.bolIsActive = $scope.bolIsActive;
                     if ($scope.ManageApproval.numFromApprovalAmount > $scope.ManageApproval.numToApprovalAmount) {
                         alert('Approval From amount must be less than Approval To amount');
+                        $("#btnSave").attr("disabled", false);
+                        return;
+                    }
+                    if ($scope.ManageApproval.numFromApprovalAmount == $scope.ManageApproval.numToApprovalAmount) {
+                        alert('Approval From amount cannot be same as Approval To amount');
+                        $("#btnSave").attr("disabled", false);
                         return;
                     }
                     $http({
@@ -111,6 +117,12 @@ var app = angular.module("myManageApprovalApp", [])
                     $scope.ManageApproval.intModifyByCode = $scope.intModifyByCode;
                     if ($scope.ManageApproval.numFromApprovalAmount > $scope.ManageApproval.numToApprovalAmount) {
                         alert('Approval From amount must be less than Approval To amount');
+                        $("#btnSave").attr("disabled", false);
+                        return;
+                    }
+                    if ($scope.ManageApproval.numFromApprovalAmount == $scope.ManageApproval.numToApprovalAmount) {
+                        alert('Approval From amount cannot be same as Approval To amount');
+                        $("#btnSave").attr("disabled", false);
                         return;
                     }
                     $http({

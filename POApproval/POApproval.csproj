@@ -260,6 +260,9 @@
     <Compile Include="Models\procGetAllUsers_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\procGetUserApprovalLog_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\procPendingPO_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -279,6 +282,7 @@
     <Compile Include="Models\procSelectManageApproval_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\procSelectUserDataMenu_Result.cs" />
     <Compile Include="Models\procSelectUserData_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -289,6 +293,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\procSelectUser_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\procUserMenu_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\procValidateUserLogins_Result.cs">
@@ -331,6 +338,7 @@
     <Compile Include="Report\RptPO.aspx.designer.cs">
       <DependentUpon>RptPO.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SessionExpireFilterAttribute.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="ViewModel\UserDataViewModel.cs" />
     <Compile Include="ViewModel\POViewModel.cs" />
@@ -395,6 +403,7 @@
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\checklist-model.js" />
     <Content Include="Scripts\DataTable.js" />
     <Content Include="Scripts\Date.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

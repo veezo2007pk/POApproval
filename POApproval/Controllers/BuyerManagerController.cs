@@ -180,16 +180,11 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Update_BuyerManager(tblBuyerDetail BuyerManager)
         {
-            //var Approval = db.tblBuyerDetails.Where(x => x.intBuyerManagerCode == BuyerManager.intBuyerManagerCode).FirstOrDefault();
-
-            //if (Approval.intApprovalLevelCode != BuyerManager.intApprovalLevelCode)
-            //{
-            //    var checkUserBuyerManagerExist = db.tblBuyerManagers.Where(x => x.intUserCode == BuyerManager.intUserCode && x.intApprovalLevelCode == BuyerManager.intApprovalLevelCode && x.numFromApprovalAmount == BuyerManager.numFromApprovalAmount && x.numToApprovalAmount == BuyerManager.numToApprovalAmount).FirstOrDefault();
-            //    if (checkUserBuyerManagerExist != null)
-            //    {
-            //        return 2;
-            //    }
-            //}
+            var checkUserBuyerManagerExist = db.tblBuyerDetails.Where(x => x.intUserCode == BuyerManager.intUserCode && x.intBuyerCode == BuyerManager.intBuyerCode).FirstOrDefault();
+            if (checkUserBuyerManagerExist != null)
+            {
+                return 2;
+            }
             if (BuyerManager != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

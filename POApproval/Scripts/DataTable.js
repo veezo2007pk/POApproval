@@ -176,6 +176,7 @@
     
 
     $(document).ready(function () {
+
         $('#myTablePO').DataTable({
             "ordering": true,
             "searching": true,

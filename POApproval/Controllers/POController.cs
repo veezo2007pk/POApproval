@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
+    [OutputCache(Duration = 0)]
     public class POController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
@@ -37,9 +38,10 @@ namespace POApproval.Controllers
             List<tblPODetail> PODetailModel = db.tblPODetails.Where(x => x.intPOCode == ID).ToList();
             return PODetailModel;
         }
-        public List<tblPOHistory> GetPOHistoriesModel(int ID)
+        public List<procGetUserApprovalLog_Result> GetPOHistoriesModel(int ID)
         {
-            List<tblPOHistory> POHistoryModel = db.tblPOHistories.Where(x => x.intPOCode == ID).ToList();
+            string userid = ID.ToString();
+            List<procGetUserApprovalLog_Result> POHistoryModel = db.procGetUserApprovalLog(userid).ToList();
             return POHistoryModel;
         }
         public List<tblManageApproval> GetManageApprovalModel()
@@ -71,7 +73,7 @@ namespace POApproval.Controllers
 
             if (Session["SuperAdmin"].ToString() == "Y")
             {
-                 data = db.procSearchPO(null, null, "Pending").ToList();
+                data = db.procSearchPO(null, null, "Pending").ToList();
             }
             else
             {

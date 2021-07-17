@@ -106,19 +106,20 @@ var app = angular.module("myBuyerManagerApp", [])
                         datatype: "json",
                         data: JSON.stringify($scope.BuyerManager)
                     }).then(function (response) {
-                        //if (response.data == '2') {
-                        //    $("#btnSave").attr("disabled", false);
-                        //    $("#UserErrorMessage").text("Approval level for this user is already exist!");
-                        //    return;
-                        //    //document.getElementsByClassName('UserErrorMessage').='Username already exist'
-                        //}
-                        //else {
+                        if (response.data == '2') {
+                            $("#btnSave").attr("disabled", false);
+                            $("#UserErrorMessage").text("User with same buyer is already exist!");
+                            return;
+                            //document.getElementsByClassName('UserErrorMessage').='Username already exist'
+                        }
+                        else {
                             alert('Data updated successfully');
                             $scope.GetAllData();
-                        $scope.intUserCode = "";
-                        $scope.intBuyerCode = "";
-                          
-                        window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
+                            $scope.intUserCode = "";
+                            $scope.intBuyerCode = "";
+
+                            window.location.href = "/poapproval/BuyerManager/BuyerManagerList"
+                        }
                        /* }*/
 
                     }, function (error) {

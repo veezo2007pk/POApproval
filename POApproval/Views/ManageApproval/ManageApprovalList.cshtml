@@ -45,7 +45,7 @@
                                     <input type="button"  value="Delete" class="btn btn-danger"   ng-click="DeleteApproval(@item.intManageApprovalCode)" />
                                 </td>
                                 <td>
-                                    @item.UserCode
+                                    @item.UserCode.ToString().PadLeft(5, '0')
                                 </td>
                                 <td>
                                     @item.Department

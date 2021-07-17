@@ -23,14 +23,14 @@
                 @Html.ActionLink("PO Approval System", "SearchPO", "PO", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" id="menudata">
                     <li>@Html.ActionLink("Search PO", "SearchPO", "PO")</li>
                     @*<li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
-                    <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>*@
+                        <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>*@
                     @if (Session["SuperAdmin"].ToString() == "Y")
                     {
 
-                    <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
+                        <li>@Html.ActionLink("Manage Approval", "ManageApprovalList", "ManageApproval")</li>
 
                     }
                     @if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
@@ -38,32 +38,33 @@
 
                         if (Convert.ToBoolean(Session["bolIsNewUser"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
                         {
-                    <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
+                            <li>@Html.ActionLink("Manage User", "UserList", "User")</li>
                         }
                     }
                     @*@if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) != null || Session["SuperAdmin"].ToString() == "Y")
-        {
+                        {
 
-            if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
-            {
+                            if (Convert.ToBoolean(Session["bolIsNewBuyer"].ToString()) == true || Session["SuperAdmin"].ToString() == "Y")
+                            {
 
-                <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
-            }
-        }*@
+                                <li>@Html.ActionLink("Buyer", "BuyerList", "Buyer")</li>
+                            }
+                        }*@
                     @if (Session["SuperAdmin"].ToString() == "Y")
                     {
 
 
 
-                    <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
+                        <li>@Html.ActionLink("Manage Buyer", "BuyerManagerList", "BuyerManager")</li>
 
                     }
 
                 </ul>
-              
+
                 <ul style="padding-top:7px;" class=" navbar-right">
 
-                    <li>@if(Session["strUser"].ToString()!=null){<a style="color:white;">@Session["intUserCode"].ToString() - @Session["strUser"].ToString()      </a>     }<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+                    <li>@if (Session["strUser"].ToString() != null)
+                    {<a style="color:white;">@Session["intUserCode"].ToString() - @Session["strUser"].ToString()      </a>}<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
 
 
                 </ul>
@@ -74,11 +75,10 @@
         @RenderBody()
         <div class="text-center" id="loader"><img src="~/images/Loader.gif" /></div>
         @*<footer>
-            <p>&copy; @DateTime.Now.Year - HONK KONG SA SA (M) SDN BHD</p>
-        </footer>*@
+                <p>&copy; @DateTime.Now.Year - HONK KONG SA SA (M) SDN BHD</p>
+            </footer>*@
     </div>
 
-    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -86,27 +86,96 @@
 </body>
 </html>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 
 <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js" type="text/javascript"></script>
 
-
+<script src="~/Scripts/checklist-model.js"></script>
 <script src="~/Scripts/select-searchable.js"></script>
 <script>
+    $(document).ajaxError(function (xhr, props) {
+if (props.status === 401) {
+   window.location.href = '@Url.Action("Login","Account")';
+  }
+});
     $(document).ready(function () {
-    
-        $(".listbox").select2({
-          
-            allowClear: true
+
+        function removeSigns() {
+            var input = document.getElementById('my-input');
+            input.value = parseInt(input.value.toString().replace('+', '').replace('-', ''))
+        }
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:61646/User/GetUserMenus/",
+                data: JSON.stringify(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //console.log(response);
+                    html = '';
+                    for (i = 0; i < response.length; i++) {
+                        console.log(response[i].menucode);
+                        html += '<li><a href=' + 'http://localhost:61646/' + response[i].menulink + '>' + response[i].menuname + '</a></li>';
+                    }
+                    $('#menudata').html(html);
+                    if (response != null) {
+                        //alert("PO Approved successfully");
+                        // location.reload();
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                    //$("#approve").attr("disabled", false);
+
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                    $("#approve").attr("disabled", false);
+                }
+            });
         });
-        $(".select-searchable").select2({
+
+        $(".listbox").select2({
 
             allowClear: true
         });
-       
+        $("#chkall").click(function () {
+
+            $(".listbox > option").prop("selected", "selected");
+            $(".listbox").trigger("change");
+
+        });
+        $("#unchkall").click(function () {
+
+            $(".listbox > option").prop("selected", false);
+            $(".listbox").trigger("change");
+        });
+        function hideSelected(value) {
+            if (value && !value.selected) {
+                return $('<span>' + value.text + '</span>');
+            }
+        }
+
+        $(".select-searchable").select2({
+
+            allowClear: true,
+            placeholder: "--Select--",
+            //placeholder: {
+            //    id: "",
+            //    placeholder: "Leave blank to ..."
+            //},
+            minimumResultsForSearch: -1,
+
+            templateResult: hideSelected,
+        });
+
         var spinner = $('#loader');
         $(function () {
-           
+
             //$('.listbox').multiselect({
             //    includeSelectAllOption: true,
             //    selectedClass: 'active',
@@ -139,9 +208,9 @@
                 return true;
             });
             $("#btnSubmit").click(function () {
-                
-              
-               
+
+
+
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();
@@ -229,7 +298,7 @@
             });
 
             $("#btnMainReject").click(function () {
-               
+
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();
@@ -237,7 +306,7 @@
                 }
                 else {
                     //$('#exampleModal').modal('show');
-                    $('#exampleModal').modal({ backdrop: 'static', keyboard: false, show: true })  
+                    $('#exampleModal').modal({ backdrop: 'static', keyboard: false, show: true })
                     return false;
                 }
 
@@ -274,7 +343,7 @@
 
             $("#btnReject").click(function () {
                 $('#rejectstatus').val("reject");
-                
+
                 var strRejectReason = $('#strRejectReasonForList').val();
                 //alert(strRejectReason);
                 if (strRejectReason == "") {
@@ -565,7 +634,7 @@
     //            requiredCheckboxes.addClass('ng-valid-required');
     //            requiredCheckboxes.addClass('ng-valid');
 
-               
+
     //            //attr('ng-required', 'required');
     //        } else {
     //            requiredCheckboxes.attr('required', 'required');
@@ -618,7 +687,7 @@
         //    $('#option-5').prop('checked', false);
         //}
 
-       // $('.fullname').val(fullname);
+        // $('.fullname').val(fullname);
         //$('.email').val(email);
         //$('.usergroup').val(usergroup);
         /*$('.xpertLoginID').val(xpertLoginID);*/

@@ -11,15 +11,9 @@ namespace POApproval.Models
 {
     using System;
     
-    public partial class procSelectUserData_Result
+    public partial class procSelectUserDataMenu_Result
     {
-        public string UserCode { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Department { get; set; }
-        public string xpertLoginID { get; set; }
-        public string Status { get; set; }
-        public string SuperAdmin { get; set; }
+        public Nullable<int> menu_code { get; set; }
+        public string selected { get; set; }
     }
 }

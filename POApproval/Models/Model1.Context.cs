@@ -248,13 +248,33 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
         }
     
-        public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
+        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string action)
         {
             var usercodeParameter = usercode != null ?
                 new ObjectParameter("usercode", usercode) :
                 new ObjectParameter("usercode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
+            var xpertLoginIDParameter = xpertLoginID != null ?
+                new ObjectParameter("xpertLoginID", xpertLoginID) :
+                new ObjectParameter("xpertLoginID", typeof(string));
+    
+            var pwdParameter = pwd != null ?
+                new ObjectParameter("pwd", pwd) :
+                new ObjectParameter("pwd", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("status", status) :
+                new ObjectParameter("status", typeof(string));
+    
+            var superAdminParameter = superAdmin != null ?
+                new ObjectParameter("SuperAdmin", superAdmin) :
+                new ObjectParameter("SuperAdmin", typeof(string));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, actionParameter);
         }
     
         public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
@@ -294,50 +314,40 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAccessLevels_Result>("procGetAccessLevels");
         }
     
-        public virtual int procInsertUpdateUserAccess(string usercode, string menu_code, string action)
+        public virtual ObjectResult<Nullable<int>> procSelectUserDataMenu(string usercode)
         {
             var usercodeParameter = usercode != null ?
                 new ObjectParameter("usercode", usercode) :
                 new ObjectParameter("usercode", typeof(string));
     
-            var menu_codeParameter = menu_code != null ?
-                new ObjectParameter("menu_code", menu_code) :
-                new ObjectParameter("menu_code", typeof(string));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUserAccess", usercodeParameter, menu_codeParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("procSelectUserDataMenu", usercodeParameter);
         }
     
-        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string action)
+        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
         {
             var usercodeParameter = usercode != null ?
                 new ObjectParameter("usercode", usercode) :
                 new ObjectParameter("usercode", typeof(string));
     
-            var xpertLoginIDParameter = xpertLoginID != null ?
-                new ObjectParameter("xpertLoginID", xpertLoginID) :
-                new ObjectParameter("xpertLoginID", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
+        }
     
-            var pwdParameter = pwd != null ?
-                new ObjectParameter("pwd", pwd) :
-                new ObjectParameter("pwd", typeof(string));
+        public virtual ObjectResult<procGetUserApprovalLog_Result> procGetUserApprovalLog(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
     
-            var statusParameter = status != null ?
-                new ObjectParameter("status", status) :
-                new ObjectParameter("status", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetUserApprovalLog_Result>("procGetUserApprovalLog", usercodeParameter);
+        }
     
-            var superAdminParameter = superAdmin != null ?
-                new ObjectParameter("SuperAdmin", superAdmin) :
-                new ObjectParameter("SuperAdmin", typeof(string));
+        public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
     
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
         }
     }
 }

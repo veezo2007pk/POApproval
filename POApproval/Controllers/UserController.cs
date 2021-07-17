@@ -22,21 +22,22 @@ namespace POApproval.Controllers
             String userCode = Session["intUserCode"].ToString();
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
             //{
-
+            var data = db.procSelectUser().ToList();
+             return View(data);
             //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
-            if (Session["SuperAdmin"].ToString() == "Y")
-            {
-                var data = db.procSelectUser().ToList();
-                return View(data);
-            }
-            else
-            {
-                var data = db.procSelectUser().Where(x => x.UserCode == userCode).ToList();
-                return View(data);
-            }
+            //if (Session["SuperAdmin"].ToString() == "Y")
+            //{
+            //    var data = db.procSelectUser().ToList();
+            //    return View(data);
+            //}
+            //else
+            //{
+            //    var data = db.procSelectUser().Where(x => x.UserCode == userCode).ToList();
+            //    return View(data);
+            //}
         }
-        
+
         //[Authorize]
         public ActionResult AddUser()
         {
@@ -81,6 +82,11 @@ namespace POApproval.Controllers
         {
             //PopulateDropdown();          
             var userInfo = db.procSelectUserData(ID).FirstOrDefault();
+            var usermeuids = db.procSelectUserDataMenu(ID).ToList();
+         
+            // var datasss=usermeuids.Select(s=>s)
+
+            //string[] menuids = usermeuids.Split(',');
             if (userInfo != null)
             {
                 bool admin;
@@ -94,17 +100,14 @@ namespace POApproval.Controllers
                 }
                 UserViewModel objUser = new UserViewModel()
                 {
-                    usercode=userInfo.UserCode,
+                    usercode = userInfo.UserCode,
                     usergroup = userInfo.Department,
                     email = userInfo.Email,
                     pwd = userInfo.Password,
                     fullname = userInfo.Username,
                     status = userInfo.Status,
-                    bolIsApprovalLimit=userInfo.bolIsApprovalLimit,
-                    bolIsNewUser=userInfo.bolIsNewUser,
-                    bolIsManageBuyer = userInfo.bolIsManageBuyer,
-                    bolIsNewBuyer = userInfo.bolIsNewBuyer,
-                    SuperAdmin=admin,
+                    usermenuids = usermeuids,
+                    SuperAdmin =admin,
                     xpertLoginID=userInfo.xpertLoginID
                 };
                 return View(objUser);
@@ -209,6 +212,13 @@ namespace POApproval.Controllers
                 return 0;
             }
         }
+        public JsonResult GetUserMenus()
+        {
+            String userCode = Session["intUserCode"].ToString();
+            List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
+
+            return Json(GetUserMenus, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetAccessMenus()
         {
             List<procGetAccessLevels_Result> GetAccessMenus = db.procGetAccessLevels().ToList();
@@ -217,6 +227,15 @@ namespace POApproval.Controllers
 
             return Json(GetAccessMenus, JsonRequestBehavior.AllowGet);
         }
+        //public JsonResult GetSelectedMenus(string ID)
+        //{
+            
+        //    List<procSelectUserDataMenu_Result> GetAccessMenusdata = db.procSelectUserDataMenu(ID).ToList();
+
+
+
+        //    return Json(GetAccessMenusdata, JsonRequestBehavior.AllowGet);
+        //}
         /// <summary>  
         /// Delete User Information  
         /// </summary>  

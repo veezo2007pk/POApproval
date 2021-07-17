@@ -11,6 +11,13 @@
         color: red;
         display: none;
     }
+    table.dataTable thead .sorting_asc {
+      background-color:gray !important;
+    }
+
+    table.datatable thead .sorting_desc {
+        background-color: gray !important;
+    }
 </style>
 <div>
 
@@ -24,6 +31,10 @@
 
                         <div class="form-group">
                             <label for="email" class="statuslabel">Status:</label>
+                            <div class="button-container">
+                                <button type="button" class="btn btn-default btn-sm" id="chkall">Select All</button>
+                                <button type="button" class="btn btn-default btn-sm" id="unchkall">Deselect All</button>
+                            </div>
                             <select class="form-control listbox" multiple="multiple" name="strStatusName">
                                 @foreach (var item in (MultiSelectList)ViewBag.Status)
                                 {
@@ -34,6 +45,7 @@
                                         var results = Array.Find(arr, s => s.Equals(target));
                                         if (results == target)
                                         {
+
                                             <option value="@item.Value" selected>@item.Text</option>
                                         }
                                         else
@@ -51,14 +63,14 @@
                                 }
                             </select>
                             @*<select title="Select Status" class="form-control" name="strPOStatus" id="strPOStatus">
-                                    <option value="">Select Status</option>
-                                    <option value="PENDING">PENDING</option>
-                                    <option value="APPROVED">APPROVED</option>
-                                    <option value="REVIEWED 1">REVIEWED 1</option>
-                                    <option value="REVIEWED 2">REVIEWED 2</option>
-                                    <option value="REVIEWED 3">REVIEWED 3</option>
-                                    <option value="REJECTED">REJECTED</option>
-                                </select>*@
+            <option value="">Select Status</option>
+            <option value="PENDING">PENDING</option>
+            <option value="APPROVED">APPROVED</option>
+            <option value="REVIEWED 1">REVIEWED 1</option>
+            <option value="REVIEWED 2">REVIEWED 2</option>
+            <option value="REVIEWED 3">REVIEWED 3</option>
+            <option value="REJECTED">REJECTED</option>
+        </select>*@
                             @*@Html.DropDownList("strStatusName", (MultiSelectList)ViewBag.Status, new { multiple = "multiple", @class = "form-control listbox" })*@
                         </div>
                         <div class="form-group">
@@ -116,7 +128,7 @@
                                 <th>Buyer</th>
                                 <th>Qty</th>
                                 <th>
-                                    Amount
+                                    Amount (RM)
                                 </th>
                                 <th>Action</th>
                             </tr>
@@ -293,7 +305,7 @@
 
                             <th>Buyer</th>
                             <th>Qty</th>
-                            <th>Amount</th>
+                            <th>Amount (RM)</th>
                             <th>Action</th>
 
                         </tr>
@@ -435,118 +447,7 @@
 
                                 </tr>
                             }
-                            else
-                            {
-                                <tr style="background-color:indianred; color:white" title="User cannot proceed to next status for this PO">
-                                    @if (Model[item].strPOStatus != "Approved")
-                                    {
-                                        if (Model[item].strPOStatus == "Rejected")
-                                        {
-                                            <td></td>
-                                        }
-                                        else
-                                        {
-                                            if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
-                                            {
-                                                <td></td>
-
-                                            }
-                                            else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
-                                            {
-                                                <td></td>
-                                            }
-                                            else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
-                                            {
-                                                <td></td>
-
-                                            }
-                                            else if (Model[item].ApprovalLevel == null)
-                                            {
-                                                <td></td>
-
-                                            }
-
-                                            else if (Model[item].NextPOStatus == Model[item].ApprovalLevel)
-                                            {
-                                                <td>
-                                                    @*<input type="checkbox" name="ID" value="@item.intPOCode " class="custom-checkbox chkCheckBoxId" />*@
-                                                    <div class="icheck-primary">
-                                                        @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
-                                                        <label for="checkboxPrimary1"></label>
-                                                    </div>
-                                                </td>
-
-                                            }
-                                            else
-                                            {
-                                                <td title="User cannot proceed to next status for this PO"><i style="color:red" class="fa fa-window-close"></i></td>
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <td></td>
-                                    }
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].PO_Number)
-                                        @Html.HiddenFor(modelItem => Model[item].PO_Number)
-                                    </td>
-                                    @*<td>@sn</td>*@
-                                    @*<td>
-                        @Html.DisplayFor(modelItem => Model[item].intPOCode)
-                        @Html.HiddenFor(modelItem => Model[item].intPOCode)
-
-                    </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].strPOStatus)
-                                        @Html.HiddenFor(modelItem => Model[item].intPOCode)
-                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
-                                    </td>
-
-
-                                    <td><p style=" font-weight:bold;">-></p></td>
-                                    <td>
-                                        <p style="font-weight:bold; font-size:13px">@Html.DisplayFor(modelItem => Model[item].NextPOStatus)</p>
-                                        @Html.HiddenFor(modelItem => Model[item].NextPOStatus)
-                                    </td>
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => Model[item].ApprovalLevel)
-                                        @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
-                                    </td>*@
-
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
-                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
-                                        @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Creation_Date)
-                                        @Html.HiddenFor(modelItem => Model[item].Creation_Date)
-
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Buyer)
-                                        @Html.HiddenFor(modelItem => Model[item].Buyer)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Qty)
-                                        @Html.HiddenFor(modelItem => Model[item].Qty)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => Model[item].Amount)
-                                        @Html.HiddenFor(modelItem => Model[item].Amount)
-                                    </td>
-                                    <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
-
-
-                                </tr>
-
-                            }
+                           
 
                             sn++;
 

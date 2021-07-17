@@ -22,7 +22,7 @@
                     {
                     <div class="form-group">
                         <i class="fa fa-user"></i>
-                        @Html.TextBoxFor(m => m.UserCode, new {@class="form-control", @name= "UserCode", @placeholder="Login ID", @type="Number", @required="required", @pattern = @"^\S+$", @title = "Enter Username without Space." })
+                        @Html.TextBoxFor(m => m.UserCode, new {@class="form-control", @name= "UserCode", @placeholder="Login ID", @type="Number", @required="required", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57", @title = "Enter Username without Space." })
                         @*<input type="text" class="form-control" name="logon_user_id" placeholder="Login ID" required="required">*@
                     </div>
                     <div class="form-group">

@@ -21,7 +21,7 @@
                         <tr>
 
                             <th>Action</th>
-                            <th>Code</th>
+                            @*<th>Code</th>*@
                             <th>Username</th>
                             <th>Buyer</th>
                            
@@ -39,11 +39,11 @@
                                     <input type="button" value="Delete" class="btn btn-danger" ng-click="DeleteBuyer(@item.intBuyerDetailCode)" />                                
  
                                 </td>
-                                <td>
+                                @*<td>
                                     @item.intBuyerDetailCode
-                                </td>
+                                </td>*@
                                 <td>
-                                    @item.logon_user_id
+                                    @item.intUserCode--@item.logon_user_id
                                 </td>
                                 <td>
                                    @item.intBuyerCode -- @item.strBuyerName

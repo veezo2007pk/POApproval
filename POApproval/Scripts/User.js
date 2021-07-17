@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module("myApp", [])
+var app = angular.module("myApp", ["checklist-model"])
     .directive('loading', ['$http', function ($http) {
         return {
             restrict: 'A',
@@ -39,19 +39,7 @@ var app = angular.module("myApp", [])
         $scope.checkedAll  = function () {
             alert("cehck all");
         }
-        $scope.GetAccessMenus = function () {
-            //debugger;
-            $http({
-                method: "GET",
-                url: "http://localhost:61646/User/GetAccessMenus/",
-                dataType: 'json',
-                data: {},
-                headers: { "Content-Type": "application/json" }
-            }).then(function (data) {
-
-                $scope.GetAccessMenus = data.data;
-            })
-        }
+        
         $scope.getdetails = function () {
 
             //$scope.User = {};
@@ -66,7 +54,7 @@ var app = angular.module("myApp", [])
                 data: { ID: $scope.usercode },
                 headers: { "Content-Type": "application/json" }
             }).then(function (data) {
-                //console.log(data.data[0]);
+                //console.log(data);
                 //console.log(data.data[0].Department);
                 $scope.fullname = data.data[0].Username;
                 $scope.usergroup = data.data[0].Department;
@@ -160,13 +148,16 @@ var app = angular.module("myApp", [])
             }
             if (Action == "Update") {
                 if (confirm('Are you sure you want to update this?')) {
+                    debugger;
                     $("#btnSave").attr("disabled", true);
                     $scope.User = {};
                     var arrMembersToNotify = [];
                     var arrMembersToNotifyNew = [];
                     var iCount = 0;
                     $("#membersToNotify input[type=checkbox]:checked").each(function () {
-                        arrMembersToNotify = $(this).val().split(":");
+                        //arrMembersToNotify = $(this).val().split(":");
+                        //data("foo")
+                        arrMembersToNotify = $(this).data("id").split(":");
                         arrMembersToNotifyNew.push({ "menuCode": arrMembersToNotify[1] });
                     });
 
@@ -177,7 +168,7 @@ var app = angular.module("myApp", [])
                     $scope.User.xpertLoginID = $scope.xpertLoginID;
                     /*$scope.User.usergroup = $scope.usergroup;*/
                  /*   $scope.User.bolIsApprovalLimit = $scope.bolIsApprovalLimit;*/
-                    $scope.User.bolIsNewUser = $scope.bolIsNewUser;
+                    //$scope.User.bolIsNewUser = $scope.bolIsNewUser;
                     $scope.User.status = 1;
                   /*  $scope.User.bolIsNewBuyer = $scope.bolIsNewBuyer;*/
                    /* $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;*/
@@ -264,6 +255,23 @@ var app = angular.module("myApp", [])
                 $scope.GetAllData();
             })
         };
+        $scope.GetAccessMenus = function () {
+            //debugger;
+            $http({
+                method: "GET",
+                url: "http://localhost:61646/User/GetAccessMenus/",
+                dataType: 'json',
+                data: {},
+                headers: { "Content-Type": "application/json" }
+            }).then(function (data) {
+                
+                //$scope.GetAccessMenu = data.data;
+                $scope.roles = 
+                    data.data
+                
+                console.log($scope.roles);
+            })
+        };
         $scope.UpdateUser = function (User) {
             //debugger;
             console.log(User);
@@ -274,19 +282,29 @@ var app = angular.module("myApp", [])
             //document.getElementById("btnSave").setAttribute("value", "Update");
             //document.getElementById("btnSave").style.backgroundColor = "Yellow";
             //document.getElementById("spn").innerHTML = "Update User Information";
-
+            
+            
+            //s=$scope.User.usermenuids.replace("\"", "");
             $scope.usercode = User.usercode;
             $scope.fullname = User.fullname;
             $scope.pwd = User.pwd;
             $scope.email = User.email;
             $scope.usergroup = User.usergroup;
+            $scope.usermenuids = User.usermenuids;
+            $scope.usermenustrings = User.usermenustring;
+            $scope.colors = { Blue: true, Orange: true };
           /*  $scope.bolIsApprovalLimit = User.bolIsApprovalLimit;*/
-            $scope.bolIsNewUser = User.bolIsNewUser;
+            //$scope.bolIsNewUser = User.bolIsNewUser;
           /*  $scope.bolIsManageBuyer = User.bolIsManageBuyer;*/
          /*   $scope.bolIsNewBuyer = User.bolIsNewBuyer;*/
             $scope.SuperAdmin = User.SuperAdmin;
             $scope.xpertLoginID = User.xpertLoginID;
-            $scope.GetAccessMenus;
+            //$scope.usermenuids = User.usermenuids;
+            //s= $scope.usermenuids.replace("", "");
+            $scope.GetAccessMenus();
+            $scope.userr = {
+                roles: User.usermenuids
+            };
         /*    $scope.bolIsActive = User.bolIsActive;*/
             //$scope.dtCreatedAt = User.dtCreatedAt;
             //$scope.intCreatedByCode = User.intCreatedByCode;
