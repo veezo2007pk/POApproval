@@ -85,6 +85,12 @@ var app = angular.module("myManageApprovalApp", [])
                             return;
                             //document.getElementsByClassName('UserErrorMessage').='Username already exist'
                         }
+                        if (response.data == '3') {
+                            $("#btnSave").attr("disabled", false);
+                            $("#UserErrorMessage").text("Amount range is already exist for this approval level!");
+                            return;
+                            //document.getElementsByClassName('UserErrorMessage').='Username already exist'
+                        }
                         else {
                             alert('Manage Approval added successfully');
                             $scope.GetAllData();
@@ -134,6 +140,12 @@ var app = angular.module("myManageApprovalApp", [])
                         if (response.data == '2') {
                             $("#btnSave").attr("disabled", false);
                             $("#UserErrorMessage").text("Approval level for this user is already exist!");
+                            return;
+                            //document.getElementsByClassName('UserErrorMessage').='Username already exist'
+                        }
+                        if (response.data == '3') {
+                            $("#btnSave").attr("disabled", false);
+                            $("#UserErrorMessage").text("Amount range is already exist for this approval level!");
                             return;
                             //document.getElementsByClassName('UserErrorMessage').='Username already exist'
                         }

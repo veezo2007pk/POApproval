@@ -129,11 +129,24 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_ManageApproval(tblManageApproval ManageApproval)
         {
-            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount).FirstOrDefault();
+            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
             if (checkUserManageApprovalExist != null)
             {
                 return 2;
             }
+            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            if (checkUserManageApprovalRange != null)
+            {
+               if(ManageApproval.numFromApprovalAmount<checkUserManageApprovalRange.numToApprovalAmount)
+                {
+                    return 3;
+                }
+               if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+                {
+                    return 3;
+                }
+            }
+
             if (ManageApproval != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
@@ -142,37 +155,27 @@ namespace POApproval.Controllers
                     return ManageApprovalDB.Add(ManageApproval);
                 }
             }
+
+
             else
             {
                 return 0;
             }
         }
-        [HttpPost]
+       
         /// <summary>  
         /// Delete ManageApproval Information  
         /// </summary>  
         /// <param name="Emp"></param>  
         /// <returns></returns>  
-        public string Delete_ManageApproval(tblManageApproval ManageApproval)
+        public ActionResult Delete_ManageApproval(int ID)
         {
-            if (ManageApproval != null)
-            {
-                using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
-                {
-                    var Emp_ = Obj.Entry(ManageApproval);
-                    if (Emp_.State == System.Data.Entity.EntityState.Detached)
-                    {
-                        Obj.tblManageApprovals.Attach(ManageApproval);
-                        Obj.tblManageApprovals.Remove(ManageApproval);
-                    }
-                    Obj.SaveChanges();
-                    return "ManageApproval Deleted Successfully";
-                }
-            }
-            else
-            {
-                return "ManageApproval Not Deleted! Try Again";
-            }
+            tblManageApproval on = db.tblManageApprovals.Find(ID);
+            db.tblManageApprovals.Remove(on);
+            db.SaveChanges();
+            return RedirectToAction("ManageApprovalList", "ManageApproval");
+               
+            
         }
         /// <summary>  
         /// Update ManageApproval Information  
@@ -185,10 +188,22 @@ namespace POApproval.Controllers
 
             if (Approval.intApprovalLevelCode != ManageApproval.intApprovalLevelCode)
             {
-                var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount).FirstOrDefault();
+                var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount &&x.bolIsActive==ManageApproval.bolIsActive).FirstOrDefault();
                 if (checkUserManageApprovalExist != null)
                 {
                     return 2;
+                }
+            }
+            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            if (checkUserManageApprovalRange != null)
+            {
+                if (ManageApproval.numFromApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+                {
+                    return 3;
+                }
+                if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+                {
+                    return 3;
                 }
             }
             if (ManageApproval != null)

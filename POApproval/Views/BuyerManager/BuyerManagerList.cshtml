@@ -35,9 +35,10 @@
 
                             <tr>
                                 <td>
-                                    <a href="http://localhost:61646/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode"  class="btn btn-default" value="Update" HR>Update</a>
-                                    <input type="button" value="Delete" class="btn btn-danger" ng-click="DeleteBuyer(@item.intBuyerDetailCode)" />                                
- 
+                                    <a href="http://localhost:61646/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-default" value="Update" HR>Update</a>
+                                    <a onclick = "if (! confirm('Are you sure you want to delete this?')) { return false; }" href="http://localhost:61646/BuyerManager/Delete_BuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-danger" value="Update" HR>Delete</a>
+
+
                                 </td>
                                 @*<td>
                                     @item.intBuyerDetailCode
