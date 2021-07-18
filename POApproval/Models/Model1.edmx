@@ -114,6 +114,7 @@
           <Property Name="Dis%" Type="numeric" Precision="36" Scale="2" />
           <Property Name="Amount" Type="numeric" Precision="36" Scale="2" />
           <Property Name="Foreign_Amount" Type="numeric" Precision="36" Scale="2" />
+          <Property Name="Brand_Name" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblPOHistory">
           <Key>
@@ -220,6 +221,7 @@
           <Parameter Name="pwd" Type="nvarchar" Mode="In" />
           <Parameter Name="status" Type="nvarchar" Mode="In" />
           <Parameter Name="SuperAdmin" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserApprover" Type="nvarchar" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
         </Function>
         <Function Name="procRptPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -386,10 +388,6 @@
           <FunctionImport Name="procSelectBuyerManager" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManager_Result)" />
           <EntitySet Name="tblPODetails" EntityType="dbSASAApprovalModel.tblPODetail" />
           <FunctionImport Name="procSelectUser" ReturnType="Collection(dbSASAApprovalModel.procSelectUser_Result)" />
-          <FunctionImport Name="procValidateUserLogins" ReturnType="Collection(dbSASAApprovalModel.procValidateUserLogins_Result)">
-            <Parameter Name="strLoginName" Mode="In" Type="Int32" />
-            <Parameter Name="strUserPassword" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="procGetAllUsers" ReturnType="Collection(dbSASAApprovalModel.procGetAllUsers_Result)" />
           <FunctionImport Name="procGetAllBuyersByStaffType" ReturnType="Collection(dbSASAApprovalModel.procGetAllBuyersByStaffType_Result)">
           <Parameter Name="stafftype" Mode="In" Type="String" />
@@ -400,6 +398,7 @@
             <Parameter Name="pwd" Mode="In" Type="String" />
             <Parameter Name="status" Mode="In" Type="String" />
             <Parameter Name="SuperAdmin" Mode="In" Type="String" />
+            <Parameter Name="UserApprover" Mode="In" Type="String" />
             <Parameter Name="Action" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
@@ -428,10 +427,14 @@
           <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procGetUserApprovalLog" ReturnType="Collection(dbSASAApprovalModel.procGetUserApprovalLog_Result)">
-            <Parameter Name="usercode" Mode="In" Type="String" />
+          <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="procSelectUserData" ReturnType="Collection(dbSASAApprovalModel.procSelectUserData_Result)">
-            <Parameter Name="usercode" Mode="In" Type="String" />
+          <Parameter Name="usercode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="procValidateUserLogins" ReturnType="Collection(dbSASAApprovalModel.procValidateUserLogins_Result)">
+            <Parameter Name="strLoginName" Mode="In" Type="Int32" />
+            <Parameter Name="strUserPassword" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
@@ -589,6 +592,7 @@
           <Property Name="Amount" Type="Decimal" Precision="36" Scale="2" />
           <Property Name="Foreign_Amount" Type="Decimal" Precision="36" Scale="2" />
           <NavigationProperty Name="tblPO" Relationship="dbSASAApprovalModel.FK_tblPODetail_tblPO" FromRole="tblPODetail" ToRole="tblPO" />
+          <Property Name="Brand_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="procSelectUser_Result">
           <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
@@ -596,16 +600,6 @@
           <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="procValidateUserLogins_Result">
-          <Property Type="Boolean" Name="bolIsNewBuyer" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsManageBuyer" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsApprovalLimit" Nullable="true" />
-          <Property Type="Boolean" Name="bolIsNewUser" Nullable="true" />
-          <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
         <ComplexType Name="procGetAllUsers_Result">
           <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
@@ -748,6 +742,13 @@
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="UserApprover" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="procValidateUserLogins_Result">
+          <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -916,6 +917,7 @@
           <EntitySetMapping Name="tblPODetails">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPODetail">
               <MappingFragment StoreEntitySet="tblPODetail">
+                <ScalarProperty Name="Brand_Name" ColumnName="Brand_Name" />
                 <ScalarProperty Name="Foreign_Amount" ColumnName="Foreign_Amount" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Dis_" ColumnName="Dis%" />
@@ -939,20 +941,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Department" ColumnName="Department" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procValidateUserLogins" FunctionName="dbSASAApprovalModel.Store.procValidateUserLogins">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procValidateUserLogins_Result">
-                <ScalarProperty Name="bolIsNewBuyer" ColumnName="bolIsNewBuyer" />
-                <ScalarProperty Name="bolIsManageBuyer" ColumnName="bolIsManageBuyer" />
-                <ScalarProperty Name="bolIsApprovalLimit" ColumnName="bolIsApprovalLimit" />
-                <ScalarProperty Name="bolIsNewUser" ColumnName="bolIsNewUser" />
-                <ScalarProperty Name="usercode" ColumnName="usercode" />
-                <ScalarProperty Name="fullname" ColumnName="fullname" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1106,6 +1094,17 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
                 <ScalarProperty Name="UserApprover" ColumnName="UserApprover" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procValidateUserLogins" FunctionName="dbSASAApprovalModel.Store.procValidateUserLogins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procValidateUserLogins_Result">
+                <ScalarProperty Name="usercode" ColumnName="usercode" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

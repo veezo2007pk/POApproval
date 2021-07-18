@@ -7,6 +7,7 @@ namespace POApproval.Models
 {
     public partial class procRptPO_Result
     {
+        public string Brand_Name { get; set; }
         public int intPOCode { get; set; }
         public Nullable<System.DateTime> CurrentDate { get; set; }
         public string CurrentTime { get; set; }

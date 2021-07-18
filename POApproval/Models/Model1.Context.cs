@@ -221,19 +221,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUser_Result>("procSelectUser");
         }
     
-        public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(Nullable<int> strLoginName, string strUserPassword)
-        {
-            var strLoginNameParameter = strLoginName.HasValue ?
-                new ObjectParameter("strLoginName", strLoginName) :
-                new ObjectParameter("strLoginName", typeof(int));
-    
-            var strUserPasswordParameter = strUserPassword != null ?
-                new ObjectParameter("strUserPassword", strUserPassword) :
-                new ObjectParameter("strUserPassword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
-        }
-    
         public virtual ObjectResult<procGetAllUsers_Result> procGetAllUsers()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllUsers_Result>("procGetAllUsers");
@@ -248,7 +235,7 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
         }
     
-        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string action)
+        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string userApprover, string action)
         {
             var usercodeParameter = usercode != null ?
                 new ObjectParameter("usercode", usercode) :
@@ -270,11 +257,15 @@ namespace POApproval.Models
                 new ObjectParameter("SuperAdmin", superAdmin) :
                 new ObjectParameter("SuperAdmin", typeof(string));
     
+            var userApproverParameter = userApprover != null ?
+                new ObjectParameter("UserApprover", userApprover) :
+                new ObjectParameter("UserApprover", typeof(string));
+    
             var actionParameter = action != null ?
                 new ObjectParameter("Action", action) :
                 new ObjectParameter("Action", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, userApproverParameter, actionParameter);
         }
     
         public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
@@ -348,6 +339,19 @@ namespace POApproval.Models
                 new ObjectParameter("usercode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(Nullable<int> strLoginName, string strUserPassword)
+        {
+            var strLoginNameParameter = strLoginName.HasValue ?
+                new ObjectParameter("strLoginName", strLoginName) :
+                new ObjectParameter("strLoginName", typeof(int));
+    
+            var strUserPasswordParameter = strUserPassword != null ?
+                new ObjectParameter("strUserPassword", strUserPassword) :
+                new ObjectParameter("strUserPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
         }
     }
 }

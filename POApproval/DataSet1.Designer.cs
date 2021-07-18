@@ -762,6 +762,8 @@ namespace POApproval {
             
             private global::System.Data.DataColumn columnstrUser;
             
+            private global::System.Data.DataColumn columnBrand_Name;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public procRptReportDataTable() {
@@ -1029,6 +1031,14 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Brand_NameColumn {
+                get {
+                    return this.columnBrand_Name;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1092,7 +1102,8 @@ namespace POApproval {
                         decimal Disc, 
                         decimal Amount, 
                         decimal Foreign_Amount, 
-                        string strUser) {
+                        string strUser, 
+                        string Brand_Name) {
                 procRptReportRow rowprocRptReportRow = ((procRptReportRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CurrentDate,
@@ -1123,7 +1134,8 @@ namespace POApproval {
                         Disc,
                         Amount,
                         Foreign_Amount,
-                        strUser};
+                        strUser,
+                        Brand_Name};
                 rowprocRptReportRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowprocRptReportRow);
                 return rowprocRptReportRow;
@@ -1182,6 +1194,7 @@ namespace POApproval {
                 this.columnAmount = base.Columns["Amount"];
                 this.columnForeign_Amount = base.Columns["Foreign_Amount"];
                 this.columnstrUser = base.Columns["strUser"];
+                this.columnBrand_Name = base.Columns["Brand_Name"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1245,6 +1258,8 @@ namespace POApproval {
                 base.Columns.Add(this.columnForeign_Amount);
                 this.columnstrUser = new global::System.Data.DataColumn("strUser", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnstrUser);
+                this.columnBrand_Name = new global::System.Data.DataColumn("Brand_Name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBrand_Name);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnintPOCode}, true));
                 this.columnCurrentDate.ReadOnly = true;
@@ -1271,6 +1286,7 @@ namespace POApproval {
                 this.columnproduct_code.MaxLength = 25;
                 this.columnDescription.MaxLength = 120;
                 this.columnstrUser.MaxLength = 128;
+                this.columnBrand_Name.MaxLength = 50;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2130,6 +2146,22 @@ namespace POApproval {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Brand_Name {
+                get {
+                    try {
+                        return ((string)(this[this.tableprocRptReport.Brand_NameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Brand_Name\' in table \'procRptReport\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableprocRptReport.Brand_NameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsCurrentDateNull() {
                 return this.IsNull(this.tableprocRptReport.CurrentDateColumn);
             }
@@ -2462,6 +2494,18 @@ namespace POApproval {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetstrUserNull() {
                 this[this.tableprocRptReport.strUserColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBrand_NameNull() {
+                return this.IsNull(this.tableprocRptReport.Brand_NameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBrand_NameNull() {
+                this[this.tableprocRptReport.Brand_NameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2876,6 +2920,7 @@ namespace POApproval.DataSet1TableAdapters {
             tableMapping.ColumnMappings.Add("Amount", "Amount");
             tableMapping.ColumnMappings.Add("Foreign_Amount", "Foreign_Amount");
             tableMapping.ColumnMappings.Add("strUser", "strUser");
+            tableMapping.ColumnMappings.Add("Brand_Name", "Brand_Name");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -2920,7 +2965,8 @@ namespace POApproval.DataSet1TableAdapters {
 	   tblPODetail.[Dis%] Disc,
 	   tblPODetail.Amount,
 	   tblPODetail.Foreign_Amount,
-	   tblPO.username strUser 
+	   tblPO.username strUser ,
+tblPODetail.Brand_Name
  FROM tblPO
 INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;

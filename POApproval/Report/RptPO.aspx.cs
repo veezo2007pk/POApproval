@@ -25,40 +25,44 @@ namespace POApproval.Report
             if (!Page.IsPostBack)
             {
                 string searchText = string.Empty;
-                string strUser = string.Empty;
+                string xpertLoginID = string.Empty;
                 if (Request.QueryString["searchText"] != null)
                 {
                     searchText = Request.QueryString["searchText"].ToString();
                 }
-                if (Request.QueryString["strUser"] != null)
+                if (Request.QueryString["xpertLoginID"] != null)
                 {
-                    strUser = Request.QueryString["strUser"].ToString();
+                    xpertLoginID = Request.QueryString["xpertLoginID"].ToString();
                 }
-               
+
 
                 using (var _context = new dbSASAApprovalEntities())
                 {
-                    
-                        var summary = PODB.GetPOReport(searchText).ToList();
 
-                        CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPOList.rdlc");
-                        CustomerListReportViewer.LocalReport.DataSources.Clear();
-                        ReportDataSource rdc = new ReportDataSource("DataSet1", summary);
-                        CustomerListReportViewer.LocalReport.DataSources.Add(rdc);
+                    var summary = PODB.GetPOReport(searchText).ToList();
+                    CustomerListReportViewer.ProcessingMode = ProcessingMode.Local;
 
 
+                    CustomerListReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/RDLC/RptPOList.rdlc");
+                    CustomerListReportViewer.LocalReport.DataSources.Clear();
+                    ReportDataSource rdc = new ReportDataSource("DataSet1", summary);
+                    CustomerListReportViewer.LocalReport.DataSources.Add(rdc);
+                    ReportParameterCollection reportParameters = new ReportParameterCollection();
+                    reportParameters.Add(new ReportParameter("xpertLoginID", xpertLoginID));
+                    CustomerListReportViewer.LocalReport.SetParameters(reportParameters);
+                   
 
-                        CustomerListReportViewer.LocalReport.SubreportProcessing += new SubreportProcessingEventHandler(SetSubDataSource);
-                        CustomerListReportViewer.ShowReportBody = true;
-                        CustomerListReportViewer.ShowPromptAreaButton = true;
+                    CustomerListReportViewer.LocalReport.SubreportProcessing += new SubreportProcessingEventHandler(SetSubDataSource);
+                    CustomerListReportViewer.ShowReportBody = true;
+                    CustomerListReportViewer.ShowPromptAreaButton = true;
 
-                        CustomerListReportViewer.LocalReport.Refresh();
-                        CustomerListReportViewer.DataBind();
+                    CustomerListReportViewer.LocalReport.Refresh();
+                    CustomerListReportViewer.DataBind();
 
-                       
 
-                    
-                  
+
+
+
 
 
 

@@ -13,11 +13,8 @@ namespace POApproval.Models
     
     public partial class procValidateUserLogins_Result
     {
-        public Nullable<bool> bolIsNewBuyer { get; set; }
-        public Nullable<bool> bolIsManageBuyer { get; set; }
-        public Nullable<bool> bolIsApprovalLimit { get; set; }
-        public Nullable<bool> bolIsNewUser { get; set; }
         public string usercode { get; set; }
+        public string xpertLoginID { get; set; }
         public string fullname { get; set; }
         public string status { get; set; }
         public string SuperAdmin { get; set; }

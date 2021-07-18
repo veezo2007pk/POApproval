@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2018/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSet1">
@@ -171,37 +171,37 @@
                               <TablixBody>
                                 <TablixColumns>
                                   <TablixColumn>
-                                    <Width>0.64357in</Width>
+                                    <Width>0.73296in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.91061in</Width>
+                                    <Width>1in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.91061in</Width>
+                                    <Width>1in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.03561in</Width>
+                                    <Width>1.125in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.35996in</Width>
+                                    <Width>0.44935in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.52274in</Width>
+                                    <Width>0.61213in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.54791in</Width>
+                                    <Width>0.6373in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.71081in</Width>
+                                    <Width>0.8002in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.47311in</Width>
+                                    <Width>0.5625in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.50436in</Width>
+                                    <Width>0.59375in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.91061in</Width>
+                                    <Width>1in</Width>
                                   </TablixColumn>
                                 </TablixColumns>
                                 <TablixRows>
@@ -1272,7 +1272,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Format(CDec(sum(Fields!Amount.Value)),"N")</Value>
+                                                    <Value>=sum(Fields!Amount.Value)</Value>
                                                     <Style>
                                                       <FontFamily>calibri</FontFamily>
                                                       <FontSize>8pt</FontSize>
@@ -1372,7 +1372,7 @@
                               <Top>3.55322in</Top>
                               <Left>0.11113in</Left>
                               <Height>0.86458in</Height>
-                              <Width>7.52986in</Width>
+                              <Width>8.51319in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -2219,7 +2219,7 @@
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
-                                        <Format>dd/MM/yyyy</Format>
+                                        <Format>dd-MM-yyyy</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -2428,7 +2428,7 @@
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
-                                        <Format>dd/MM/yyyy</Format>
+                                        <Format>dd-MM-yyyy</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -2465,7 +2465,7 @@
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
-                                        <Format>dd/MM/yyyy</Format>
+                                        <Format>dd-MM-yyyy</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -2771,7 +2771,7 @@
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
-                                        <Format>dd/MM/yyyy</Format>
+                                        <Format>dd-MM-yyyy</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -3014,6 +3014,7 @@
                             </Border>
                           </Style>
                         </Rectangle>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3047,7 +3048,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.21056in</Height>
+        <Height>6.36681in</Height>
         <Style />
       </Body>
       <Width>9.74807in</Width>
@@ -3075,7 +3076,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox7</rd:DefaultName>
-              <Left>5.85432in</Left>
+              <Left>5.97932in</Left>
               <Height>0.21181in</Height>
               <Width>0.50625in</Width>
               <Style>
@@ -3109,7 +3110,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Left>6.76266in</Left>
+              <Left>6.88766in</Left>
               <Height>0.21181in</Height>
               <Width>1.00208in</Width>
               <ZIndex>1</ZIndex>

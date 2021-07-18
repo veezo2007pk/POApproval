@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
+    [NoDirectAccess]
     [OutputCache(Duration = 0)]
     public class POController : Controller
     {
@@ -18,10 +19,10 @@ namespace POApproval.Controllers
 
 
         // GET: PO
-        public ActionResult PORpt(int intPOCode, string strUser)
+        public ActionResult PORpt(int intPOCode, string xpertLoginID)
         {
             ViewBag.intPOCode = intPOCode;
-            ViewBag.strUser = strUser;
+            ViewBag.xpertLoginID = xpertLoginID;
             return View();
         }
         public ActionResult Index()
@@ -58,7 +59,7 @@ namespace POApproval.Controllers
             POVM.tblPODetails = GetPODetailsModel(ID);
             POVM.tblPOHistories = GetPOHistoriesModel(ID);
             POVM.tblManageApprovals = GetManageApprovalModel();
-            ViewBag.strUser = Session["strUser"].ToString();
+            ViewBag.xpertLoginID = Session["xpertLoginID"].ToString();
             return View(POVM);
 
         }
@@ -133,6 +134,7 @@ namespace POApproval.Controllers
 
                         }
                     }
+                    ViewBag.xpertLoginID = Session["xpertLoginID"].ToString();
                     ViewBag.intPOCode = myCodes;
                     return View("PORpt");
 

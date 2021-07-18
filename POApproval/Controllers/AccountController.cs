@@ -35,13 +35,11 @@ namespace POApproval.Controllers
                   
                     if (obj != null  && obj.status == "ACTIVE")
                     {
+                        Session["xpertLoginID"] = obj.xpertLoginID.ToString();
                         Session["intUserCode"] = obj.usercode.ToString();
                         Session["strUser"] = obj.fullname.ToString();
                         Session["SuperAdmin"] = obj.SuperAdmin.ToString();
-                        Session["bolIsApprovalLimit"] = obj.bolIsApprovalLimit.ToString();
-                        Session["bolIsNewUser"] = obj.bolIsNewUser.ToString();
-                        Session["bolIsNewBuyer"]= obj.bolIsNewBuyer.ToString();
-                        Session["bolIsManageBuyer"] = obj.bolIsManageBuyer.ToString();
+                      
                         //FormsAuthentication.SetAuthCookie(obj.usercode, objUser.RememberMe);
                         return RedirectToAction("SearchPO", "PO");
                     }

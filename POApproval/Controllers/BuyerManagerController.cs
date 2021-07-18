@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-   
+    [NoDirectAccess]
     public class BuyerManagerController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();

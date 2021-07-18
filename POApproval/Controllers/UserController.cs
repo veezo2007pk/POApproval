@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-   
+    [NoDirectAccess]
     public class UserController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();

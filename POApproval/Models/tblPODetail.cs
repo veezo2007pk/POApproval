@@ -26,6 +26,7 @@ namespace POApproval.Models
         public Nullable<decimal> Dis_ { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public Nullable<decimal> Foreign_Amount { get; set; }
+        public string Brand_Name { get; set; }
     
         public virtual tblPO tblPO { get; set; }
     }

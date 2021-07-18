@@ -141,6 +141,15 @@ namespace POApproval.Models
                     {
                         rptPO.strPOStatus = rdr["strPOStatus"].ToString();
                     }
+                    if (rdr["Brand_Name"] == DBNull.Value)
+                    {
+                        rptPO.Brand_Name = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Brand_Name = rdr["Brand_Name"].ToString();
+                    }
 
                     if (rdr["PO_Number"] == DBNull.Value)
                     {
@@ -424,7 +433,8 @@ namespace POApproval.Models
                         product_code = rptPO.product_code,
                         Qty = rptPO.Qty,
                         Unit_Price = rptPO.Unit_Price,
-                        vendor_item_no = rptPO.vendor_item_no
+                        vendor_item_no = rptPO.vendor_item_no,
+                        Brand_Name=rptPO.Brand_Name
 
 
 
