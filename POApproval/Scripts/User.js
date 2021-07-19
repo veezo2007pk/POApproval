@@ -39,7 +39,22 @@ var app = angular.module("myApp", ["checklist-model"])
         $scope.checkedAll  = function () {
             alert("cehck all");
         }
-        
+        $scope.removerequired = function () {
+
+            //alert('ddd');
+            //var checkbox_required = $('input[type="checkbox"]');
+            ////checkbox_required.prop('required', true);
+            //checkbox_required.on('click', function () {
+            //    //alert('ddd');
+            //    if (checkbox_required.is(':checked')) {
+            //        //alert('false');
+            //        checkbox_required.prop('required', false);
+            //    } else {
+            //        //alert('true');
+            //        checkbox_required.prop('required', true);
+            //    }
+            //});
+        }
         $scope.getdetails = function () {
 
             //$scope.User = {};
@@ -110,7 +125,12 @@ var app = angular.module("myApp", ["checklist-model"])
                /*     $scope.User.bolIsManageBuyer = $scope.bolIsManageBuyer;*/
                     $scope.User.SuperAdmin = $scope.SuperAdmin;
                     $scope.User.UserApprover = $scope.UserApprover;
-                    
+                    //alert(arrMembersToNotifyNew);
+                    if (typeof arrMembersToNotifyNew === 'undefined' || arrMembersToNotifyNew === null || arrMembersToNotifyNew == '') {
+                        alert("Please select at least 1 user access to proceed");
+                        $("#btnSave").attr("disabled", false);
+                    }
+                    return;
                     $http.post("http://localhost:61646/User/Insert_User", JSON.stringify({
                         data: $scope.User,
                         lstMembersToNotify: arrMembersToNotifyNew

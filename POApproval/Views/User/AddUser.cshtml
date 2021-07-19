@@ -1,6 +1,6 @@
 ﻿@model POApproval.ViewModel.userDataViewModel
 @{
-    ViewBag.Title = "Add User";
+    ViewBag.Title = "Update User";
 }
 <style>
     .select2-results__option[aria-selected=true] {
@@ -65,13 +65,12 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">User Access</label>
                             <div class="col-sm-10" id="membersToNotify">
-
                                 @{
                                     int _recordCount = 1;
                                     foreach (var item in Model.GetAccessLevels)
                                     {
                                         <div class="checkbox">
-                                            <label><input type="checkbox" ng-model="menuCode@_recordCount" data-id="0:@item.menuCode" value="@item.menuCode" id="option-@_recordCount" ng-checked="SuperAdmin">@item.strMenuName</label>
+                                            <label><input type="checkbox" ng-model="menuCode@_recordCount" data-id="0:@item.menuCode" value="@item.menuCode" id="option-@_recordCount" ng-checked="SuperAdmin" ng-change="removerequired()">@item.strMenuName</label>
                                         </div>
                                         _recordCount = _recordCount + 1;
                                     }

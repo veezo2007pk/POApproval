@@ -26,7 +26,7 @@ namespace POApproval.Controllers
              return View(data);
             //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
-            //if (Session["SuperAdmin"].ToString() == "Y")
+            //if (Session["Superadmin"].ToString() == "y")
             //{
             //    var data = db.procSelectUser().ToList();
             //    return View(data);

@@ -145,6 +145,7 @@
                 });
             }
         });
+        
         //$('#mytablepo').DataTable({
 
         //    "ordering": true,
@@ -229,7 +230,36 @@
                 });
             }
         });
-    });
+
+
+        //var creditAmount = 0
+        // $('#firstTable').DataTable();
+
+    //    $("#myTablePO").on('change', function () {
+    //        //alert('fffff');
+    //        var checkedCount = $("#myTablePO input:checked").length;
+    //        //alert(checkedCount);
+    //        for (var i = 0; i < checkedCount; i++) {
+    //            var htmldata = $("#myTablePO input:checked")[i];
+    //            console.log(htmldata);
+    //        }
+    //        //var creditAmount = 0
+
+    //        //for (var i = 0; i < checkedCount; i++) {
+
+    //        //    var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.children[10].innerHTML
+
+    //        //    if (amount != "") {
+    //        //        creditAmount += parseFloat(amount);
+    //        //    } else {
+    //        //        creditAmount = 0;
+    //        //    }
+    //        //}
+
+    //        //$("#idSmofAmount").text(creditAmount);
+
+    //    });
+    //});
 
     //$(".datepicker input").datepicker({
     //    autoclose: true,
