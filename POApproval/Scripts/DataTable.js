@@ -209,9 +209,10 @@
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
-                    console.log(sum); //alert(sum);
+                    var finalsum = sum.toLocaleString('en-US', { maximumFractionDigits: 2 });
+                    //console.log(sum); //alert(sum);
                     //$(this.footer()).html(sum);
-                    $('#total span').html(sum.toFixed(2));
+                    $('#total span').html(finalsum);
                 });
 
                 api.columns('.qty', { page: 'current' }).every(function () {
@@ -222,7 +223,8 @@
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
-                    $('#totalQty span').html(qty);
+                    var finalqty=qty.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                    $('#totalQty span').html(finalqty);
                     //console.log("totalsum"+sum);
                     console.log(qty); //alert(sum);
                     //$(this.footer()).html(sum);
@@ -231,39 +233,59 @@
             }
         });
 
-
         //var creditAmount = 0
-        // $('#firstTable').DataTable();
+        //$("#myTablePO").on('change', function () {
 
-    //    $("#myTablePO").on('change', function () {
-    //        //alert('fffff');
-    //        var checkedCount = $("#myTablePO input:checked").length;
-    //        //alert(checkedCount);
-    //        for (var i = 0; i < checkedCount; i++) {
-    //            var htmldata = $("#myTablePO input:checked")[i];
-    //            console.log(htmldata);
-    //        }
-    //        //var creditAmount = 0
+        //    var checkedCount = $("#myTablePO input:checked").length;
 
-    //        //for (var i = 0; i < checkedCount; i++) {
+        //    for (var i = 0; i < checkedCount; i++) {
 
-    //        //    var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.children[10].innerHTML
+        //        var amount = $(this).find('td:eq(10)').text();
+        //        alert(amount);
+        //        if (amount != "") {
+        //            creditAmount += parseFloat(amount);
+        //        } else {
+        //            creditAmount = 0;
+        //        }
+        //    }
+        //    $("#idSmofAmount").text(creditAmount);
 
-    //        //    if (amount != "") {
-    //        //        creditAmount += parseFloat(amount);
-    //        //    } else {
-    //        //        creditAmount = 0;
-    //        //    }
-    //        //}
+        //});
 
-    //        //$("#idSmofAmount").text(creditAmount);
+        var creditAmount = 0
+        var creditQty = 0
+        $("#myTablePO").on('change', function () {
+           
+            var checkedCount = $("#myTablePO input:checked").length;
+            //console.log(checkedCount);
+            var creditAmount = 0
+            var creditQty = 0
+            $("#idSmofAmount").text(0);
+            for (var i = 0; i < checkedCount; i++) {
+                var qty = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[9].innerHTML;
+                var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                if (amount != "") {
+                    creditAmount += parseFloat(amount);
+                } else {
+                    creditAmount = 0;
+                }
 
-    //    });
-    //});
+                if (qty != "") {
+                    creditQty += parseFloat(qty);
+                } else {
+                    creditQty = 0;
+                }
+            }
+            var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
+            $("#total span").text(grandtotal);
 
-    //$(".datepicker input").datepicker({
-    //    autoclose: true,
-    //    todayHighlight: true
-    //}).datepicker('update', new Date());
+            
+
+            var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
+            $("#totalQty span").text(grandqty);
+
+            
+        });
+    });
 
 })(jQuery);

@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BuyerManagerController.cs" />
     <Compile Include="Controllers\ManageApprovalController.cs" />
@@ -468,6 +469,7 @@
     <Content Include="Views\BuyerManager\AddBuyerManager.cshtml" />
     <Content Include="Views\BuyerManager\BuyerManagerList.cshtml" />
     <Content Include="Views\BuyerManager\UpdateBuyerManager.cshtml" />
+    <Content Include="Views\Errors\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
