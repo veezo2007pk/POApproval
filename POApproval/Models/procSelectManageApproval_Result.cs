@@ -15,6 +15,7 @@ namespace POApproval.Models
     {
         public int intManageApprovalCode { get; set; }
         public string UserCode { get; set; }
+        public string BuyerName { get; set; }
         public string ApprovalName { get; set; }
         public string ApprovalLevel { get; set; }
         public string Department { get; set; }

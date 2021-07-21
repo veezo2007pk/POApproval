@@ -136,11 +136,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManager_Result>("procSelectBuyerManager");
         }
     
-        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
-        }
-    
         public virtual ObjectResult<procSelectUser_Result> procSelectUser()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUser_Result>("procSelectUser");
@@ -203,6 +198,11 @@ namespace POApproval.Models
                 new ObjectParameter("intUserCode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManageApproval_Result>("procSelectBuyerManageApproval", intUserCodeParameter);
+        }
+    
+        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
         }
     }
 }

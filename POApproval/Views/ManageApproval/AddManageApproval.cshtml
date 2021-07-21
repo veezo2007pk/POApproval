@@ -39,7 +39,7 @@
                                 <label class="col-sm-2 col-form-label">Buyer</label>
                                 <div class="col-sm-10">
                                     <select title="Select" ng-model="intBuyerCode" class="form-control select-searchable" ng-required="true">
-                                        <option ng-repeat="buyer in buyers" ng-value="{{buyer.BuyeCode}}">
+                                        <option ng-repeat="buyer in buyers" ng-value="buyer.BuyeCode">
                                             {{buyer.BuyeCode}}--{{buyer.BuyerName}}
                                         </option>
                                     </select>

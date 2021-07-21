@@ -15,7 +15,8 @@ namespace POApproval.Models
         public Nullable<long> PO_Number { get; set; }
         public string Supplier_Code { get; set; }
         public string Supplier_Name { get; set; }
-        [DisplayFormat(DataFormatString = "{0: dd-MM-yyyy")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+
 
         public Nullable<System.DateTime> Creation_Date { get; set; }
         public string strPOStatus { get; set; }

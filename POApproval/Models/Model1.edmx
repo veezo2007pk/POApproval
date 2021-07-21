@@ -456,7 +456,6 @@
           </FunctionImport>
           <FunctionImport Name="procSelectBuyer" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyer_Result)" />
           <FunctionImport Name="procSelectBuyerManager" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManager_Result)" />
-          <FunctionImport Name="procSelectManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectManageApproval_Result)" />
           <FunctionImport Name="procSelectUser" ReturnType="Collection(dbSASAApprovalModel.procSelectUser_Result)" />
           <FunctionImport Name="procSelectUserData" ReturnType="Collection(dbSASAApprovalModel.procSelectUserData_Result)">
           <Parameter Name="usercode" Mode="In" Type="String" />
@@ -475,8 +474,9 @@
           </FunctionImport>
           <EntitySet Name="tblStatus" EntityType="dbSASAApprovalModel.tblStatu" />
           <FunctionImport Name="procSelectBuyerManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManageApproval_Result)">
-            <Parameter Name="intUserCode" Mode="In" Type="String" />
+          <Parameter Name="intUserCode" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="procSelectManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectManageApproval_Result)" />
         </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -552,15 +552,6 @@
           <Property Type="String" Name="logon_user_id" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="intUserCode" Nullable="true" MaxLength="10" />
         </ComplexType>
-        <ComplexType Name="procSelectManageApproval_Result">
-          <Property Type="Int32" Name="intManageApprovalCode" Nullable="false" />
-          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ApprovalName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ApprovalAmount" Nullable="false" MaxLength="85" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
-        </ComplexType>
         <ComplexType Name="procSelectUser_Result">
           <Property Type="String" Name="UserCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
@@ -622,6 +613,16 @@
         <ComplexType Name="procSelectBuyerManageApproval_Result">
           <Property Type="String" Name="BuyeCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="procSelectManageApproval_Result">
+          <Property Type="Int32" Name="intManageApprovalCode" Nullable="false" />
+          <Property Type="String" Name="UserCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ApprovalName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApprovalAmount" Nullable="false" MaxLength="85" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
       </Schema>
@@ -875,19 +876,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procSelectManageApproval" FunctionName="dbSASAApprovalModel.Store.procSelectManageApproval">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectManageApproval_Result">
-                <ScalarProperty Name="intManageApprovalCode" ColumnName="intManageApprovalCode" />
-                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
-                <ScalarProperty Name="ApprovalName" ColumnName="ApprovalName" />
-                <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="ApprovalAmount" ColumnName="ApprovalAmount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procSelectUser" FunctionName="dbSASAApprovalModel.Store.procSelectUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectUser_Result">
@@ -977,6 +965,20 @@
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectBuyerManageApproval_Result">
                 <ScalarProperty Name="BuyeCode" ColumnName="BuyeCode" />
                 <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procSelectManageApproval" FunctionName="dbSASAApprovalModel.Store.procSelectManageApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectManageApproval_Result">
+                <ScalarProperty Name="intManageApprovalCode" ColumnName="intManageApprovalCode" />
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+                <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+                <ScalarProperty Name="ApprovalName" ColumnName="ApprovalName" />
+                <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="ApprovalAmount" ColumnName="ApprovalAmount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </ComplexTypeMapping>
             </ResultMapping>

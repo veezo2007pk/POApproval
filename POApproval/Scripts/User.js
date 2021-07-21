@@ -253,6 +253,20 @@ var app = angular.module("myApp", ["checklist-model"])
                
             })
         };
+        $scope.checkAll = function () {
+            if ($scope.SuperAdmin == true) {
+
+               
+                $scope.userr.roles = [];
+                $scope.checkdisable = ""
+            } else {
+               
+                $scope.userr.roles = $scope.roles.map(function (item) { return item.menuCode; });
+                $scope.checkdisable = "checked"
+               
+                
+            }
+        };
         $scope.DeleteUser = function (Emp) {
             if (confirm('Are you sure you want to delete this?')) {
                 alert(Emp);
@@ -331,6 +345,7 @@ var app = angular.module("myApp", ["checklist-model"])
             $scope.userr = {
                 roles: User.usermenuids
             };
+            
         /*    $scope.bolIsActive = User.bolIsActive;*/
             //$scope.dtCreatedAt = User.dtCreatedAt;
             //$scope.intCreatedByCode = User.intCreatedByCode;

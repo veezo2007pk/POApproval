@@ -11,7 +11,7 @@ var app = angular.module("myBuyerManagerApp", [])
 
                 scope.$watch(scope.isLoading, function (v) {
                     if (v) {
-                        elm.show();
+                        elm.showUpdateBuyerManager
                     } else {
                         elm.hide();
                     }
@@ -32,6 +32,7 @@ var app = angular.module("myBuyerManagerApp", [])
             }).then(function (data) {
                
                 $scope.Users = data.data;
+                console.log($scope.Users )
             })
         }
         $scope.GetBuyer = function () {
