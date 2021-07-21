@@ -274,6 +274,10 @@ namespace POApproval.Controllers
             /// <returns></returns>  
             public int Update_User(userDataViewModel data, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
+            if(lstMembersToNotify== null || lstMembersToNotify[0].menuCode==0)
+            {
+                return 2;
+            }
             int length = lstMembersToNotify.Count;
             //var checkUserEmailExist = db.procGetAllUsers().Where(x => x.email == userdata.email).FirstOrDefault();
             //var checkUsernameExist = db.procGetAllUsers().Where(x =>  x.usercode == userdata.usercode.ToString()).FirstOrDefault();

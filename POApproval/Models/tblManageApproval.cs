@@ -15,7 +15,8 @@ namespace POApproval.Models
     public partial class tblManageApproval
     {
         public int intManageApprovalCode { get; set; }
-        public Nullable<int> intUserCode { get; set; }
+        public string intUserCode { get; set; }
+        public string intBuyerCode { get; set; }
         public int intApprovalLevelCode { get; set; }
         public Nullable<decimal> numFromApprovalAmount { get; set; }
         public Nullable<decimal> numToApprovalAmount { get; set; }
@@ -24,7 +25,5 @@ namespace POApproval.Models
         public Nullable<int> intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
         public Nullable<int> intModifyBy { get; set; }
-    
-        public virtual tblApprovalLevel tblApprovalLevel { get; set; }
     }
 }

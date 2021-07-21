@@ -41,7 +41,7 @@ namespace POApproval.Helper
     }
     public class BuyerViewModel
     {
-        public int intBuyerCode { get; set; }
+        public string intBuyerCode { get; set; }
         public string strBuyerName { get; set; }
         public Nullable<bool> bolIsActive { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
@@ -52,8 +52,8 @@ namespace POApproval.Helper
     public class BuyerManagerViewModel
     {
         public int intBuyerDetailCode { get; set; }
-        public Nullable<int> intBuyerCode { get; set; }
-        public Nullable<int> intUserCode { get; set; }
+        public string intBuyerCode { get; set; }
+        public string intUserCode { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
         public Nullable<int> intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }

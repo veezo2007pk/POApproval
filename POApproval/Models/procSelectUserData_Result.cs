@@ -13,6 +13,7 @@ namespace POApproval.Models
     
     public partial class procSelectUserData_Result
     {
+        public bool RememberMe { get; set; }
         public string UserCode { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

@@ -58,7 +58,7 @@ namespace POApproval.Controllers
         //}
 
         [Authorize]
-        public ActionResult UpdateBuyer(int ID)
+        public ActionResult UpdateBuyer(string ID)
         {
             PopulateDropdown();
             var BuyerInfo = db.tblBuyers.FirstOrDefault(s => s.intBuyerCode == ID);

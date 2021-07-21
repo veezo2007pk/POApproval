@@ -255,6 +255,9 @@
     <Compile Include="Models\procGetAccessLevels_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\procGetAllBuyersByStaffTypeManageApproval_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\procGetAllBuyersByStaffType_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -271,7 +274,8 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\procRptPO_Result.cs" />
-    <Compile Include="Models\procSearchPO_Result.cs">
+    <Compile Include="Models\procSearchPO_Result.cs" />
+    <Compile Include="Models\procSelectBuyerManageApproval_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\procSelectBuyerManager_Result.cs">

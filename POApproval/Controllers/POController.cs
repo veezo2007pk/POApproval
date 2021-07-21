@@ -47,7 +47,7 @@ namespace POApproval.Controllers
         }
         public List<tblManageApproval> GetManageApprovalModel()
         {
-            int ID = Convert.ToInt32(Session["intUserCode"]);
+            string ID =Session["intUserCode"].ToString();
             List<tblManageApproval> ManageApprovalModel = db.tblManageApprovals.Where(x => x.intUserCode == ID).ToList();
             return ManageApprovalModel;
         }
@@ -74,7 +74,7 @@ namespace POApproval.Controllers
 
             if (Session["SuperAdmin"].ToString() == "Y")
             {
-                data = db.procSearchPO(null, null, "Pending").ToList();
+                data = PODB.ListAllprocSearch(null, null, "Pending").ToList();
             }
             else
             {
@@ -91,7 +91,7 @@ namespace POApproval.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (searchPO_Results[0].strPOStatus == "report")
+                if (searchPO_Results[0].criteria == "report")
                 {
                     List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
                     string myCodes = string.Empty;
@@ -141,9 +141,9 @@ namespace POApproval.Controllers
 
                 }
 
-                else if (searchPO_Results[0].strPOStatus == "reject")
+                else if (searchPO_Results[0].criteria == "reject")
                 {
-                    int userCode = Convert.ToInt32(Session["intUserCode"]);
+                    string userCode =Session["intUserCode"].ToString();
 
 
                     // Add checked item to the list and render them in view
@@ -223,7 +223,7 @@ namespace POApproval.Controllers
                 else
                 {
 
-                    int userCode = Convert.ToInt32(Session["intUserCode"]);
+                    string userCode = Session["intUserCode"].ToString();
 
                     if (Session["SuperAdmin"].ToString() == "Y")
                     {
@@ -437,7 +437,7 @@ namespace POApproval.Controllers
         [HttpPost]
         public int SavePOHistory(int ID, string status, string strRejectReason)
         {
-            int userCode = Convert.ToInt32(Session["intUserCode"]);
+            string userCode = Session["intUserCode"].ToString();
             if (ID != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

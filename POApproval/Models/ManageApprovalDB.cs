@@ -95,6 +95,7 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
                 com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
                 com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
+                com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
                 com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
                 com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
@@ -117,6 +118,7 @@ namespace POApproval.Models
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
                 com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
+                com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
                 com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
                 com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
                 com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);

@@ -14,21 +14,12 @@ namespace POApproval.Models
     
     public partial class tblBuyer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblBuyer()
-        {
-            this.tblBuyerDetails = new HashSet<tblBuyerDetail>();
-        }
-    
-        public int intBuyerCode { get; set; }
+        public string intBuyerCode { get; set; }
         public string strBuyerName { get; set; }
         public Nullable<bool> bolIsActive { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
         public Nullable<int> intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
         public Nullable<int> intModifyBy { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblBuyerDetail> tblBuyerDetails { get; set; }
     }
 }

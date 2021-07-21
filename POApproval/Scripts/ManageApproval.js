@@ -62,6 +62,7 @@ var app = angular.module("myManageApprovalApp", [])
                     $scope.ManageApproval.numFromApprovalAmount = $scope.numFromApprovalAmount;
                     $scope.ManageApproval.numToApprovalAmount = $scope.numToApprovalAmount;
                     $scope.ManageApproval.bolIsActive = $scope.bolIsActive;
+                    $scope.ManageApproval.intBuyerCode = $scope.intBuyerCode;
                     if ($scope.ManageApproval.numFromApprovalAmount > $scope.ManageApproval.numToApprovalAmount) {
                         alert('Approval From amount must be less than Approval To amount');
                         $("#btnSave").attr("disabled", false);
@@ -113,6 +114,7 @@ var app = angular.module("myManageApprovalApp", [])
                     $scope.ManageApproval = {};
                     $scope.ManageApproval.intManageApprovalCode = $scope.intManageApprovalCode;
                     $scope.ManageApproval.intUserCode = $scope.intUserCode;
+                    $scope.ManageApproval.intBuyerCode = $scope.intBuyerCode;
                     $scope.ManageApproval.intApprovalLevelCode = $scope.intApprovalLevelCode;
                     $scope.ManageApproval.numFromApprovalAmount = $scope.numFromApprovalAmount;
                     $scope.ManageApproval.numToApprovalAmount = $scope.numToApprovalAmount;
@@ -193,6 +195,32 @@ var app = angular.module("myManageApprovalApp", [])
                 })
             }
         };
+        $scope.GetBuyer = function (ID) {
+         
+            $http({
+                method: "GET",
+                url: "http://localhost:61646/ManageApproval/GetBuyer/" + ID,
+                dataType: 'json',
+                data: { },
+                headers: { "Content-Type": "application/json" }
+            }).then(function (data) {
+                $scope.DefaultLabel = "Select Department";
+                $scope.buyers = data.data;
+            })
+        }
+        $scope.GetBuyers = function () {
+
+            $http({
+                method: "GET",
+                url: "http://localhost:61646/ManageApproval/GetBuyer/",
+                dataType: 'json',
+                data: {},
+                headers: { "Content-Type": "application/json" }
+            }).then(function (data) {
+                $scope.DefaultLabel = "Select Department";
+                $scope.buyers = data.data;
+            })
+        }
         $scope.UpdateManageApproval = function (ManageApproval) {
             console.log(ManageApproval);
             //document.getElementById("EmpID_").value = Emp.Emp_Id;
@@ -204,6 +232,7 @@ var app = angular.module("myManageApprovalApp", [])
             //document.getElementById("spn").innerHTML = "Update ManageApproval Information";
             $scope.intManageApprovalCode = ManageApproval.intManageApprovalCode;
             $scope.intUserCode = ManageApproval.intUserCode;
+            $scope.intBuyerCode = ManageApproval.intBuyerCode;
             $scope.intApprovalLevelCode = ManageApproval.intApprovalLevelCode;
             $scope.numFromApprovalAmount = ManageApproval.numFromApprovalAmount;
             $scope.numToApprovalAmount = ManageApproval.numToApprovalAmount;
@@ -214,5 +243,7 @@ var app = angular.module("myManageApprovalApp", [])
             $scope.intModifyByCode = ManageApproval.intModifyByCode;
             $scope.GetUser();
             $scope.GetApprovalLevel();
+          
+            $scope.GetBuyer(ManageApproval.intUserCode);
         }
     });  

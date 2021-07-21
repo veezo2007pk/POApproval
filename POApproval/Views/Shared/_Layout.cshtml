@@ -200,7 +200,7 @@ if (props.status === 401) {
             $("#btnPrint").click(function () {
 
                 $('#rejectstatus').val("report");
-
+                
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();

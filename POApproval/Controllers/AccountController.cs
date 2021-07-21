@@ -31,7 +31,7 @@ namespace POApproval.Controllers
                 {
                     string pasword = objUser.Password.Replace(" ", "%");
                     int code = Convert.ToInt32(objUser.UserCode);
-                    var obj = db.procValidateUserLogins(code, pasword).FirstOrDefault();
+                    var obj = db.procValidateUserLogins(objUser.UserCode, pasword).FirstOrDefault();
                   
                     if (obj != null  && obj.status == "ACTIVE")
                     {

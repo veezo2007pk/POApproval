@@ -7,8 +7,9 @@ namespace POApproval.Helper
 {
     public class ManageApprovalViewModel
     {
+        public string intBuyerCode { get; set; }
         public int intManageApprovalCode { get; set; }
-        public Nullable<int> intUserCode { get; set; }
+        public string intUserCode { get; set; }
         public int intApprovalLevelCode { get; set; }
         public Nullable<decimal> numFromApprovalAmount { get; set; }
         public Nullable<decimal> numToApprovalAmount { get; set; }

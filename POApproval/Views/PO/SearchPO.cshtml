@@ -175,8 +175,10 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus)
                                         @Html.HiddenFor(modelItem => Model[item].intPOCode)
-                                        @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
+                                        @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+
                                     </td>
                                     <td><p style="color:black; font-weight:bold;">-></p></td>
                                     <td>
@@ -393,11 +395,12 @@
             @Html.HiddenFor(modelItem => Model[item].intPOCode)
 
         </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => Model[item].strPOStatus)
-                                @Html.HiddenFor(modelItem => Model[item].intPOCode)
-                                @Html.HiddenFor(modelItem => Model[item].strPOStatus, new { @id = "rejectstatus" })
-                            </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                            @Html.HiddenFor(modelItem => Model[item].strPOStatus)
+                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                            @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+                        </td>
 
 
                             <td><p style="color:black; font-weight:bold;">-></p></td>

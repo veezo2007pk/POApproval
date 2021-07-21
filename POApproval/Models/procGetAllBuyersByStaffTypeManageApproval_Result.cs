@@ -10,16 +10,10 @@
 namespace POApproval.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblBuyerDetail
+    public partial class procGetAllBuyersByStaffTypeManageApproval_Result
     {
-        public int intBuyerDetailCode { get; set; }
-        public string intBuyerCode { get; set; }
-        public string intUserCode { get; set; }
-        public Nullable<System.DateTime> dtCreatedAt { get; set; }
-        public Nullable<int> intCreatedByCode { get; set; }
-        public Nullable<System.DateTime> dtModifyAt { get; set; }
-        public Nullable<int> intModifyBy { get; set; }
+        public string usercode { get; set; }
+        public string fullname { get; set; }
     }
 }

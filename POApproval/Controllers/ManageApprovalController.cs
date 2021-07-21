@@ -21,7 +21,21 @@ namespace POApproval.Controllers
             var data = db.procSelectManageApproval().ToList();
             return View(data);
         }
-       
+        public JsonResult GetBuyer(string ID)
+        {
+            
+                int intUserCode = Convert.ToInt32(ID);
+                List<procSelectBuyerManageApproval_Result> buyers = db.procSelectBuyerManageApproval(intUserCode).OrderBy(s => s.BuyerName).ToList();
+
+
+
+
+                return Json(buyers, JsonRequestBehavior.AllowGet);
+
+          
+        }
+
+
         //[Authorize]
         public ActionResult AddManageApproval()
         {
@@ -61,6 +75,7 @@ namespace POApproval.Controllers
                   intApprovalLevelCode= ManageApprovalInfo.intApprovalLevelCode,
                   bolIsActive= ManageApprovalInfo.bolIsActive,
                   dtCreatedAt= ManageApprovalInfo.dtCreatedAt,
+                  intBuyerCode=ManageApprovalInfo.intBuyerCode,
                   dtModifyAt= ManageApprovalInfo.dtModifyAt,
                   intCreatedByCode= ManageApprovalInfo.intCreatedByCode,
                   intManageApprovalCode= ManageApprovalInfo.intManageApprovalCode,
@@ -86,7 +101,8 @@ namespace POApproval.Controllers
 
             var approverLevel = db.tblApprovalLevels.OrderBy(s => s.strApprovalLevelName);
             ViewBag.approverLevelList = new SelectList(approverLevel, "intApprovalLevelCode", "strApprovalLevelName");
-
+            int ID = Convert.ToInt32(Session["intUserCode"]);
+          
 
 
 
@@ -129,12 +145,17 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_ManageApproval(tblManageApproval ManageApproval)
         {
-            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
+            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode==ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
             if (checkUserManageApprovalExist != null)
             {
                 return 2;
             }
-            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+             checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            if (checkUserManageApprovalExist != null)
+            {
+                return 2;
+            }
+            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
             if (checkUserManageApprovalRange != null)
             {
                if(ManageApproval.numFromApprovalAmount<checkUserManageApprovalRange.numToApprovalAmount)
@@ -145,6 +166,22 @@ namespace POApproval.Controllers
                 {
                     return 3;
                 }
+            }
+            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode).ToList();
+            if (checkUserManageApprovalRangeBuyer != null)
+            {
+                foreach (var item in checkUserManageApprovalRangeBuyer)
+                {
+                    if (ManageApproval.numFromApprovalAmount < item.numToApprovalAmount)
+                    {
+                        return 3;
+                    }
+                    if (ManageApproval.numToApprovalAmount < item.numToApprovalAmount)
+                    {
+                        return 3;
+                    }
+                }
+               
             }
 
             if (ManageApproval != null)
@@ -188,13 +225,13 @@ namespace POApproval.Controllers
 
             if (Approval.intApprovalLevelCode != ManageApproval.intApprovalLevelCode)
             {
-                var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount &&x.bolIsActive==ManageApproval.bolIsActive).FirstOrDefault();
+                var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode &&  x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount &&x.bolIsActive==ManageApproval.bolIsActive).FirstOrDefault();
                 if (checkUserManageApprovalExist != null)
                 {
                     return 2;
                 }
             }
-            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode &&  x.intBuyerCode == ManageApproval.intBuyerCode &&  x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
             if (checkUserManageApprovalRange != null)
             {
                 if (ManageApproval.numFromApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)

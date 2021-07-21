@@ -88,14 +88,14 @@
         $('#otherTable').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 50,
+            "pagelength": 10,
             "paging": true,
         });
 
-        $('#myTable').DataTable({
+    var table=    $('#myTable').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 50000,
+            "pagelength": 10,
             "paging": false,
             columns: [
                 { data: "" },
@@ -144,7 +144,31 @@
                     //$('#total span').html(sum);
                 });
             }
+    });
+        $('#myform').on('submit', function (e) {
+
+            var form = this;
+
+
+            // Encode a set of form elements from all pages as an array of names and values
+            var params = table.$('input,select,textarea').serializeArray();
+            console.log(params);
+
+            // Iterate over all form elements
+            $.each(params, function () {
+                // If element doesn't exist in DOM
+                if (!$.contains(document, form[this.name])) {
+                    // Create a hidden element
+                    $(form).append(
+                        $('<input>')
+                            .attr('type', 'hidden')
+                            .attr('name', this.name)
+                            .val(this.value)
+                    );
+                }
+            });
         });
+
         
         //$('#mytablepo').DataTable({
 
@@ -178,11 +202,13 @@
 
     $(document).ready(function () {
 
-        $('#myTablePO').DataTable({
+        var table=    $('#myTablePO').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 50000,
-            "paging":false,
+            "pagelength": 10,
+            "paging": true,
+          "stateSave": true,
+          
             columns: [
                 { data: "" },
                 { data: "PO Number" },
@@ -232,7 +258,29 @@
                 });
             }
         });
+        $('#myform').on('submit', function (e) {
 
+            var form = this;
+           
+
+            // Encode a set of form elements from all pages as an array of names and values
+            var params = table.$('input,select,textarea').serializeArray();
+            console.log(params);
+
+            // Iterate over all form elements
+            $.each(params, function () {
+                // If element doesn't exist in DOM
+                if (!$.contains(document, form[this.name])) {
+                    // Create a hidden element
+                    $(form).append(
+                        $('<input>')
+                            .attr('type', 'hidden')
+                            .attr('name', this.name)
+                            .val(this.value)
+                    );
+                }
+            });
+        });
         //var creditAmount = 0
         //$("#myTablePO").on('change', function () {
 
@@ -286,6 +334,39 @@
 
             
         });
+        $("#myTable").on('change', function () {
+
+            var checkedCount = $("#myTable input:checked").length;
+            //console.log(checkedCount);
+            var creditAmount = 0
+            var creditQty = 0
+            $("#idSmofAmount").text(0);
+            for (var i = 0; i < checkedCount; i++) {
+                var qty = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[9].innerHTML;
+                var amount = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                if (amount != "") {
+                    creditAmount += parseFloat(amount);
+                } else {
+                    creditAmount = 0;
+                }
+
+                if (qty != "") {
+                    creditQty += parseFloat(qty);
+                } else {
+                    creditQty = 0;
+                }
+            }
+            var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
+            $("#totalnormal span").text(grandtotal);
+
+
+
+            var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
+            $("#totalQtynormal span").text(grandqty);
+
+
+        });
+
     });
 
 })(jQuery);

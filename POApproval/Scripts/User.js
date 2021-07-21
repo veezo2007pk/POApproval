@@ -129,8 +129,9 @@ var app = angular.module("myApp", ["checklist-model"])
                     if (typeof arrMembersToNotifyNew === 'undefined' || arrMembersToNotifyNew === null || arrMembersToNotifyNew == '') {
                         alert("Please select at least 1 user access to proceed");
                         $("#btnSave").attr("disabled", false);
+                        return;
                     }
-                    return;
+                   
                     $http.post("http://localhost:61646/User/Insert_User", JSON.stringify({
                         data: $scope.User,
                         lstMembersToNotify: arrMembersToNotifyNew
@@ -208,13 +209,12 @@ var app = angular.module("myApp", ["checklist-model"])
                         lstMembersToNotify: arrMembersToNotifyNew
                     })).then(function (response) {
 
-                        //if (response.data == '2') {
+                        if (response.data == '2') {
 
-                        //    $("#UserErrorMessage").text("Username already exist!");
-                        //    $("#btnSave").attr("disabled", false);
-                        //    return;
-                        //    //document.getElementsByClassName('UserErrorMessage').='Username already exist'
-                        //}
+                            alert("Please select at least 1 user access to proceed");
+                            $("#btnSave").attr("disabled", false);
+                            return;
+                        }
                         //if (response.data == 3) {
                         //    $("#UserErrorMessage").text("Email already exist!");
                         //    $("#btnSave").attr("disabled", false);

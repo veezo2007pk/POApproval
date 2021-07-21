@@ -14,7 +14,7 @@ namespace POApproval.Models
     public partial class procSelectBuyerManager_Result
     {
         public int intBuyerDetailCode { get; set; }
-        public Nullable<int> intBuyerCode { get; set; }
+        public string intBuyerCode { get; set; }
         public string strBuyerName { get; set; }
         public string logon_user_id { get; set; }
         public string intUserCode { get; set; }

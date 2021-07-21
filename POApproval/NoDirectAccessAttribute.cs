@@ -16,7 +16,7 @@ public class NoDirectAccessAttribute : ActionFilterAttribute
  filterContext.HttpContext.Request.Url.Host != filterContext.HttpContext.Request.UrlReferrer.Host)
         {
      filterContext.Result = new RedirectToRouteResult(new
-                               RouteValueDictionary(new { controller = "PO", action = "SearchPO", area = "Main" }));
+                               RouteValueDictionary(new { controller = "Account", action = "Login" }));
         }
     }
 }

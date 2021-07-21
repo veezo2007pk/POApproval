@@ -20,6 +20,7 @@ namespace POApproval.Models
             this.tblPODetails = new HashSet<tblPODetail>();
             this.tblPOHistories = new HashSet<tblPOHistory>();
         }
+
         public string[] strStatusName { get; set; }
         public int intPOCode { get; set; }
         public Nullable<long> PO_Number { get; set; }

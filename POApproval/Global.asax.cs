@@ -42,7 +42,7 @@ namespace POApproval
             {
                 //do things that need to happen
                 //when a new session starts.
-                Session.Timeout = 120;
+                Session.Timeout = 500;
             }
         }
         protected void Application_Start()
