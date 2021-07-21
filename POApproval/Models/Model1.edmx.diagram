@@ -4,19 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6d05b662783f4517a67c984d50cac0ca" Name="Diagram1" ZoomLevel="101">
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblApprovalLevel" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+      <Diagram DiagramId="20fbf07743a1483d9e434fb3e0f21346" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblApprovalLevel" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyer" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyerDetail" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblManageApproval" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPO" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPODetail" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPOHistory" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblApproval_tblApproval" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblStatu" Width="1.5" PointX="8.375" PointY="0.75" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyer" Width="1.5" PointX="0.875" PointY="11.375" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPODetail" Width="1.5" PointX="7.625" PointY="6.375" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPO" Width="1.5" PointX="5.375" PointY="2.5" />
-        <AssociationConnector Association="dbSASAApprovalModel.FK_tblPODetail_tblPO" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyerDetail" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblManageApproval" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblPOHistory" Width="1.5" PointX="8" PointY="11.75" />
-        <AssociationConnector Association="dbSASAApprovalModel.FK_tblPOHistory_tblPO" />
-        </Diagram>
+        <AssociationConnector Association="dbSASAApprovalModel.FK_tblPODetail_tblPO" ManuallyRouted="false" />
+        <AssociationConnector Association="dbSASAApprovalModel.FK_tblPOHistory_tblPO" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblStatu" Width="1.5" PointX="5.375" PointY="8.75" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

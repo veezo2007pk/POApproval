@@ -24,8 +24,8 @@ namespace POApproval.Controllers
         public JsonResult GetBuyer(string ID)
         {
             
-                int intUserCode = Convert.ToInt32(ID);
-                List<procSelectBuyerManageApproval_Result> buyers = db.procSelectBuyerManageApproval(intUserCode).OrderBy(s => s.BuyerName).ToList();
+              
+                List<procSelectBuyerManageApproval_Result> buyers = db.procSelectBuyerManageApproval(ID).OrderBy(s => s.BuyerName).ToList();
 
 
 

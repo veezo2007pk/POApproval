@@ -27,7 +27,7 @@ namespace POApproval.Models
                     lst.Add(new procSelectManageApproval_Result
                     {
                         intManageApprovalCode= Convert.ToInt32(rdr["intManageApprovalCode"]),
-                        UserCode = Convert.ToInt32(rdr["UserCode"]),                   
+                        UserCode = rdr["UserCode"].ToString(),                   
                         Department = rdr["Department"].ToString(),
                         ApprovalAmount= rdr["ApprovalAmount"].ToString(),
                         ApprovalLevel= rdr["ApprovalLevel"].ToString(),

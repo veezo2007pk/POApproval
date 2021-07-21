@@ -14,7 +14,7 @@ namespace POApproval.Models
     
     public partial class tblBuyer
     {
-        public string intBuyerCode { get; set; }
+        public int intBuyerCode { get; set; }
         public string strBuyerName { get; set; }
         public Nullable<bool> bolIsActive { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }

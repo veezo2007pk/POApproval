@@ -14,7 +14,7 @@ namespace POApproval.Models
     public partial class procSelectManageApproval_Result
     {
         public int intManageApprovalCode { get; set; }
-        public Nullable<int> UserCode { get; set; }
+        public string UserCode { get; set; }
         public string ApprovalName { get; set; }
         public string ApprovalLevel { get; set; }
         public string Department { get; set; }

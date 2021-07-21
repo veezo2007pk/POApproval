@@ -13,7 +13,7 @@ namespace POApproval.Models
     
     public partial class procGetAccessLevels_Result
     {
-        public Nullable<int> menuCode { get; set; }
+        public int menuCode { get; set; }
         public string strMenuSystenName { get; set; }
         public string strMenuName { get; set; }
         public string strSubMenuName { get; set; }

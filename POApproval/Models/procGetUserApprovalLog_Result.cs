@@ -17,7 +17,7 @@ namespace POApproval.Models
         public int intPOHistoryCode { get; set; }
         public Nullable<int> intPOCode { get; set; }
         public string strPOStatus { get; set; }
-        public Nullable<int> intUserCode { get; set; }
+        public string intUserCode { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
     }
 }

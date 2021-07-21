@@ -88,15 +88,15 @@
         $('#otherTable').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 10,
+            "pagelength": 50,
             "paging": true,
         });
 
     var table=    $('#myTable').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 10,
-            "paging": false,
+        "pagelength": 50,
+        "paging": true,
             columns: [
                 { data: "" },
                 { data: "PO Number" },
@@ -205,7 +205,7 @@
         var table=    $('#myTablePO').DataTable({
             "ordering": true,
             "searching": true,
-            "pagelength": 10,
+            "pagelength": 50,
             "paging": true,
           "stateSave": true,
           

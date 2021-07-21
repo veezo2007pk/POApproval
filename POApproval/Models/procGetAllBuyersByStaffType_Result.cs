@@ -21,5 +21,7 @@ namespace POApproval.Models
         public string status { get; set; }
         public string xpertLoginID { get; set; }
         public string pwd { get; set; }
+        public string SuperAdmin { get; set; }
+        public string UserApprover { get; set; }
     }
 }

@@ -28,13 +28,13 @@ namespace POApproval.Models
         }
     
         public virtual DbSet<tblApprovalLevel> tblApprovalLevels { get; set; }
-        public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblBuyer> tblBuyers { get; set; }
-        public virtual DbSet<tblPODetail> tblPODetails { get; set; }
-        public virtual DbSet<tblPO> tblPOes { get; set; }
         public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }
         public virtual DbSet<tblManageApproval> tblManageApprovals { get; set; }
+        public virtual DbSet<tblPO> tblPOes { get; set; }
+        public virtual DbSet<tblPODetail> tblPODetails { get; set; }
         public virtual DbSet<tblPOHistory> tblPOHistories { get; set; }
+        public virtual DbSet<tblStatu> tblStatus { get; set; }
     
         public virtual ObjectResult<procCmbApprovalLevel_Result> procCmbApprovalLevel()
         {
@@ -46,88 +46,9 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procCmbDepartment_Result>("procCmbDepartment");
         }
     
-        public virtual int procDeleteManageApproval(Nullable<int> intManageApprovalCode)
+        public virtual ObjectResult<procGetAccessLevels_Result> procGetAccessLevels()
         {
-            var intManageApprovalCodeParameter = intManageApprovalCode.HasValue ?
-                new ObjectParameter("intManageApprovalCode", intManageApprovalCode) :
-                new ObjectParameter("intManageApprovalCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteManageApproval", intManageApprovalCodeParameter);
-        }
-    
-        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
-        }
-    
-        public virtual ObjectResult<procRptPOSubReport_Result> procRptPOSubReport(Nullable<int> intPoCode)
-        {
-            var intPoCodeParameter = intPoCode.HasValue ?
-                new ObjectParameter("intPoCode", intPoCode) :
-                new ObjectParameter("intPoCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPOSubReport_Result>("procRptPOSubReport", intPoCodeParameter);
-        }
-    
-        public virtual ObjectResult<procPendingPO_Result> procPendingPO(Nullable<int> intUserCode)
-        {
-            var intUserCodeParameter = intUserCode.HasValue ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procPendingPO_Result>("procPendingPO", intUserCodeParameter);
-        }
-    
-        public virtual ObjectResult<procSelectBuyer_Result> procSelectBuyer()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyer_Result>("procSelectBuyer");
-        }
-    
-        public virtual int procInsertUpdateBuyer(Nullable<int> intBuyerCode, string strBuyerName, Nullable<System.DateTime> dtCreatedAt, Nullable<int> intCreatedByCode, Nullable<System.DateTime> dtModifyAt, Nullable<int> intModifyBy, Nullable<bool> bolIsActive, string action)
-        {
-            var intBuyerCodeParameter = intBuyerCode.HasValue ?
-                new ObjectParameter("intBuyerCode", intBuyerCode) :
-                new ObjectParameter("intBuyerCode", typeof(int));
-    
-            var strBuyerNameParameter = strBuyerName != null ?
-                new ObjectParameter("strBuyerName", strBuyerName) :
-                new ObjectParameter("strBuyerName", typeof(string));
-    
-            var dtCreatedAtParameter = dtCreatedAt.HasValue ?
-                new ObjectParameter("dtCreatedAt", dtCreatedAt) :
-                new ObjectParameter("dtCreatedAt", typeof(System.DateTime));
-    
-            var intCreatedByCodeParameter = intCreatedByCode.HasValue ?
-                new ObjectParameter("intCreatedByCode", intCreatedByCode) :
-                new ObjectParameter("intCreatedByCode", typeof(int));
-    
-            var dtModifyAtParameter = dtModifyAt.HasValue ?
-                new ObjectParameter("dtModifyAt", dtModifyAt) :
-                new ObjectParameter("dtModifyAt", typeof(System.DateTime));
-    
-            var intModifyByParameter = intModifyBy.HasValue ?
-                new ObjectParameter("intModifyBy", intModifyBy) :
-                new ObjectParameter("intModifyBy", typeof(int));
-    
-            var bolIsActiveParameter = bolIsActive.HasValue ?
-                new ObjectParameter("bolIsActive", bolIsActive) :
-                new ObjectParameter("bolIsActive", typeof(bool));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateBuyer", intBuyerCodeParameter, strBuyerNameParameter, dtCreatedAtParameter, intCreatedByCodeParameter, dtModifyAtParameter, intModifyByParameter, bolIsActiveParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<procSelectUser_Result> procSelectUser()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUser_Result>("procSelectUser");
-        }
-    
-        public virtual ObjectResult<procGetAllUsers_Result> procGetAllUsers()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllUsers_Result>("procGetAllUsers");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAccessLevels_Result>("procGetAccessLevels");
         }
     
         public virtual ObjectResult<procGetAllBuyersByStaffType_Result> procGetAllBuyersByStaffType(string stafftype)
@@ -137,112 +58,6 @@ namespace POApproval.Models
                 new ObjectParameter("stafftype", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffType_Result>("procGetAllBuyersByStaffType", stafftypeParameter);
-        }
-    
-        public virtual int procInsertUpdateUser(string usercode, string xpertLoginID, string pwd, string status, string superAdmin, string userApprover, string action)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            var xpertLoginIDParameter = xpertLoginID != null ?
-                new ObjectParameter("xpertLoginID", xpertLoginID) :
-                new ObjectParameter("xpertLoginID", typeof(string));
-    
-            var pwdParameter = pwd != null ?
-                new ObjectParameter("pwd", pwd) :
-                new ObjectParameter("pwd", typeof(string));
-    
-            var statusParameter = status != null ?
-                new ObjectParameter("status", status) :
-                new ObjectParameter("status", typeof(string));
-    
-            var superAdminParameter = superAdmin != null ?
-                new ObjectParameter("SuperAdmin", superAdmin) :
-                new ObjectParameter("SuperAdmin", typeof(string));
-    
-            var userApproverParameter = userApprover != null ?
-                new ObjectParameter("UserApprover", userApprover) :
-                new ObjectParameter("UserApprover", typeof(string));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateUser", usercodeParameter, xpertLoginIDParameter, pwdParameter, statusParameter, superAdminParameter, userApproverParameter, actionParameter);
-        }
-    
-        public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
-        }
-    
-        public virtual int procDeleteUser(string intUserCode)
-        {
-            var intUserCodeParameter = intUserCode != null ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procDeleteUser", intUserCodeParameter);
-        }
-    
-        public virtual int procRptPO(string intPOCode, string strUser)
-        {
-            var intPOCodeParameter = intPOCode != null ?
-                new ObjectParameter("intPOCode", intPOCode) :
-                new ObjectParameter("intPOCode", typeof(string));
-    
-            var strUserParameter = strUser != null ?
-                new ObjectParameter("strUser", strUser) :
-                new ObjectParameter("strUser", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
-        }
-    
-        public virtual ObjectResult<procSelectUserxpert_Result> procSelectUserxpert()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
-        }
-    
-        public virtual ObjectResult<procGetAccessLevels_Result> procGetAccessLevels()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAccessLevels_Result>("procGetAccessLevels");
-        }
-    
-        public virtual ObjectResult<Nullable<int>> procSelectUserDataMenu(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("procSelectUserDataMenu", usercodeParameter);
-        }
-    
-        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
-        }
-    
-        public virtual ObjectResult<procGetUserApprovalLog_Result> procGetUserApprovalLog(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetUserApprovalLog_Result>("procGetUserApprovalLog", usercodeParameter);
-        }
-    
-        public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
         }
     
         public virtual ObjectResult<procGetAllBuyersByStaffTypeManageApproval_Result> procGetAllBuyersByStaffTypeManageApproval(string stafftype, Nullable<int> intUserCode)
@@ -258,141 +73,40 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllBuyersByStaffTypeManageApproval_Result>("procGetAllBuyersByStaffTypeManageApproval", stafftypeParameter, intUserCodeParameter);
         }
     
-        public virtual ObjectResult<procSelectBuyerManageApproval_Result> procSelectBuyerManageApproval(Nullable<int> intUserCode)
+        public virtual ObjectResult<procGetAllUsers_Result> procGetAllUsers()
         {
-            var intUserCodeParameter = intUserCode.HasValue ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManageApproval_Result>("procSelectBuyerManageApproval", intUserCodeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetAllUsers_Result>("procGetAllUsers");
         }
     
-        public virtual int procInsertUpdateBuyerManager(Nullable<int> intBuyerDetailCode, string intBuyerCode, string intUserCode, Nullable<System.DateTime> dtCreatedAt, Nullable<int> intCreatedByCode, Nullable<System.DateTime> dtModifyAt, Nullable<int> intModifyBy, string action)
+        public virtual ObjectResult<procGetUserApprovalLog_Result> procGetUserApprovalLog(string usercode)
         {
-            var intBuyerDetailCodeParameter = intBuyerDetailCode.HasValue ?
-                new ObjectParameter("intBuyerDetailCode", intBuyerDetailCode) :
-                new ObjectParameter("intBuyerDetailCode", typeof(int));
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
     
-            var intBuyerCodeParameter = intBuyerCode != null ?
-                new ObjectParameter("intBuyerCode", intBuyerCode) :
-                new ObjectParameter("intBuyerCode", typeof(string));
-    
-            var intUserCodeParameter = intUserCode != null ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(string));
-    
-            var dtCreatedAtParameter = dtCreatedAt.HasValue ?
-                new ObjectParameter("dtCreatedAt", dtCreatedAt) :
-                new ObjectParameter("dtCreatedAt", typeof(System.DateTime));
-    
-            var intCreatedByCodeParameter = intCreatedByCode.HasValue ?
-                new ObjectParameter("intCreatedByCode", intCreatedByCode) :
-                new ObjectParameter("intCreatedByCode", typeof(int));
-    
-            var dtModifyAtParameter = dtModifyAt.HasValue ?
-                new ObjectParameter("dtModifyAt", dtModifyAt) :
-                new ObjectParameter("dtModifyAt", typeof(System.DateTime));
-    
-            var intModifyByParameter = intModifyBy.HasValue ?
-                new ObjectParameter("intModifyBy", intModifyBy) :
-                new ObjectParameter("intModifyBy", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateBuyerManager", intBuyerDetailCodeParameter, intBuyerCodeParameter, intUserCodeParameter, dtCreatedAtParameter, intCreatedByCodeParameter, dtModifyAtParameter, intModifyByParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetUserApprovalLog_Result>("procGetUserApprovalLog", usercodeParameter);
         }
     
-        public virtual int procInsertUpdateManageApproval(Nullable<int> intManageApprovalCode, string intUserCode, string intBuyerCode, Nullable<int> intApprovalLevelCode, Nullable<decimal> numFromApprovalAmount, Nullable<decimal> numToApprovalAmount, Nullable<bool> bolIsActive, Nullable<System.DateTime> dtCreatedAt, Nullable<int> intCreatedByCode, Nullable<System.DateTime> dtModifyAt, Nullable<int> intModifyByCode, string action)
+        public virtual int procRptPO(string intPOCode, string strUser)
         {
-            var intManageApprovalCodeParameter = intManageApprovalCode.HasValue ?
-                new ObjectParameter("intManageApprovalCode", intManageApprovalCode) :
-                new ObjectParameter("intManageApprovalCode", typeof(int));
-    
-            var intUserCodeParameter = intUserCode != null ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(string));
-    
-            var intBuyerCodeParameter = intBuyerCode != null ?
-                new ObjectParameter("intBuyerCode", intBuyerCode) :
-                new ObjectParameter("intBuyerCode", typeof(string));
-    
-            var intApprovalLevelCodeParameter = intApprovalLevelCode.HasValue ?
-                new ObjectParameter("intApprovalLevelCode", intApprovalLevelCode) :
-                new ObjectParameter("intApprovalLevelCode", typeof(int));
-    
-            var numFromApprovalAmountParameter = numFromApprovalAmount.HasValue ?
-                new ObjectParameter("numFromApprovalAmount", numFromApprovalAmount) :
-                new ObjectParameter("numFromApprovalAmount", typeof(decimal));
-    
-            var numToApprovalAmountParameter = numToApprovalAmount.HasValue ?
-                new ObjectParameter("numToApprovalAmount", numToApprovalAmount) :
-                new ObjectParameter("numToApprovalAmount", typeof(decimal));
-    
-            var bolIsActiveParameter = bolIsActive.HasValue ?
-                new ObjectParameter("bolIsActive", bolIsActive) :
-                new ObjectParameter("bolIsActive", typeof(bool));
-    
-            var dtCreatedAtParameter = dtCreatedAt.HasValue ?
-                new ObjectParameter("dtCreatedAt", dtCreatedAt) :
-                new ObjectParameter("dtCreatedAt", typeof(System.DateTime));
-    
-            var intCreatedByCodeParameter = intCreatedByCode.HasValue ?
-                new ObjectParameter("intCreatedByCode", intCreatedByCode) :
-                new ObjectParameter("intCreatedByCode", typeof(int));
-    
-            var dtModifyAtParameter = dtModifyAt.HasValue ?
-                new ObjectParameter("dtModifyAt", dtModifyAt) :
-                new ObjectParameter("dtModifyAt", typeof(System.DateTime));
-    
-            var intModifyByCodeParameter = intModifyByCode.HasValue ?
-                new ObjectParameter("intModifyByCode", intModifyByCode) :
-                new ObjectParameter("intModifyByCode", typeof(int));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdateManageApproval", intManageApprovalCodeParameter, intUserCodeParameter, intBuyerCodeParameter, intApprovalLevelCodeParameter, numFromApprovalAmountParameter, numToApprovalAmountParameter, bolIsActiveParameter, dtCreatedAtParameter, intCreatedByCodeParameter, dtModifyAtParameter, intModifyByCodeParameter, actionParameter);
-        }
-    
-        public virtual int procInsertUpdatePOHistory(Nullable<int> intPOCode, string strPOStatus, string intUserCode, string strRejectReason, string action)
-        {
-            var intPOCodeParameter = intPOCode.HasValue ?
+            var intPOCodeParameter = intPOCode != null ?
                 new ObjectParameter("intPOCode", intPOCode) :
-                new ObjectParameter("intPOCode", typeof(int));
+                new ObjectParameter("intPOCode", typeof(string));
     
-            var strPOStatusParameter = strPOStatus != null ?
-                new ObjectParameter("strPOStatus", strPOStatus) :
-                new ObjectParameter("strPOStatus", typeof(string));
+            var strUserParameter = strUser != null ?
+                new ObjectParameter("strUser", strUser) :
+                new ObjectParameter("strUser", typeof(string));
     
-            var intUserCodeParameter = intUserCode != null ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(string));
-    
-            var strRejectReasonParameter = strRejectReason != null ?
-                new ObjectParameter("strRejectReason", strRejectReason) :
-                new ObjectParameter("strRejectReason", typeof(string));
-    
-            var actionParameter = action != null ?
-                new ObjectParameter("Action", action) :
-                new ObjectParameter("Action", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procInsertUpdatePOHistory", intPOCodeParameter, strPOStatusParameter, intUserCodeParameter, strRejectReasonParameter, actionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
         }
     
-        public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(string strLoginName, string strUserPassword)
+        public virtual ObjectResult<procRptPOSubReport_Result> procRptPOSubReport(Nullable<int> intPoCode)
         {
-            var strLoginNameParameter = strLoginName != null ?
-                new ObjectParameter("strLoginName", strLoginName) :
-                new ObjectParameter("strLoginName", typeof(string));
+            var intPoCodeParameter = intPoCode.HasValue ?
+                new ObjectParameter("intPoCode", intPoCode) :
+                new ObjectParameter("intPoCode", typeof(int));
     
-            var strUserPasswordParameter = strUserPassword != null ?
-                new ObjectParameter("strUserPassword", strUserPassword) :
-                new ObjectParameter("strUserPassword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procRptPOSubReport_Result>("procRptPOSubReport", intPoCodeParameter);
         }
     
         public virtual ObjectResult<string> procSearchPO(string intUserCode, string pO_Number, string strPOStatus)
@@ -412,9 +126,83 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("procSearchPO", intUserCodeParameter, pO_NumberParameter, strPOStatusParameter);
         }
     
+        public virtual ObjectResult<procSelectBuyer_Result> procSelectBuyer()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyer_Result>("procSelectBuyer");
+        }
+    
         public virtual ObjectResult<procSelectBuyerManager_Result> procSelectBuyerManager()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManager_Result>("procSelectBuyerManager");
+        }
+    
+        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
+        }
+    
+        public virtual ObjectResult<procSelectUser_Result> procSelectUser()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUser_Result>("procSelectUser");
+        }
+    
+        public virtual ObjectResult<procSelectUserData_Result> procSelectUserData(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserData_Result>("procSelectUserData", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> procSelectUserDataMenu(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("procSelectUserDataMenu", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<procSelectUserDetail_Result> procSelectUserDetail()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserDetail_Result>("procSelectUserDetail");
+        }
+    
+        public virtual ObjectResult<procSelectUserxpert_Result> procSelectUserxpert()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
+        }
+    
+        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(string strLoginName, string strUserPassword)
+        {
+            var strLoginNameParameter = strLoginName != null ?
+                new ObjectParameter("strLoginName", strLoginName) :
+                new ObjectParameter("strLoginName", typeof(string));
+    
+            var strUserPasswordParameter = strUserPassword != null ?
+                new ObjectParameter("strUserPassword", strUserPassword) :
+                new ObjectParameter("strUserPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
+        }
+    
+        public virtual ObjectResult<procSelectBuyerManageApproval_Result> procSelectBuyerManageApproval(string intUserCode)
+        {
+            var intUserCodeParameter = intUserCode != null ?
+                new ObjectParameter("intUserCode", intUserCode) :
+                new ObjectParameter("intUserCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManageApproval_Result>("procSelectBuyerManageApproval", intUserCodeParameter);
         }
     }
 }
