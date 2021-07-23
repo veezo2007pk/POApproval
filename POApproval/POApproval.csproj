@@ -223,10 +223,6 @@
     </Compile>
     <Compile Include="GlobalInfo\ConnectionString.cs" />
     <Compile Include="GlobalInfo\DAL.cs" />
-    <Compile Include="GlobalInfo\SessionAuthorizeAttributeForLogin.cs" />
-    <Compile Include="GlobalInfo\SessionAuthorizeAttributeForApproval.cs" />
-    <Compile Include="GlobalInfo\SessionAuthorizeAttributeForUsers.cs" />
-    <Compile Include="GlobalInfo\SessionAuthorizeAttribute.cs" />
     <Compile Include="Helper\ManageApprovalViewModel.cs" />
     <Compile Include="Helper\UserViewModel.cs" />
     <Compile Include="Models\BuyerManagerDB.cs" />
@@ -467,6 +463,7 @@
     <Content Include="Views\BuyerManager\BuyerManagerList.cshtml" />
     <Content Include="Views\BuyerManager\UpdateBuyerManager.cshtml" />
     <Content Include="Views\Errors\Error404.cshtml" />
+    <Content Include="Views\Errors\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

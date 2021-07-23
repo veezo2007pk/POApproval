@@ -10,8 +10,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [NoDirectAccess]
-    [OutputCache(Duration = 0)]
+    [Authorize]
     public class POController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
@@ -47,42 +46,78 @@ namespace POApproval.Controllers
         }
         public List<tblManageApproval> GetManageApprovalModel()
         {
-            string ID =Session["intUserCode"].ToString();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            string ID = reqCookies["intUserCode"].ToString();
             List<tblManageApproval> ManageApprovalModel = db.tblManageApprovals.Where(x => x.intUserCode == ID).ToList();
             return ManageApprovalModel;
         }
         //[Authorize]
         public ActionResult ReviewPO(int ID)
         {
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
             POViewModel POVM = new POViewModel();
             POVM.tblPO = GetPOModel(ID);
             POVM.tblPODetails = GetPODetailsModel(ID);
             POVM.tblPOHistories = GetPOHistoriesModel(ID);
             POVM.tblManageApprovals = GetManageApprovalModel();
-            ViewBag.xpertLoginID = Session["xpertLoginID"].ToString();
+            ViewBag.xpertLoginID = reqCookies["xpertLoginID"].ToString();
             return View(POVM);
 
         }
 
         //[Authorize]
+        public List<procUserMenu_Result> GetUserMenus(String userCode)
+        {
+
+            List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
+
+            return GetUserMenus;
+        }
         public ActionResult SearchPO()
         {
-            List<tblStatu> statusList = db.tblStatus.ToList();
-            ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
 
-            var data = new List<procSearchPO_Result>();
 
-            if (Session["SuperAdmin"].ToString() == "Y")
+
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
             {
-                data = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "SearchPO")
+                {
+                    List<tblStatu> statusList = db.tblStatus.ToList();
+                    ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
+
+                    var data1 = new List<procSearchPO_Result>();
+
+                    if (reqCookies["SuperAdmin"].ToString() == "Y")
+                    {
+                        data1 = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+                    }
+                    else
+                    {
+                        int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
+                        data1 = PODB.ListAll(userCode, null, 0);
+
+                    }
+                    return View(data1);
+
+
+
+
+                }
+                 
+
+
             }
-            else
-            {
-                int userCode = Convert.ToInt32(Session["intUserCode"]);
-                 data = PODB.ListAll(userCode,null,0);
-                
-            }
-            return View(data);
+
+
+
+            return RedirectToAction("AccessDenied", "Errors");
         }
         string approvalLevel;
 
@@ -134,7 +169,8 @@ namespace POApproval.Controllers
 
                         }
                     }
-                    ViewBag.xpertLoginID = Session["xpertLoginID"].ToString();
+                    HttpCookie reqCookies = Request.Cookies["userInfo"];
+                    ViewBag.xpertLoginID = reqCookies["xpertLoginID"].ToString();
                     ViewBag.intPOCode = myCodes;
                     return View("PORpt");
 
@@ -143,7 +179,8 @@ namespace POApproval.Controllers
 
                 else if (searchPO_Results[0].criteria == "reject")
                 {
-                    string userCode =Session["intUserCode"].ToString();
+                    HttpCookie reqCookies = Request.Cookies["userInfo"];
+                    string userCode =reqCookies["intUserCode"].ToString();
 
 
                     // Add checked item to the list and render them in view
@@ -222,10 +259,10 @@ namespace POApproval.Controllers
                 }
                 else
                 {
+                    HttpCookie reqCookies = Request.Cookies["userInfo"];
+                    string userCode = reqCookies["intUserCode"].ToString();
 
-                    string userCode = Session["intUserCode"].ToString();
-
-                    if (Session["SuperAdmin"].ToString() == "Y")
+                    if (reqCookies["SuperAdmin"].ToString() == "Y")
                     {
                         // Add checked item to the list and render them in view
                         List<procSearchPO_Result> selectList = new List<procSearchPO_Result>();
@@ -424,8 +461,8 @@ namespace POApproval.Controllers
             {
                 tblPO.PO_Number = null;
             }
-
-            int userCode = Convert.ToInt32(Session["intUserCode"]);
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            int userCode = Convert.ToInt32(reqCookies["intUserCode"]);
             List<tblStatu> statusList = db.tblStatus.ToList();
             ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
 
@@ -437,7 +474,8 @@ namespace POApproval.Controllers
         [HttpPost]
         public int SavePOHistory(int ID, string status, string strRejectReason)
         {
-            string userCode = Session["intUserCode"].ToString();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            string userCode = reqCookies["intUserCode"].ToString();
             if (ID != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

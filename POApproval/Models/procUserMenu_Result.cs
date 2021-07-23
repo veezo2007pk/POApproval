@@ -13,6 +13,7 @@ namespace POApproval.Models
     
     public partial class procUserMenu_Result
     {
+        public Nullable<int> sys_menu_sort { get; set; }
         public int menucode { get; set; }
         public string menuname { get; set; }
         public string menulink { get; set; }

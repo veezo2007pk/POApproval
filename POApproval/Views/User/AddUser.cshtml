@@ -70,7 +70,7 @@
                                     foreach (var item in Model.GetAccessLevels)
                                     {
                                         <div class="checkbox">
-                                            <label><input type="checkbox" ng-model="menuCode@_recordCount" data-id="0:@item.menuCode" value="@item.menuCode" id="option-@_recordCount" ng-checked="SuperAdmin" ng-change="removerequired()">@item.strMenuName</label>
+                                            <label><input type="checkbox" ng-disabled="checkdisable" ng-model="menuCode@_recordCount" data-id="0:@item.menuCode" value="@item.menuCode" id="option-@_recordCount" ng-checked="SuperAdmin" ng-change="removerequired()">@item.strMenuName</label>
                                         </div>
                                         _recordCount = _recordCount + 1;
                                     }
@@ -82,7 +82,7 @@
                             <label class="col-sm-2 col-form-label">User Type</label>
                             <div class="col-sm-10" id="membersToNotify">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" ng-model="SuperAdmin" ng-readonly="menuCode" value="0:0" data-id="0:0" id="option-@_recordCount"> Super Admin</label>
+                                    <label><input type="checkbox" ng-model="SuperAdmin" ng-readonly="menuCode" value="0:0" data-id="0:0" id="option-@_recordCount" ng-click="checkAlladd()"> Super Admin</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input type="checkbox" ng-model="UserApprover" value="0:0" data-id="0:0"> User Approver</label>

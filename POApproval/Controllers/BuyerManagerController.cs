@@ -9,19 +9,49 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [NoDirectAccess]
+    [Authorize]
     public class BuyerManagerController : Controller
     {
+
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         BuyerManagerDB BuyerManagerDB = new BuyerManagerDB();
-       
+
         //[Authorize]
+        public List<procUserMenu_Result> GetUserMenus(String userCode)
+        {
+
+            List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
+
+            return GetUserMenus;
+        }
+
         public ActionResult BuyerManagerList()
         {
-            var data = db.procSelectBuyerManager().ToList();
-            return View(data);
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+           
+            foreach (var item in menus)
+            {
+               
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
+                    {
+                    var data1 = db.procSelectBuyerManager().ToList();
+                    return View(data1);
+                   
+
+
+                }
+
+                    
+                
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+
         }
-       
+
         //[Authorize]
         public ActionResult AddBuyerManager()
         {

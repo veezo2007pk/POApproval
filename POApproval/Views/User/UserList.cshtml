@@ -5,13 +5,12 @@
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
 <section class="col-md-12 text-right">
-    @if (Session["SuperAdmin"].ToString() == "Y")
-    {
+   
         <div class="">
             <a href="http://localhost:61646/User/AddUser" class="btn btn-success">Create New</a>
 
         </div>
-    }
+    
     </section>
 <section class="col-md-12">
     <div ng-app="myApp">

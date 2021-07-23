@@ -10,20 +10,48 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [NoDirectAccess]
+    [Authorize]
     public class UserController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         UserDB userDB = new UserDB();
-        
+
         //[Authorize]
+        public List<procUserMenu_Result> GetUserMenus(String userCode)
+        {
+
+            List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
+
+            return GetUserMenus;
+        }
         public ActionResult UserList()
         {
-            String userCode = Session["intUserCode"].ToString();
-            //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
-            //{
-            var data = db.procSelectUser().ToList();
-             return View(data);
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "UserList")
+                {
+                    String userCode = reqCookies["intUserCode"].ToString();
+                    //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
+                    //{
+                    var data1 = db.procSelectUser().ToList();
+                    return View(data1);
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+          
             //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
             //if (Session["Superadmin"].ToString() == "y")
@@ -147,13 +175,14 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult Get_AllUser()
         {
-            String userCode = Session["intUserCode"].ToString();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            String userCode = reqCookies["intUserCode"].ToString();
             //using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())
             //{
 
             //return Json(userDB.ListAll(), JsonRequestBehavior.AllowGet);
             //}
-            if (Session["SuperAdmin"].ToString() == "Y") { 
+            if (reqCookies["SuperAdmin"].ToString() == "Y") { 
                 var data = db.procSelectUser().ToList();
             return View(data);
             }
@@ -224,7 +253,8 @@ namespace POApproval.Controllers
         }
         public JsonResult GetUserMenus()
         {
-            String userCode = Session["intUserCode"].ToString();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            String userCode = reqCookies["intUserCode"].ToString();
             List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
 
             return Json(GetUserMenus, JsonRequestBehavior.AllowGet);

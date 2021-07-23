@@ -20,17 +20,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("PO Approval System", "SearchPO", "PO", new { area = "" }, new { @class = "navbar-brand" })
+                <p class = "navbar-brand">PO Approval System</p>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" id="menudata">
                    
                 </ul>
-
+                @{ 
+                    HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+                }
                 <ul style="padding-top:7px;" class=" navbar-right">
 
-                    <li>@if (Session["strUser"].ToString() != null)
-                    {<a style="color:white;">@Session["intUserCode"].ToString() - @Session["strUser"].ToString()      </a>}<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+                    <li>@if (reqCookies["strUser"].ToString() != null)
+                    {<a style="color:white;">@reqCookies["intUserCode"].ToString() - @reqCookies["strUser"].ToString()      </a>}<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
 
 
                 </ul>

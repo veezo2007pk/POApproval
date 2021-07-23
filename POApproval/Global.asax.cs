@@ -16,11 +16,7 @@ namespace POApproval
     {
         protected void Application_EndRequest()
         {
-            if (Context.Items["AjaxPermissionDenied"] is bool)
-            {
-                Context.Response.StatusCode = 401;
-                Context.Response.End();
-            }
+            
 
             if (Context.Response.StatusCode == 404)
             {
@@ -33,16 +29,6 @@ namespace POApproval
 
                 IController c = new ErrorsController();
                 c.Execute(new RequestContext(new HttpContextWrapper(Context), rd));
-            }
-        }
-        void Session_Start(object sender, EventArgs e)
-        {
-
-            if (Session.IsNewSession)
-            {
-                //do things that need to happen
-                //when a new session starts.
-                Session.Timeout = 500;
             }
         }
         protected void Application_Start()

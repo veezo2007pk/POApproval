@@ -84,7 +84,7 @@ namespace POApproval.Models
             if (intBuyerCodeMaxCode == 0)
                 intBuyerCodeMaxCode = 1;
 
-
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
@@ -93,9 +93,9 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@intBuyerCode", Buyer.intBuyerCode);
                 com.Parameters.AddWithValue("@strBuyerName", Buyer.strBuyerName);
                 com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intModifyBy", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intModifyBy", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@bolIsActive", Buyer.bolIsActive);
 
 
@@ -109,6 +109,7 @@ namespace POApproval.Models
         public int Update(tblBuyer Buyer)
         {
             int i;
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
@@ -117,9 +118,9 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@intBuyerCode", Buyer.intBuyerCode);
                 com.Parameters.AddWithValue("@strBuyerName", Buyer.strBuyerName);
                 com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intModifyBy", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intModifyBy", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@bolIsActive", Buyer.bolIsActive);
 
                 com.Parameters.AddWithValue("@Action", "Update");

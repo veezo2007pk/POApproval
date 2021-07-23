@@ -15,11 +15,12 @@ namespace POApproval.Models
         SqlCommand com;
         public List<procSearchPO_Result> SearchPO(int intUserCode, string strPOStatus, long? PONumber)
         {
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
-                if (HttpContext.Current.Session["SuperAdmin"].ToString() == "Y")
+                if (reqCookies["SuperAdmin"].ToString() == "Y")
                 {
                     if (strPOStatus != null && PONumber == null)
                     {

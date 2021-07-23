@@ -253,6 +253,19 @@ var app = angular.module("myApp", ["checklist-model"])
                
             })
         };
+        $scope.checkAlladd = function () {
+            if ($scope.SuperAdmin == true) {
+
+
+               
+                $scope.checkdisable = ""
+            } else {
+
+                $scope.checkdisable = "checked"
+
+
+            }
+        };
         $scope.checkAll = function () {
             if ($scope.SuperAdmin == true) {
 

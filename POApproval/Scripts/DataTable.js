@@ -90,6 +90,7 @@
             "searching": true,
             "pagelength": 50,
             "paging": true,
+            "stateSave": true,
         });
 
     var table=    $('#myTable').DataTable({
@@ -97,6 +98,7 @@
             "searching": true,
         "pagelength": 50,
         "paging": true,
+        "stateSave": true,
             columns: [
                 { data: "" },
                 { data: "PO Number" },

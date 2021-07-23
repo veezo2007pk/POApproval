@@ -295,9 +295,9 @@
         @*<button >View PO</button>*@
         @{
             decimal? amount = Model.tblPO.Amount;
-          
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
         }
-        @if (Session["SuperAdmin"].ToString() == "Y")
+        @if (reqCookies["SuperAdmin"].ToString() == "Y")
         {
             if (Model.tblPO.strPOStatus == "Pending")
             {

@@ -83,7 +83,7 @@ namespace POApproval.Models
             Int32 intManageAppprovalCodeMaxCode = (Int32)get_nextCode();
             if (intManageAppprovalCodeMaxCode == 0)
                 intManageAppprovalCodeMaxCode = 1;
-            
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
 
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
@@ -98,7 +98,7 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
                 com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
                 com.Parameters.AddWithValue("@intModifyByCode", ManageAppproval.intUserCode);
                 com.Parameters.AddWithValue("@Action", "Insert");
@@ -111,6 +111,7 @@ namespace POApproval.Models
         public int Update(tblManageApproval ManageAppproval)
         {
             int i;
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             using (SqlConnection con = new SqlConnection(ConnectionString.cs))
             {
                 con.Open();
@@ -126,7 +127,7 @@ namespace POApproval.Models
                 com.Parameters.AddWithValue("@dtCreatedAt", ManageAppproval.dtCreatedAt);
                 com.Parameters.AddWithValue("@intCreatedByCode", ManageAppproval.intUserCode);
                 com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intModifyByCode", Convert.ToInt32(HttpContext.Current.Session["intUserCode"]));
+                com.Parameters.AddWithValue("@intModifyByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
                 com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
             }

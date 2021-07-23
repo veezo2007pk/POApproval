@@ -9,17 +9,47 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [NoDirectAccess]
+    [Authorize]
     public class ManageApprovalController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
         ManageApprovalDB ManageApprovalDB = new ManageApprovalDB();
-       
+
+
         //[Authorize]
+        public List<procUserMenu_Result> GetUserMenus(String userCode)
+        {
+
+            List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
+
+            return GetUserMenus;
+        }
         public ActionResult ManageApprovalList()
         {
-            var data = db.procSelectManageApproval().ToList();
-            return View(data);
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "ManageApprovalList")
+                {
+                    var data1 = db.procSelectManageApproval().ToList();
+                    return View(data1);
+                  
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+          
         }
         public JsonResult GetBuyer(string ID)
         {
@@ -101,7 +131,8 @@ namespace POApproval.Controllers
 
             var approverLevel = db.tblApprovalLevels.OrderBy(s => s.strApprovalLevelName);
             ViewBag.approverLevelList = new SelectList(approverLevel, "intApprovalLevelCode", "strApprovalLevelName");
-            int ID = Convert.ToInt32(Session["intUserCode"]);
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            int ID = Convert.ToInt32(reqCookies["intUserCode"].ToString());
           
 
 

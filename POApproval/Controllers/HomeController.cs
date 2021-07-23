@@ -9,7 +9,7 @@ namespace POApproval.Controllers
 {
     public class HomeController : Controller
     {
-        [SessionAuthorize]
+        
         public ActionResult Index()
         {
             return RedirectToAction("SearchPO", "PO");

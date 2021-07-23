@@ -1,6 +1,7 @@
 ﻿@model List<POApproval.Models.procSearchPO_Result>
 @{
     ViewBag.Title = "Search PO";
+    HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
@@ -87,7 +88,7 @@
             </div>
         </section>
         <section>
-            @if (Session["SuperAdmin"].ToString() == "Y")
+            @if (reqCookies["SuperAdmin"].ToString() == "Y")
             {
             <div class="table-common">
                 @{

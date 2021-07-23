@@ -1,6 +1,8 @@
 ﻿@model POApproval.Helper.UserViewModel
 @{
-    ViewBag.Title = "Update Users";
+    ViewBag.Title = "Add Users";
+    HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
@@ -66,7 +68,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">User Type</label>
                                 <div class="col-sm-10" id="membersToNotify">
-                                    @if (Session["SuperAdmin"].ToString() == "Y")
+                                    @if (reqCookies["SuperAdmin"].ToString() == "Y")
                                     {
                                         <div class="checkbox">
                                             <label><input type="checkbox"  data-id="0:0" ng-model="SuperAdmin" value="@Model.SuperAdmin" id="option-5" ng-click="checkAll()">Super Admin</label>

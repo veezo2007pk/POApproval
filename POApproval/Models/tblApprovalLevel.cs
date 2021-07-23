@@ -14,6 +14,12 @@ namespace POApproval.Models
     
     public partial class tblApprovalLevel
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblApprovalLevel()
+        {
+            this.tblManageApprovals = new HashSet<tblManageApproval>();
+        }
+    
         public int intApprovalLevelCode { get; set; }
         public string strApprovalLevelName { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
@@ -23,5 +29,7 @@ namespace POApproval.Models
     
         public virtual tblApprovalLevel tblApprovalLevel1 { get; set; }
         public virtual tblApprovalLevel tblApprovalLevel2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblManageApproval> tblManageApprovals { get; set; }
     }
 }

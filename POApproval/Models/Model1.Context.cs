@@ -30,11 +30,11 @@ namespace POApproval.Models
         public virtual DbSet<tblApprovalLevel> tblApprovalLevels { get; set; }
         public virtual DbSet<tblBuyer> tblBuyers { get; set; }
         public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }
-        public virtual DbSet<tblManageApproval> tblManageApprovals { get; set; }
         public virtual DbSet<tblPO> tblPOes { get; set; }
         public virtual DbSet<tblPODetail> tblPODetails { get; set; }
         public virtual DbSet<tblPOHistory> tblPOHistories { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
+        public virtual DbSet<tblManageApproval> tblManageApprovals { get; set; }
     
         public virtual ObjectResult<procCmbApprovalLevel_Result> procCmbApprovalLevel()
         {
@@ -169,15 +169,6 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
         }
     
-        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
-        }
-    
         public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(string strLoginName, string strUserPassword)
         {
             var strLoginNameParameter = strLoginName != null ?
@@ -203,6 +194,15 @@ namespace POApproval.Models
         public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
+        }
+    
+        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
         }
     }
 }
