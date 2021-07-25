@@ -25,7 +25,7 @@ var app = angular.module("myManageApprovalApp", [])
         $scope.GetUser = function () {
             $http({
                 method: "GET",
-                url: "http://localhost:61646/ManageApproval/GetUser/",
+                url: "http://10.3.1.110/poapproval/ManageApproval/GetUser/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }
@@ -37,7 +37,7 @@ var app = angular.module("myManageApprovalApp", [])
         $scope.GetApprovalLevel = function () {
             $http({
                 method: "GET",
-                url: "http://localhost:61646/ManageApproval/GetApprovalLevel/",
+                url: "http://10.3.1.110/poapproval/ManageApproval/GetApprovalLevel/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }
@@ -75,7 +75,7 @@ var app = angular.module("myManageApprovalApp", [])
                     }
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/ManageApproval/Insert_ManageApproval",
+                        url: "http://10.3.1.110/poapproval/ManageApproval/Insert_ManageApproval",
                         datatype: "json",
                         data: JSON.stringify($scope.ManageApproval)
                     }).then(function (response) {
@@ -135,7 +135,7 @@ var app = angular.module("myManageApprovalApp", [])
                     }
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/ManageApproval/Update_ManageApproval",
+                        url: "http://10.3.1.110/poapproval/ManageApproval/Update_ManageApproval",
                         datatype: "json",
                         data: JSON.stringify($scope.ManageApproval)
                     }).then(function (response) {
@@ -172,7 +172,7 @@ var app = angular.module("myManageApprovalApp", [])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://localhost:61646/ManageApproval/Get_AllManageApproval"
+                url: "http://10.3.1.110/poapproval/ManageApproval/Get_AllManageApproval"
             }).then(function (response) {
                 $scope.ManageApprovals = response.data;
             }, function () {
@@ -186,7 +186,7 @@ var app = angular.module("myManageApprovalApp", [])
 
                 $http({
                     method: "post",
-                    url: "http://localhost:61646/ManageApproval/Delete_ManageApproval",
+                    url: "http://10.3.1.110/poapproval/ManageApproval/Delete_ManageApproval",
                     datatype: "json",
                     data: JSON.stringify($scope.ManageApproval)
                 }).then(function (response) {
@@ -199,7 +199,7 @@ var app = angular.module("myManageApprovalApp", [])
          
             $http({
                 method: "GET",
-                url: "http://localhost:61646/ManageApproval/GetBuyer/" + ID,
+                url: "http://10.3.1.110/poapproval/ManageApproval/GetBuyer/" + ID,
                 dataType: 'json',
                 data: { },
                 headers: { "Content-Type": "application/json" }
@@ -212,7 +212,7 @@ var app = angular.module("myManageApprovalApp", [])
 
             $http({
                 method: "GET",
-                url: "http://localhost:61646/ManageApproval/GetBuyer/",
+                url: "http://10.3.1.110/poapproval/ManageApproval/GetBuyer/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }

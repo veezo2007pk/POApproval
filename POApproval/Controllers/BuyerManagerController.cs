@@ -28,6 +28,10 @@ namespace POApproval.Controllers
         public ActionResult BuyerManagerList()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
            
             foreach (var item in menus)
@@ -55,8 +59,33 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult AddBuyerManager()
         {
-            PopulateDropdown();
-            return View();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "BuyerManagerList")
+                {
+                    PopulateDropdown();
+                    return View();
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+           
         }
        
        
@@ -82,28 +111,53 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult UpdateBuyerManager(int ID)
         {
-            PopulateDropdown();          
-            var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
-            if (BuyerManagerInfo != null)
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
             {
-                BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
-                {
-                 
-                  dtCreatedAt= BuyerManagerInfo.dtCreatedAt,
-                  dtModifyAt= BuyerManagerInfo.dtModifyAt,
-                  intCreatedByCode= BuyerManagerInfo.intCreatedByCode,
-                 intBuyerCode= BuyerManagerInfo.intBuyerCode,
-                  intModifyBy = BuyerManagerInfo.intModifyBy,
-                  intUserCode= BuyerManagerInfo.intUserCode,
-                  intBuyerDetailCode=BuyerManagerInfo.intBuyerDetailCode
-                
-
-                };
-               
-                return View(objBuyerManager);
+                return RedirectToAction("Login", "Account");
             }
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
 
-            return View();
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "BuyerManagerList")
+                {
+                    PopulateDropdown();
+                    var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
+                    if (BuyerManagerInfo != null)
+                    {
+                        BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
+                        {
+
+                            dtCreatedAt = BuyerManagerInfo.dtCreatedAt,
+                            dtModifyAt = BuyerManagerInfo.dtModifyAt,
+                            intCreatedByCode = BuyerManagerInfo.intCreatedByCode,
+                            intBuyerCode = BuyerManagerInfo.intBuyerCode,
+                            intModifyBy = BuyerManagerInfo.intModifyBy,
+                            intUserCode = BuyerManagerInfo.intUserCode,
+                            intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
+
+
+                        };
+
+                        return View(objBuyerManager);
+                    }
+
+                    return View();
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+            
         }
 
         public void PopulateDropdown()

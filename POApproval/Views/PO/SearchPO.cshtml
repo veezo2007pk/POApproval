@@ -214,7 +214,7 @@
                                     </td>
                                     <td class=" sum"> @Html.DisplayFor(modelItem => Model[item].Amount)</td>
 
-                                    <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                    <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
                                 </tr>
                                 sn++;
@@ -446,7 +446,7 @@
                                     @Html.DisplayFor(modelItem => Model[item].Amount)
                                     @Html.HiddenFor(modelItem => Model[item].Amount)
                                 </td>
-                                <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                             </tr>

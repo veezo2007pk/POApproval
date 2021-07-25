@@ -23,10 +23,15 @@ namespace POApproval.Controllers
             List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
 
             return GetUserMenus;
+
         }
         public ActionResult ManageApprovalList()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
 
             foreach (var item in menus)
@@ -69,8 +74,34 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult AddManageApproval()
         {
-            PopulateDropdown();
-            return View();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "ManageApprovalList")
+                {
+                    PopulateDropdown();
+                    return View();
+
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+            
         }
        
         
@@ -96,27 +127,53 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult UpdateManageApproval(int ID)
         {
-            PopulateDropdown();          
-            var ManageApprovalInfo = db.tblManageApprovals.FirstOrDefault(s => s.intManageApprovalCode == ID);
-            if (ManageApprovalInfo != null)
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
             {
-                ManageApprovalViewModel objManageApproval = new ManageApprovalViewModel()
-                {
-                  intApprovalLevelCode= ManageApprovalInfo.intApprovalLevelCode,
-                  bolIsActive= ManageApprovalInfo.bolIsActive,
-                  dtCreatedAt= ManageApprovalInfo.dtCreatedAt,
-                  intBuyerCode=ManageApprovalInfo.intBuyerCode,
-                  dtModifyAt= ManageApprovalInfo.dtModifyAt,
-                  intCreatedByCode= ManageApprovalInfo.intCreatedByCode,
-                  intManageApprovalCode= ManageApprovalInfo.intManageApprovalCode,
-                  intModifyBy= ManageApprovalInfo.intModifyBy,
-                  intUserCode= ManageApprovalInfo.intUserCode,
-                  numFromApprovalAmount= ManageApprovalInfo.numFromApprovalAmount,
-                  numToApprovalAmount= ManageApprovalInfo.numToApprovalAmount
-                };
-                return View(objManageApproval);
+                return RedirectToAction("Login", "Account");
             }
-            return View();
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "ManageApprovalList")
+                {
+                    PopulateDropdown();
+                    var ManageApprovalInfo = db.tblManageApprovals.FirstOrDefault(s => s.intManageApprovalCode == ID);
+                    if (ManageApprovalInfo != null)
+                    {
+                        ManageApprovalViewModel objManageApproval = new ManageApprovalViewModel()
+                        {
+                            intApprovalLevelCode = ManageApprovalInfo.intApprovalLevelCode,
+                            bolIsActive = ManageApprovalInfo.bolIsActive,
+                            dtCreatedAt = ManageApprovalInfo.dtCreatedAt,
+                            intBuyerCode = ManageApprovalInfo.intBuyerCode,
+                            dtModifyAt = ManageApprovalInfo.dtModifyAt,
+                            intCreatedByCode = ManageApprovalInfo.intCreatedByCode,
+                            intManageApprovalCode = ManageApprovalInfo.intManageApprovalCode,
+                            intModifyBy = ManageApprovalInfo.intModifyBy,
+                            intUserCode = ManageApprovalInfo.intUserCode,
+                            numFromApprovalAmount = ManageApprovalInfo.numFromApprovalAmount,
+                            numToApprovalAmount = ManageApprovalInfo.numToApprovalAmount
+                        };
+                        return View(objManageApproval);
+                    }
+                    return View();
+
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+            
         }
 
         public void PopulateDropdown()
@@ -176,30 +233,30 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_ManageApproval(tblManageApproval ManageApproval)
         {
-            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode==ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
+            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
             if (checkUserManageApprovalExist != null)
             {
                 return 2;
             }
-             checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
-            if (checkUserManageApprovalExist != null)
-            {
-                return 2;
-            }
-            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
-            if (checkUserManageApprovalRange != null)
-            {
-               if(ManageApproval.numFromApprovalAmount<checkUserManageApprovalRange.numToApprovalAmount)
-                {
-                    return 3;
-                }
-               if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
-                {
-                    return 3;
-                }
-            }
-            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode).ToList();
-            if (checkUserManageApprovalRangeBuyer != null)
+            // checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            //if (checkUserManageApprovalExist != null)
+            //{
+            //    return 2;
+            //}
+            //var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            //if (checkUserManageApprovalRange != null)
+            //{
+            //   if(ManageApproval.numFromApprovalAmount<checkUserManageApprovalRange.numToApprovalAmount)
+            //    {
+            //        return 3;
+            //    }
+            //   if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+            //    {
+            //        return 3;
+            //    }
+            //}
+            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode &&x.intApprovalLevelCode==ManageApproval.intApprovalLevelCode).ToList();
+            if (checkUserManageApprovalRangeBuyer!=null)
             {
                 foreach (var item in checkUserManageApprovalRangeBuyer)
                 {
@@ -252,27 +309,43 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Update_ManageApproval(tblManageApproval ManageApproval)
         {
-            var Approval = db.tblManageApprovals.Where(x => x.intManageApprovalCode == ManageApproval.intManageApprovalCode).FirstOrDefault();
-
-            if (Approval.intApprovalLevelCode != ManageApproval.intApprovalLevelCode)
+            var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount && x.bolIsActive == ManageApproval.bolIsActive).FirstOrDefault();
+            if (checkUserManageApprovalExist != null)
             {
-                var checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode &&  x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode && x.numFromApprovalAmount == ManageApproval.numFromApprovalAmount && x.numToApprovalAmount == ManageApproval.numToApprovalAmount &&x.bolIsActive==ManageApproval.bolIsActive).FirstOrDefault();
-                if (checkUserManageApprovalExist != null)
-                {
-                    return 2;
-                }
+                return 2;
             }
-            var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode &&  x.intBuyerCode == ManageApproval.intBuyerCode &&  x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
-            if (checkUserManageApprovalRange != null)
+            // checkUserManageApprovalExist = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            //if (checkUserManageApprovalExist != null)
+            //{
+            //    return 2;
+            //}
+            //var checkUserManageApprovalRange = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).FirstOrDefault();
+            //if (checkUserManageApprovalRange != null)
+            //{
+            //   if(ManageApproval.numFromApprovalAmount<checkUserManageApprovalRange.numToApprovalAmount)
+            //    {
+            //        return 3;
+            //    }
+            //   if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+            //    {
+            //        return 3;
+            //    }
+            //}
+            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).ToList();
+            if (checkUserManageApprovalRangeBuyer.Count > 1)
             {
-                if (ManageApproval.numFromApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
+                foreach (var item in checkUserManageApprovalRangeBuyer)
                 {
-                    return 3;
+                    if (ManageApproval.numFromApprovalAmount < item.numToApprovalAmount)
+                    {
+                        return 3;
+                    }
+                    if (ManageApproval.numToApprovalAmount < item.numToApprovalAmount)
+                    {
+                        return 3;
+                    }
                 }
-                if (ManageApproval.numToApprovalAmount < checkUserManageApprovalRange.numToApprovalAmount)
-                {
-                    return 3;
-                }
+
             }
             if (ManageApproval != null)
             {

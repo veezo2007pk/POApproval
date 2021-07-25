@@ -55,13 +55,61 @@ namespace POApproval.Controllers
         public ActionResult ReviewPO(int ID)
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            POViewModel POVM = new POViewModel();
-            POVM.tblPO = GetPOModel(ID);
-            POVM.tblPODetails = GetPODetailsModel(ID);
-            POVM.tblPOHistories = GetPOHistoriesModel(ID);
-            POVM.tblManageApprovals = GetManageApprovalModel();
-            ViewBag.xpertLoginID = reqCookies["xpertLoginID"].ToString();
-            return View(POVM);
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "SearchPO")
+                {
+                    List<tblStatu> statusList = db.tblStatus.ToList();
+                    ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
+
+                    var data1 = new List<procSearchPO_Result>();
+
+                    if (reqCookies["SuperAdmin"].ToString() == "Y")
+                    {
+                        POViewModel POVM = new POViewModel();
+                        POVM.tblPO = GetPOModel(ID);
+                        POVM.tblPODetails = GetPODetailsModel(ID);
+                        POVM.tblPOHistories = GetPOHistoriesModel(ID);
+                        POVM.tblManageApprovals = GetManageApprovalModel();
+                        ViewBag.xpertLoginID = reqCookies["xpertLoginID"].ToString();
+                        return View(POVM);
+                    }
+                    else
+                    {
+                        POViewModel POVM = new POViewModel();
+                        POVM.tblPO = GetPOModel(ID);
+                        POVM.tblPODetails = GetPODetailsModel(ID);
+                        POVM.tblPOHistories = GetPOHistoriesModel(ID);
+                        POVM.tblManageApprovals = GetManageApprovalModel();
+                        ViewBag.xpertLoginID = reqCookies["xpertLoginID"].ToString();
+                        return View(POVM);
+
+                    }
+                    return View(data1);
+
+
+
+
+                }
+
+
+
+            }
+
+
+
+            return RedirectToAction("AccessDenied", "Errors");
+           
 
         }
 
@@ -79,6 +127,10 @@ namespace POApproval.Controllers
 
 
             HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
 
             foreach (var item in menus)

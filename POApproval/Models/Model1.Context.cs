@@ -202,6 +202,7 @@ namespace POApproval.Models
                 new ObjectParameter("usercode", usercode) :
                 new ObjectParameter("usercode", typeof(string));
     
+            
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
         }
     }

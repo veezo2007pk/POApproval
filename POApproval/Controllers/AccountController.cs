@@ -108,6 +108,10 @@ namespace POApproval.Controllers
                         //Session["strUser"] = obj.fullname.ToString();
                         //Session["SuperAdmin"] = obj.SuperAdmin.ToString();
                         List<procUserMenu_Result> menus = GetUserMenus(objUser.UserCode.ToString());
+                        if (menus.Count == 0)
+                        {
+                            ViewBag.loginFailed = "User don't have permission to view any page";
+                        }
                         int? minimum = int.MaxValue;
                         foreach (var item in menus)
                         {

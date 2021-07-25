@@ -76,7 +76,7 @@ if (props.status === 401) {
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:61646/User/GetUserMenus/",
+                url: "http://10.3.1.110/poapproval/User/GetUserMenus/",
                 data: JSON.stringify(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -85,7 +85,7 @@ if (props.status === 401) {
                     html = '';
                     for (i = 0; i < response.length; i++) {
                         console.log(response[i].menucode);
-                        html += '<li><a href=' + 'http://localhost:61646/' + response[i].menulink + '>' + response[i].menuname + '</a></li>';
+                        html += '<li><a href=' + 'http://10.3.1.110/poapproval/' + response[i].menulink + '>' + response[i].menuname + '</a></li>';
                     }
                     $('#menudata').html(html);
                     if (response != null) {
@@ -379,7 +379,7 @@ if (props.status === 401) {
         var searchText = $("#searchText").val();
         var xpertLoginID = $("#xpertLoginID").val();
         //ASPX page URL to load report
-        var src = 'http://localhost:61646/Report/RptPO.aspx?';
+        var src = 'http://10.3.1.110/poapproval/Report/RptPO.aspx?';
         //We can add parameters here
         src = src + "searchText=" + searchText
         //We can append more than one parameter like below
@@ -405,7 +405,7 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Approved', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -444,7 +444,7 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 1', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -478,7 +478,7 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 2', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -513,7 +513,7 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Reviewed 3', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -554,7 +554,7 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:61646/PO/SavePOHistory",
+                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Rejected', 'strRejectReason': strRejectReason }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",

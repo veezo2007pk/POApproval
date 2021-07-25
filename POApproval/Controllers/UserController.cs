@@ -17,7 +17,7 @@ namespace POApproval.Controllers
         UserDB userDB = new UserDB();
 
         //[Authorize]
-        public List<procUserMenu_Result> GetUserMenus(String userCode)
+        public List<procUserMenu_Result> GetUserMenusss(String userCode)
         {
 
             List<procUserMenu_Result> GetUserMenus = db.procUserMenu(userCode).ToList();
@@ -27,7 +27,11 @@ namespace POApproval.Controllers
         public ActionResult UserList()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+            if(reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<procUserMenu_Result> menus = GetUserMenusss(reqCookies["intUserCode"].ToString());
 
             foreach (var item in menus)
             {
@@ -69,12 +73,37 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult AddUser()
         {
-            userDataViewModel UserVM = new userDataViewModel();
-            
-            UserVM.getUserLists = db.procSelectUserxpert().ToList();
-            UserVM.GetAccessLevels = db.procGetAccessLevels().ToList();
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<procUserMenu_Result> menus = GetUserMenusss(reqCookies["intUserCode"].ToString());
 
-            return View(UserVM);
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "UserList")
+                {
+                    userDataViewModel UserVM = new userDataViewModel();
+
+                    UserVM.getUserLists = db.procSelectUserxpert().ToList();
+                    UserVM.GetAccessLevels = db.procGetAccessLevels().ToList();
+
+                    return View(UserVM);
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+          
         }
         //[Authorize]
         //[HttpPost]
@@ -108,50 +137,75 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult UpdateUser(string ID)
         {
-            //PopulateDropdown();          
-            var userInfo = db.procSelectUserData(ID).FirstOrDefault();
-            var usermeuids = db.procSelectUserDataMenu(ID).ToList();
-         
-            // var datasss=usermeuids.Select(s=>s)
-
-            //string[] menuids = usermeuids.Split(',');
-            if (userInfo != null)
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies == null)
             {
-                bool admin;
-                bool UserApprover;
-                if (userInfo.SuperAdmin == "Y")
-                {
-                    admin = true;
-                }
-                else
-                {
-                    admin = false;
-                }
-                if (userInfo.UserApprover == "Y")
-                {
-                    UserApprover = true;
-                }
-                else
-                {
-                    UserApprover = false;
-                }
-                UserViewModel objUser = new UserViewModel()
-                {
-                    usercode = userInfo.UserCode,
-                    usergroup = userInfo.Department,
-                    email = userInfo.Email,
-                    pwd = userInfo.Password,
-                    fullname = userInfo.Username,
-                    status = userInfo.Status,
-                    usermenuids = usermeuids,
-                    SuperAdmin =admin,
-                    UserApprover = UserApprover,
-                    xpertLoginID=userInfo.xpertLoginID
-                };
-                return View(objUser);
+                return RedirectToAction("Login", "Account");
             }
+            List<procUserMenu_Result> menus = GetUserMenusss(reqCookies["intUserCode"].ToString());
 
-            return View();
+            foreach (var item in menus)
+            {
+
+
+                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                var link = data.menulink.Split('/');
+                if (link[1].ToString() == "UserList")
+                {
+                    var userInfo = db.procSelectUserData(ID).FirstOrDefault();
+                    var usermeuids = db.procSelectUserDataMenu(ID).ToList();
+
+                    // var datasss=usermeuids.Select(s=>s)
+
+                    //string[] menuids = usermeuids.Split(',');
+                    if (userInfo != null)
+                    {
+                        bool admin;
+                        bool UserApprover;
+                        if (userInfo.SuperAdmin == "Y")
+                        {
+                            admin = true;
+                        }
+                        else
+                        {
+                            admin = false;
+                        }
+                        if (userInfo.UserApprover == "Y")
+                        {
+                            UserApprover = true;
+                        }
+                        else
+                        {
+                            UserApprover = false;
+                        }
+                        UserViewModel objUser = new UserViewModel()
+                        {
+                            usercode = userInfo.UserCode,
+                            usergroup = userInfo.Department,
+                            email = userInfo.Email,
+                            pwd = userInfo.Password,
+                            fullname = userInfo.Username,
+                            status = userInfo.Status,
+                            usermenuids = usermeuids,
+                            SuperAdmin = admin,
+                            UserApprover = UserApprover,
+                            xpertLoginID = userInfo.xpertLoginID
+                        };
+                        return View(objUser);
+                    }
+
+                    return View();
+
+
+
+                }
+
+
+
+            }
+            return RedirectToAction("AccessDenied", "Errors");
+            //PopulateDropdown();          
+          
         }
         public void PopulateDropdown()
         {
