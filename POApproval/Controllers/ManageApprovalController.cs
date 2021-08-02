@@ -409,6 +409,12 @@ namespace POApproval.Controllers
         public ActionResult Delete_ManageApproval(int ID)
         {
             tblManageApproval on = db.tblManageApprovals.Find(ID);
+            List<tblPO> pOs = db.tblPOes.Where(x => x.staff_code == on.intBuyerCode.ToString() && (x.PO_Status != "Pending" || x.PO_Status != "Rejected")).ToList();
+            if (pOs.Count > 0)
+            {
+                ViewBag.geterror = "buyer attach with approval list";
+                return View("ManageApprovalList", "ManageApproval");
+            }
             db.tblManageApprovals.Remove(on);
             db.SaveChanges();
             return RedirectToAction("ManageApprovalList", "ManageApproval");

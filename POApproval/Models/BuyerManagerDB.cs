@@ -74,9 +74,10 @@ namespace POApproval.Models
         public int Add(tblBuyerDetail ManageAppproval)
         {
             int i;
-          
-          
+            if (ManageAppproval.bolIsActive == null)
+                ManageAppproval.bolIsActive = false;
 
+            
             Int32 intManageAppprovalCodeMaxCode = (Int32)get_nextCode();
             if (intManageAppprovalCodeMaxCode == 0)
                 intManageAppprovalCodeMaxCode = 1;
@@ -91,6 +92,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@intBuyerDetailCode", ManageAppproval.intBuyerDetailCode);
                     com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
                     com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
 
                     com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intCreatedByCode", reqCookies["intUserCode"].ToString());
@@ -111,6 +113,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@intBuyerDetailCode", ManageAppproval.intBuyerDetailCode);
                     com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
                     com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
 
                     com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
@@ -127,6 +130,8 @@ namespace POApproval.Models
         //Method for Updating ManageAppproval record  
         public int Update(tblBuyerDetail ManageAppproval)
         {
+            if (ManageAppproval.bolIsActive == null)
+                ManageAppproval.bolIsActive = false;
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             int i;
             if (reqCookies != null)
@@ -139,7 +144,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@intBuyerDetailCode", ManageAppproval.intBuyerDetailCode);
                     com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
                     com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
-
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                     com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intCreatedByCode", reqCookies["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
@@ -159,7 +164,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@intBuyerDetailCode", ManageAppproval.intBuyerDetailCode);
                     com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
                     com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
-
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                     com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);

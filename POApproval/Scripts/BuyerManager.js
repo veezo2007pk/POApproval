@@ -60,6 +60,7 @@ var app = angular.module("myBuyerManagerApp", [])
                     $scope.BuyerManager = {};
                     $scope.BuyerManager.intUserCode = $scope.intUserCode;
                     $scope.BuyerManager.intBuyerCode = $scope.intBuyerCode;
+                    $scope.BuyerManager.bolIsActive = $scope.bolIsActive;
                    
                     $http({
                         method: "post",
@@ -95,6 +96,7 @@ var app = angular.module("myBuyerManagerApp", [])
                     $scope.BuyerManager.intBuyerDetailCode = $scope.intBuyerDetailCode;
                     $scope.BuyerManager.intBuyerCode = $scope.intBuyerCode;
                     $scope.BuyerManager.intUserCode = $scope.intUserCode;
+                    $scope.BuyerManager.bolIsActive = $scope.bolIsActive;
                    
                     $scope.BuyerManager.dtCreatedAt = $scope.dtCreatedAt;
                     $scope.BuyerManager.intCreatedByCode = $scope.intCreatedByCode;
@@ -182,6 +184,7 @@ var app = angular.module("myBuyerManagerApp", [])
             $scope.intCreatedByCode = BuyerManager.intCreatedByCode;
             $scope.dtModifyAt = BuyerManager.dtModifyAt;
             $scope.intModifyByCode = BuyerManager.intModifyByCode;
+            $scope.bolIsActive = BuyerManager.bolIsActive;
             $scope.GetUser();
             $scope.GetBuyer();
         }

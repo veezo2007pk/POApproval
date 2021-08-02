@@ -25,6 +25,7 @@
           <Property Name="intCreatedByCode" Type="nvarchar" MaxLength="50" />
           <Property Name="dtModifyAt" Type="datetime" />
           <Property Name="intModifyBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="bolIsActive" Type="bit" />
         </EntityType>
         <EntityType Name="tblManageApproval">
           <Key>
@@ -89,6 +90,8 @@
           <Property Name="bolIsPendingR2POEmailSent" Type="bit" />
           <Property Name="bolIsPendingR3POEmailSent" Type="bit" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbSASAApproval.dbo.tblPO1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblPODetail">
           <Key>
             <PropertyRef Name="intPODetailCode" />
@@ -420,7 +423,6 @@
             <Parameter Name="strLoginName" Mode="In" Type="String" />
             <Parameter Name="strUserPassword" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="tblBuyerDetails" EntityType="dbSASAApprovalModel.tblBuyerDetail" />
           <EntitySet Name="tblManageApprovals" EntityType="dbSASAApprovalModel.tblManageApproval" />
           <EntitySet Name="tblApprovalLevels" EntityType="dbSASAApprovalModel.tblApprovalLevel" />
           <AssociationSet Name="FK_tblApproval_tblApproval" Association="dbSASAApprovalModel.FK_tblApproval_tblApproval">
@@ -432,6 +434,7 @@
             <End Role="tblManageApproval" EntitySet="tblManageApprovals" />
           </AssociationSet>
           <EntitySet Name="tblStatus" EntityType="dbSASAApprovalModel.tblStatu" />
+          <EntitySet Name="tblBuyerDetails" EntityType="dbSASAApprovalModel.tblBuyerDetail" />
         </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -586,18 +589,6 @@
           <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="tblBuyerDetail">
-          <Key>
-            <PropertyRef Name="intBuyerDetailCode" />
-          </Key>
-          <Property Name="intBuyerDetailCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="intBuyerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="intUserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="intCreatedByCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
-          <Property Name="intModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tblManageApproval">
           <Key>
             <PropertyRef Name="intManageApprovalCode" />
@@ -657,6 +648,19 @@
           </Key>
           <Property Name="intStatusCode" Type="Int32" Nullable="false" />
           <Property Name="strStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblBuyerDetail">
+          <Key>
+            <PropertyRef Name="intBuyerDetailCode" />
+          </Key>
+          <Property Name="intBuyerDetailCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intBuyerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="intUserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="intCreatedByCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
+          <Property Name="intModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bolIsActive" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -978,19 +982,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblBuyerDetails">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblBuyerDetail">
-              <MappingFragment StoreEntitySet="tblBuyerDetail">
-                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
-                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
-                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
-                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
-                <ScalarProperty Name="intUserCode" ColumnName="intUserCode" />
-                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
-                <ScalarProperty Name="intBuyerDetailCode" ColumnName="intBuyerDetailCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblManageApprovals">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblManageApproval">
               <MappingFragment StoreEntitySet="tblManageApproval">
@@ -1023,6 +1014,20 @@
               <MappingFragment StoreEntitySet="tblStatus">
                 <ScalarProperty Name="strStatusName" ColumnName="strStatusName" />
                 <ScalarProperty Name="intStatusCode" ColumnName="intStatusCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBuyerDetails">
+            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblBuyerDetail">
+              <MappingFragment StoreEntitySet="tblBuyerDetail">
+                <ScalarProperty Name="bolIsActive" ColumnName="bolIsActive" />
+                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
+                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
+                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
+                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
+                <ScalarProperty Name="intUserCode" ColumnName="intUserCode" />
+                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
+                <ScalarProperty Name="intBuyerDetailCode" ColumnName="intBuyerDetailCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

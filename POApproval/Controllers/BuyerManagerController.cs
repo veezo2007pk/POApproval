@@ -26,6 +26,7 @@ namespace POApproval.Controllers
 
         public ActionResult BuyerManagerList()
         {
+            ViewBag.geterror = "";
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
@@ -165,6 +166,7 @@ namespace POApproval.Controllers
         //[Authorize]
         public ActionResult UpdateBuyerManager(int ID)
         {
+            
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
@@ -186,6 +188,7 @@ namespace POApproval.Controllers
                         var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
                         if (BuyerManagerInfo != null)
                         {
+                            
                             BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
                             {
 
@@ -195,6 +198,7 @@ namespace POApproval.Controllers
                                 intBuyerCode = BuyerManagerInfo.intBuyerCode,
                                 intModifyBy = BuyerManagerInfo.intModifyBy,
                                 intUserCode = BuyerManagerInfo.intUserCode,
+                                bolIsActive = BuyerManagerInfo.bolIsActive,
                                 intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
 
 
@@ -238,6 +242,7 @@ namespace POApproval.Controllers
                                 intBuyerCode = BuyerManagerInfo.intBuyerCode,
                                 intModifyBy = BuyerManagerInfo.intModifyBy,
                                 intUserCode = BuyerManagerInfo.intUserCode,
+                                bolIsActive = BuyerManagerInfo.bolIsActive,
                                 intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
 
 
@@ -313,7 +318,7 @@ namespace POApproval.Controllers
         /// <returns></returns>  
         public int Insert_BuyerManager(tblBuyerDetail BuyerManager)
         {
-            var checkUserBuyerManagerExist = db.tblBuyerDetails.Where(x => x.intUserCode == BuyerManager.intUserCode && x.intBuyerCode == BuyerManager.intBuyerCode).FirstOrDefault();
+            var checkUserBuyerManagerExist = db.tblBuyerDetails.Where(x => x.intUserCode == BuyerManager.intUserCode && x.intBuyerCode == BuyerManager.intBuyerCode && x.bolIsActive == BuyerManager.bolIsActive).FirstOrDefault();
             if (checkUserBuyerManagerExist != null)
             {
                 return 2;
@@ -340,6 +345,14 @@ namespace POApproval.Controllers
         public ActionResult Delete_BuyerManager(int ID)
         {
             tblBuyerDetail on = db.tblBuyerDetails.Find(ID);
+            List <tblManageApproval> manageApproval1 = db.tblManageApprovals.Where(x => x.intBuyerCode == on.intBuyerCode.ToString()).ToList();
+            List<tblPO> pOs = db.tblPOes.Where(x => x.staff_code == on.intBuyerCode.ToString()&&(x.PO_Status!="Pending" || x.PO_Status!= "Rejected")).ToList();
+            if (manageApproval1.Count > 0 || pOs.Count>0)
+            {
+                ViewBag.geterror = "buyer attach with approval list";
+                return View("BuyerManagerList", "BuyerManager");
+            }
+            
             db.tblBuyerDetails.Remove(on);
             db.SaveChanges();
             return RedirectToAction("BuyerManagerList", "BuyerManager");

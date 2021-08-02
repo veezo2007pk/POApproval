@@ -58,6 +58,8 @@ namespace POApproval.Helper
         public string intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
         public string intModifyBy { get; set; }
+       
+        public Nullable<bool> bolIsActive { get; set; }
 
     }
 }

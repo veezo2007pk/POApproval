@@ -10,12 +10,12 @@
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblPOHistory" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblPODetail_tblPO" ManuallyRouted="false" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblPOHistory_tblPO" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyerDetail" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblManageApproval" Width="1.5" PointX="8" PointY="11.25" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblApprovalLevel" Width="1.5" PointX="5.75" PointY="11.75" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblApproval_tblApproval" />
         <AssociationConnector Association="dbSASAApprovalModel.FK_tblManageApproval_tblApprovalLevel" />
         <EntityTypeShape EntityType="dbSASAApprovalModel.tblStatu" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="dbSASAApprovalModel.tblBuyerDetail" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
