@@ -14,6 +14,9 @@ namespace POApproval.Models
     public partial class procSelectManageApproval_Result
     {
         public int intManageApprovalCode { get; set; }
+        public string intBuyerCode { get; set; }
+        public string xpertLoginID { get; set; }
+        public string fullname { get; set; }
         public string UserCode { get; set; }
         public string BuyerName { get; set; }
         public string ApprovalName { get; set; }

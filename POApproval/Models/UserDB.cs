@@ -75,6 +75,18 @@ namespace POApproval.Models
         //Method for Adding an User  
         public int Add(userDataViewModel user, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+            String userCode = null;
+            if (reqCookies != null)
+            {
+                userCode = reqCookies["intUserCode"].ToString();
+
+            }
+            else
+            {
+                userCode = HttpContext.Current.Session["intUserCode"].ToString();
+
+            }
 
             int i;
             //if (user.bolIsApprovalLimit == null)
@@ -148,7 +160,7 @@ namespace POApproval.Models
                     comm.CommandType = CommandType.StoredProcedure;
                     comm.Parameters.AddWithValue("@usercode", user.usercode);
                     comm.Parameters.AddWithValue("@menu_code", 0);
-                    comm.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+                    comm.Parameters.AddWithValue("@created_by", userCode);
 
                     comm.Parameters.AddWithValue("@Action", "Delete");
                     i = comm.ExecuteNonQuery();
@@ -160,7 +172,7 @@ namespace POApproval.Models
                             comm1.CommandType = CommandType.StoredProcedure;
                             comm1.Parameters.AddWithValue("@usercode", user.usercode);
                             comm1.Parameters.AddWithValue("@menu_code", item.menuCode);
-                            comm1.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+                            comm1.Parameters.AddWithValue("@created_by", userCode);
                             comm1.Parameters.AddWithValue("@Action", "Insert");
                             i = comm1.ExecuteNonQuery();
                         }
@@ -174,7 +186,18 @@ namespace POApproval.Models
         //Method for Updating User record  
         public int Update(userDataViewModel user, List<procGetAccessLevels_Result> lstMembersToNotify)
         {
+            HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+            String userCode = null;
+            if (reqCookies != null)
+            {
+                userCode = reqCookies["intUserCode"].ToString();
 
+            }
+            else
+            {
+                userCode = HttpContext.Current.Session["intUserCode"].ToString();
+
+            }
             int i;
             //if (user.bolIsApprovalLimit == null)
             //    user.bolIsApprovalLimit = false;
@@ -245,7 +268,7 @@ namespace POApproval.Models
                     comm.CommandType = CommandType.StoredProcedure;
                     comm.Parameters.AddWithValue("@usercode", user.usercode);
                     comm.Parameters.AddWithValue("@menu_code", 0);
-                    comm.Parameters.AddWithValue("@created_by", user.xpertLoginID);
+                    comm.Parameters.AddWithValue("@created_by", userCode);
                     comm.Parameters.AddWithValue("@Action", "Delete");
                     i = comm.ExecuteNonQuery();
                     foreach (var item in lstMembersToNotify)
@@ -256,7 +279,7 @@ namespace POApproval.Models
                             comm1.CommandType = CommandType.StoredProcedure;
                             comm1.Parameters.AddWithValue("@usercode", user.usercode);
                             comm1.Parameters.AddWithValue("@menu_code", item.menuCode);
-                            comm1.Parameters.AddWithValue("@created_by",user.xpertLoginID);
+                            comm1.Parameters.AddWithValue("@created_by", userCode);
                             comm1.Parameters.AddWithValue("@Action", "Insert");
                             i = comm1.ExecuteNonQuery();
                         }

@@ -23,9 +23,7 @@ namespace POApproval.Models
         public int intApprovalLevelCode { get; set; }
         public string strApprovalLevelName { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
-        public Nullable<int> intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
-        public Nullable<int> intModifyBy { get; set; }
     
         public virtual tblApprovalLevel tblApprovalLevel1 { get; set; }
         public virtual tblApprovalLevel tblApprovalLevel2 { get; set; }

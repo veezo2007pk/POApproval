@@ -84,27 +84,53 @@ namespace POApproval.Models
             if (intManageAppprovalCodeMaxCode == 0)
                 intManageAppprovalCodeMaxCode = 1;
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
-
-            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+            if (reqCookies != null)
             {
-                con.Open();
-                SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
-                com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
-                com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
-                com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
-                com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
-                com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
-                com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
-               com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intCreatedByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
-                com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intModifyByCode", ManageAppproval.intUserCode);
-                com.Parameters.AddWithValue("@Action", "Insert");
-                i = com.ExecuteNonQuery();
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+                {
+                    con.Open();
+                    SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
+                    com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
+                    com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
+                    com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
+                    com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
+                    com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
+                    com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intCreatedByCode", reqCookies["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intModifyByCode", reqCookies["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@Action", "Insert");
+                    i = com.ExecuteNonQuery();
+                }
+                return i;
             }
-            return i;
+            else
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+                {
+                    con.Open();
+                    SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
+                    com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
+                    com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
+                    com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
+                    com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
+                    com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
+                    com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intCreatedByCode", (HttpContext.Current.Session["intUserCode"].ToString()));
+                    com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intModifyByCode", HttpContext.Current.Session["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@Action", "Insert");
+                    i = com.ExecuteNonQuery();
+                }
+                return i;
+            }
+            
         }
 
         //Method for Updating ManageAppproval record  
@@ -112,26 +138,53 @@ namespace POApproval.Models
         {
             int i;
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
-            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+            if (reqCookies != null)
             {
-                con.Open();
-                SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
-                com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
-                com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
-                com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
-                com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
-                com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
-                com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
-                com.Parameters.AddWithValue("@dtCreatedAt", ManageAppproval.dtCreatedAt);
-                com.Parameters.AddWithValue("@intCreatedByCode", ManageAppproval.intUserCode);
-                com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
-                com.Parameters.AddWithValue("@intModifyByCode", Convert.ToInt32(reqCookies["intUserCode"].ToString()));
-                com.Parameters.AddWithValue("@Action", "Update");
-                i = com.ExecuteNonQuery();
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+                {
+                    con.Open();
+                    SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
+                    com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
+                    com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
+                    com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
+                    com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
+                    com.Parameters.AddWithValue("@dtCreatedAt", ManageAppproval.dtCreatedAt);
+                    com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intModifyByCode", reqCookies["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@Action", "Update");
+                    i = com.ExecuteNonQuery();
+                }
+                return i;
             }
-            return i;
+            else
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+                {
+                    con.Open();
+                    SqlCommand com = new SqlCommand("procInsertUpdateManageApproval", con);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@intManageApprovalCode", ManageAppproval.intManageApprovalCode);
+                    com.Parameters.AddWithValue("@intUserCode", ManageAppproval.intUserCode);
+                    com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
+                    com.Parameters.AddWithValue("@intApprovalLevelCode", ManageAppproval.intApprovalLevelCode);
+                    com.Parameters.AddWithValue("@numFromApprovalAmount", ManageAppproval.numFromApprovalAmount);
+                    com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
+                    com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
+                    com.Parameters.AddWithValue("@dtCreatedAt", ManageAppproval.dtCreatedAt);
+                    com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
+                    com.Parameters.AddWithValue("@intModifyByCode", HttpContext.Current.Session["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@Action", "Update");
+                    i = com.ExecuteNonQuery();
+                }
+                return i;
+            }
+           
         }
 
         //Method for Deleting an ManageAppproval  

@@ -55,9 +55,9 @@ namespace POApproval.Helper
         public string intBuyerCode { get; set; }
         public string intUserCode { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
-        public Nullable<int> intCreatedByCode { get; set; }
+        public string intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
-        public Nullable<int> intModifyBy { get; set; }
+        public string intModifyBy { get; set; }
 
     }
 }

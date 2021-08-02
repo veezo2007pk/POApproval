@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [Authorize]
     public class BuyerManagerController : Controller
     {
 
@@ -28,62 +27,117 @@ namespace POApproval.Controllers
         public ActionResult BuyerManagerList()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-           
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
-               
+
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
 
                     var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
                     var link = data.menulink.Split('/');
                     if (link[1].ToString() == "BuyerManagerList")
                     {
-                    var data1 = db.procSelectBuyerManager().ToList();
-                    return View(data1);
-                   
+                        var data1 = db.procSelectBuyerManager().ToList();
+                        return View(data1);
+
+
+
+                    }
+
 
 
                 }
-
-                    
-                
             }
-            return RedirectToAction("AccessDenied", "Errors");
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
 
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
+                    {
+                        var data1 = db.procSelectBuyerManager().ToList();
+                        return View(data1);
+
+
+
+                    }
+
+
+
+                }
+            }
+                return RedirectToAction("AccessDenied", "Errors");
+            
         }
 
         //[Authorize]
         public ActionResult AddBuyerManager()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
 
-
-                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                var link = data.menulink.Split('/');
-                if (link[1].ToString() == "BuyerManagerList")
+                foreach (var item in menus)
                 {
-                    PopulateDropdown();
-                    return View();
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
+                    {
+                        PopulateDropdown();
+                        return View();
+
+
+
+                    }
 
 
 
                 }
 
-
-
             }
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
+                    {
+                        PopulateDropdown();
+                        return View();
+
+
+
+                    }
+
+
+
+                }
+            }
+           
             return RedirectToAction("AccessDenied", "Errors");
            
         }
@@ -112,50 +166,97 @@ namespace POApproval.Controllers
         public ActionResult UpdateBuyerManager(int ID)
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
 
-
-                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                var link = data.menulink.Split('/');
-                if (link[1].ToString() == "BuyerManagerList")
+                foreach (var item in menus)
                 {
-                    PopulateDropdown();
-                    var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
-                    if (BuyerManagerInfo != null)
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
                     {
-                        BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
+                        PopulateDropdown();
+                        var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
+                        if (BuyerManagerInfo != null)
                         {
+                            BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
+                            {
 
-                            dtCreatedAt = BuyerManagerInfo.dtCreatedAt,
-                            dtModifyAt = BuyerManagerInfo.dtModifyAt,
-                            intCreatedByCode = BuyerManagerInfo.intCreatedByCode,
-                            intBuyerCode = BuyerManagerInfo.intBuyerCode,
-                            intModifyBy = BuyerManagerInfo.intModifyBy,
-                            intUserCode = BuyerManagerInfo.intUserCode,
-                            intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
+                                dtCreatedAt = BuyerManagerInfo.dtCreatedAt,
+                                dtModifyAt = BuyerManagerInfo.dtModifyAt,
+                                intCreatedByCode = BuyerManagerInfo.intCreatedByCode,
+                                intBuyerCode = BuyerManagerInfo.intBuyerCode,
+                                intModifyBy = BuyerManagerInfo.intModifyBy,
+                                intUserCode = BuyerManagerInfo.intUserCode,
+                                intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
 
 
-                        };
+                            };
 
-                        return View(objBuyerManager);
+                            return View(objBuyerManager);
+                        }
+
+                        return View();
+
+
+
                     }
-
-                    return View();
 
 
 
                 }
-
-
-
             }
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "BuyerManagerList")
+                    {
+                        PopulateDropdown();
+                        var BuyerManagerInfo = db.tblBuyerDetails.FirstOrDefault(s => s.intBuyerDetailCode == ID);
+                        if (BuyerManagerInfo != null)
+                        {
+                            BuyerManagerViewModel objBuyerManager = new BuyerManagerViewModel()
+                            {
+
+                                dtCreatedAt = BuyerManagerInfo.dtCreatedAt,
+                                dtModifyAt = BuyerManagerInfo.dtModifyAt,
+                                intCreatedByCode = BuyerManagerInfo.intCreatedByCode,
+                                intBuyerCode = BuyerManagerInfo.intBuyerCode,
+                                intModifyBy = BuyerManagerInfo.intModifyBy,
+                                intUserCode = BuyerManagerInfo.intUserCode,
+                                intBuyerDetailCode = BuyerManagerInfo.intBuyerDetailCode
+
+
+                            };
+
+                            return View(objBuyerManager);
+                        }
+
+                        return View();
+
+
+
+                    }
+
+
+
+                }
+            }
+           
             return RedirectToAction("AccessDenied", "Errors");
             
         }

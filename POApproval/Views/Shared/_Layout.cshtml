@@ -11,7 +11,6 @@
     <link href="~/Content/select-searchable.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="wait" style="display:none;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src="~/GlobalInfo/Loader.gif" width="150" height="150" /><br>Loading..</div>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -20,37 +19,54 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <p class = "navbar-brand">PO Approval System</p>
+                <p class="navbar-brand">PO Approval System</p>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" id="menudata">
-                   
                 </ul>
-                @{ 
+                @{
                     HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
-                }
+
+
+}
                 <ul style="padding-top:7px;" class=" navbar-right">
 
-                    <li>@if (reqCookies["strUser"].ToString() != null)
-                    {<a style="color:white;">@reqCookies["intUserCode"].ToString() - @reqCookies["strUser"].ToString()      </a>}<a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a></li>
+                    <li>
+                        @if (reqCookies != null)
+                        {
+                            if (reqCookies["strUser"].ToString() != null)
+                            {
+                                <a style="color:white;">@reqCookies["intUserCode"].ToString() - @reqCookies["strUser"].ToString()      </a>
+                            }
+                        }
+                        else
+                        {
+                            if (Session["strUser"].ToString() != null)
+                            {
+                                <a style="color:white;">@Session["intUserCode"].ToString() - @Session["strUser"].ToString()      </a>
+                            }
+                        }
+                        <a  class="logout btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")">Logout</a>
+                    </li>
 
 
-                </ul>
-            </div>
+            </ul>
         </div>
     </div>
-    <div class="container body-content ">
-        @RenderBody()
-        <div class="text-center" id="loader"><img src="~/images/Loader.gif" /></div>
-        @*<footer>
-                <p>&copy; @DateTime.Now.Year - HONK KONG SA SA (M) SDN BHD</p>
-            </footer>*@
-    </div>
+       
+</div>
+<div class="container body-content ">
+    @RenderBody()
+    <div class="text-center" id="loader"><img src="~/images/Loader.gif" /></div>
+    @*<footer>
+            <p>&copy; @DateTime.Now.Year - HONK KONG SA SA (M) SDN BHD</p>
+        </footer>*@
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+@Html.Hidden("RedirectTo", Url.Action("ClearCookie", "Account"))
 </body>
 </html>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
@@ -62,21 +78,137 @@
 <script src="~/Scripts/checklist-model.js"></script>
 <script src="~/Scripts/select-searchable.js"></script>
 <script>
+    $("#PO_Number").bind('paste', function () {
+        setTimeout(function () {
+            //get the value of the input text
+            var data = $('#PO_Number').val();
+            //replace the special characters to '' 
+            var dataFull = data.replace(/[^\w\s]/gi, '');
+            //set the new value of the input text without special characters
+            $('#PO_Number').val(dataFull);
+        });
+
+    });
+    function refereshDatatable() {
+        var table1 = $('#otherTable').DataTable();
+        table1.state.clear();
+        table1.destroy();
+        $('#otherTable').dataTable({
+
+            "stateSave": false, //to save pagination state
+
+
+        });
+
+        var table2 = $('#myTable').DataTable();
+        table2.state.clear();
+        table2.destroy();
+
+        $('#myTable').dataTable({
+
+            "stateSave": false, //to save pagination state
+
+
+        });
+
+        var table3 = $('#myTablePO').DataTable();
+        table3.state.clear();
+        table3.destroy();
+
+        $('#myTablePO').dataTable({
+
+            "stateSave": false, //to save pagination state
+
+
+        });
+
+    }
+    function PagerClick(index) {
+        document.getElementById("hfCurrentPageIndex").value = index;
+       
+        window.location.href = 'http://localhost:61646/PO/SearchPOs?currentPage=' + index;
+           
+            
+      
+    }
     $(document).ajaxError(function (xhr, props) {
 if (props.status === 401) {
    window.location.href = '@Url.Action("Login","Account")';
   }
 });
     $(document).ready(function () {
+       
+        
+
+        $('.logout').click(function () {
+         
+            var table1 = $('#otherTable').DataTable();
+            table1.state.clear();
+            table1.destroy();
+            $('#otherTable').dataTable({
+
+                "stateSave": false, //to save pagination state
+
+
+            });
+
+            var table2 = $('#myTable').DataTable();
+            table2.state.clear();
+            table2.destroy();
+
+            $('#myTable').dataTable({
+
+                "stateSave": false, //to save pagination state
+
+
+            });
+
+            var table3 = $('#myTablePO').DataTable();
+            table3.state.clear();
+            table3.destroy();
+
+            $('#myTablePO').dataTable({
+
+                "stateSave": false, //to save pagination state
+
+
+            });
+
+
+        });
+        @*window.addEvent("beforeunload", function () {
+            var cookie = $.cookie("notreme");
+
+            if (cookie == "notreme=notreme") {
+                window.location.href = '@Url.Action("ClearCookie", "Account")';
+            }
+        });*@
+    @*$(window).unload(function () {
+            return confirm("Do you really want to close?");
+            var cookie = $.cookie("notreme");
+
+            if (cookie == "notreme=notreme") {
+                window.location.href = '@Url.Action("ClearCookie", "Account")';
+            }
+    });*@
+
+        //var now = new Date().getTime();
+        //var cookie = $.cookie("notreme");
+        ////var timeleft = cookie.expires - now;
+        //var cookieData = cookie;
+
+        //console.log(cookie)
 
         function removeSigns() {
             var input = document.getElementById('my-input');
             input.value = parseInt(input.value.toString().replace('+', '').replace('-', ''))
         }
+       
         $(function () {
+
             $.ajax({
                 type: "POST",
-                url: "http://10.3.1.110/poapproval/User/GetUserMenus/",
+                url: "http://localhost:61646/User/GetUserMenus/",
                 data: JSON.stringify(),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -85,8 +217,11 @@ if (props.status === 401) {
                     html = '';
                     for (i = 0; i < response.length; i++) {
                         console.log(response[i].menucode);
-                        html += '<li><a href=' + 'http://10.3.1.110/poapproval/' + response[i].menulink + '>' + response[i].menuname + '</a></li>';
-                    }
+                       
+                            html += '<li><a  href=' + 'http://localhost:61646/' + response[i].menulink + ' onclick="refereshDatatable()">' + response[i].menuname + '</a></li>';
+                        
+
+                        }
                     $('#menudata').html(html);
                     if (response != null) {
                         //alert("PO Approved successfully");
@@ -109,7 +244,8 @@ if (props.status === 401) {
 
         $(".listbox").select2({
 
-            allowClear: true
+            allowClear: true,
+            placeholder: "--Select--",
         });
         $("#chkall").click(function () {
 
@@ -153,10 +289,11 @@ if (props.status === 401) {
         $(function () {
             $("#btnSubmitnormal").click(function () {
 
-
+                $("#btnSubmitnormal").attr("disabled", true);
 
                 var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
+                    $("#btnSubmitnormal").attr("disabled", false);
                     $(".error").show();
                     spinner.hide();
                     return false;
@@ -165,9 +302,55 @@ if (props.status === 401) {
                 var r = confirm("Are you sure to update selected PO?");
                 if (r == true) {
                     spinner.show();
-                    $("#btnSubmitnormal").hide();
-                    $("#btnRejectnormal").hide();
+                    var values = new Array();
+                    $.each($("#myTable input[type=checkbox]:checked"), function () {
+                        var data = $(this).parents('tr:eq(0)');
+                        values.push({ 'PO_Number': $(data).find('td:eq(1)').text(), 'strPOStatus': $.trim($(data).find('td:eq(2)').text()), 'ApprovalLevel': $.trim($(data).find('td:eq(5)').text())});
+                    });
+                   
+                    
+                    //var hobbies = "";
+                    //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                    //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                    //});
+                    //console.log(hobbies);
+                    $.ajax({
+                        type: 'Post',
+                        dataType: 'json',
+                        url: 'http://localhost:61646/PO/SaveMultiplePO',
+                        data: JSON.stringify({ searchPO_Results: values }),
+                        contentType: 'application/json; charset=utf-8',
+                        async: false,
+                        success: function (data) {
+                            if (data == "Cannot perform this action. User xpertloginid is null") {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                spinner.hide();
+                                $("#btnSubmitnormal").show();
+                                $("#btnRejectnormal").show();
+                                $("#btnSubmitnormal").attr("disabled", false);
+                                
+                                return;
+
+                            }
+                            else {
+                                window.location = '/PO/SearchPO'
+
+                            }
+                        },
+                        error: function (data) {
+                            console.debug(data);
+                            $("#btnSubmitnormal").attr("disabled", false);
+                        }
+                    });
+
+
+
+
+
+
+                   
                 } else {
+                    $("#btnSubmitnormal").attr("disabled", false);
                     spinner.hide();
                     return false;
 
@@ -175,34 +358,91 @@ if (props.status === 401) {
                 $('#strRejectReasonForListnormal').text("");
                 return true;
             });
+            $("#btnSutestbmit").click(function () {
+                
+                
+               
+                return true;
+            });
+
+            
             $("#btnSubmit").click(function () {
-
-
-
+               
+                $('#loader').show();
+                $("#btnSubmit").attr("disabled", true);
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();
                     spinner.hide();
+                    $("#btnSubmit").attr("disabled", false);
                     return false;
                 }
 
                 var r = confirm("Are you sure to update selected PO?");
+             
                 if (r == true) {
                     spinner.show();
-                    $("#btnSubmit").hide();
-                    $("#btnReject").hide();
+                    
+                    var values = new Array();
+
+                    checked_checkboxes.each(function () {
+                        var data = $(this).parents('tr:eq(0)');
+                        values.push({ 'PO_Number': $(data).find('td:eq(1)').text(), 'strPOStatus': $.trim($(data).find('td:eq(2)').text()), 'ApprovalLevel': $.trim($(data).find('td:eq(5)').text())});
+
+                    });
+                  
+                    $.ajax({
+                        type: 'Post',
+                        dataType: 'json',
+                        url: 'http://localhost:61646/PO/SaveMultiplePO',
+                        
+                        data: JSON.stringify({ searchPO_Results: values }),
+                        cache: false,
+                        contentType: 'application/json; charset=utf-8',
+                        async: false,
+                        success: function (data) {
+                            if (data == "Cannot perform this action. User xpertloginid is null") {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                spinner.hide();
+                                $("#btnSubmit").show();
+                                $("#btnReject").show();
+                                $("#btnSubmit").attr("disabled", false);
+
+                                return;
+
+                            }
+                            else {
+                                window.location = '/PO/SearchPO'
+
+                            }
+                        },
+                        error: function (data) {
+                            $("#btnSubmit").attr("disabled", false);
+                            console.debug(data);
+                        }
+                    });
+
+                 
+                    //var hobbies = "";
+                    //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                    //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                    //});
+                    //console.log(hobbies);
+                
+                   
                 } else {
+                    $("#btnSubmit").attr("disabled", false);
                     spinner.hide();
                     return false;
 
                 }
                 $('#strRejectReasonForList').text("");
-                return true;
+
             });
             $("#btnPrint").click(function () {
 
                 $('#rejectstatus').val("report");
-                
+
                 var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
                 if (checked_checkboxes.length == 0) {
                     $(".error").show();
@@ -213,6 +453,34 @@ if (props.status === 401) {
                 var r = confirm("Are you sure to view po for selected PO?");
                 if (r == true) {
                     spinner.show();
+                    var values = new Array();
+                    $.each($("#myTablePO input[type=checkbox]:checked"), function () {
+                        var data = $(this).parents('tr:eq(0)');
+                        values.push({ 'PO_Number': $(data).find('td:eq(1)').text() });
+
+                    });
+
+                    
+                    //var hobbies = "";
+                    //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                    //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                    //});
+                    //console.log(hobbies);
+                    $.ajax({
+                        type: 'Post',
+                        dataType: 'json',
+                        url: 'http://localhost:61646/PO/SaveMultiplePO',
+                        data: JSON.stringify({ searchPO_Results: values, criteria:"report" }),
+                        contentType: 'application/json; charset=utf-8',
+                        async: false,
+                        success: function (data) {
+                            console.log(data);
+                            window.location = '/PO/PORpt?intPOCode=' + data
+                        },
+                        error: function (data) {
+                            console.debug(data);
+                        }
+                    });
                     $("#btnPrint").hide();
                     $("#btnReject").hide();
                     $("#btnSubmit").hide();
@@ -238,6 +506,34 @@ if (props.status === 401) {
                 var r = confirm("Are you sure to view po for selected PO?");
                 if (r == true) {
                     spinner.show();
+                    var values = new Array();
+                    $.each($("#myTable input[type=checkbox]:checked"), function () {
+                        var data = $(this).parents('tr:eq(0)');
+                        values.push({ 'PO_Number': $(data).find('td:eq(1)').text() });
+
+                    });
+
+                    
+                    //var hobbies = "";
+                    //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                    //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                    //});
+                    //console.log(hobbies);
+                    $.ajax({
+                        type: 'Post',
+                        dataType: 'json',
+                        url: 'http://localhost:61646/PO/SaveMultiplePO',
+                        data: JSON.stringify({ searchPO_Results: values, criteria: "report" }),
+                        contentType: 'application/json; charset=utf-8',
+                        async: false,
+                        success: function (data) {
+                            console.log(data);
+                            window.location = '/PO/PORpt?intPOCode=' + data
+                        },
+                        error: function (data) {
+                            console.debug(data.data);
+                        }
+                    });
                     $("#btnPrintnormal").hide();
                     $("#btnRejectnormal").hide();
                     $("#btnSubmitnormal").hide();
@@ -282,24 +578,65 @@ if (props.status === 401) {
             });
             $("#btnRejectnormal").click(function () {
                 $('#rejectstatus').val("reject");
-
+                $("#btnRejectnormal").attr("disabled", true);
                 var strRejectReason = $('#strRejectReasonForListnormal').val();
                 //alert(strRejectReason);
                 if (strRejectReason == "") {
 
                     $('#UserErrorMessagesnormal').text("This field is required");
+                    $("#btnRejectnormal").attr("disabled", false);
                     return false;
                 }
 
                 else {
                     if (confirm('Are you sure to reject selected PO?')) {
                         spinner.show();
-                        $("#btnMainRejectnormal").hide();
+                        var values = new Array();
+                        $.each($("#myTable input[type=checkbox]:checked"), function () {
+                            var data = $(this).parents('tr:eq(0)');
+                            values.push({ 'PO_Number': $(data).find('td:eq(1)').text() });
 
-                        $("#btnRejectnormal").hide();
-                        $("#btnSubmitnormal").hide();
-                        $('#exampleModalnormal').modal('hide');
+                        });
+
+                        
+                        //var hobbies = "";
+                        //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                        //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                        //});
+                        //console.log(hobbies);
+                        $.ajax({
+                            type: 'Post',
+                            dataType: 'json',
+                            url: 'http://localhost:61646/PO/SaveMultiplePO',
+                            data: JSON.stringify({ searchPO_Results: values, criteria: "reject", RejectReason: strRejectReason }),
+                            contentType: 'application/json; charset=utf-8',
+                            async: false,
+                            success: function (data) {
+                                console.log(data)
+                                if (data == "Cannot perform this action. User xpertloginid is null") {
+                                    alert("Cannot perform this action. User xpertloginid is null");
+                                    spinner.hide();
+                                    $('#exampleModalnormal').modal('hide')
+                                    $("#btnMainRejectnormal").show();
+                                    $("#btnRejectnormal").attr("disabled", false);
+                                    $("#btnRejectnormal").show();
+                                    $("#btnSubmitnormal").show();
+                                    return;
+                                    
+                                }
+                                else {
+                                    window.location = '/PO/SearchPO'
+
+                                }
+                            },
+                            error: function (data) {
+                                $("#btnRejectnormal").attr("disabled", false);
+                                alert(data);
+                            }
+                        });
+                       
                     } else {
+                        $("#btnRejectnormal").attr("disabled", false);
                         spinner.hide();
                         return false;
 
@@ -311,24 +648,66 @@ if (props.status === 401) {
 
             $("#btnReject").click(function () {
                 $('#rejectstatus').val("reject");
-
+                $("#btnReject").attr("disabled", true);
                 var strRejectReason = $('#strRejectReasonForList').val();
                 //alert(strRejectReason);
                 if (strRejectReason == "") {
 
                     $('#UserErrorMessages').text("This field is required");
+                    $("#btnReject").attr("disabled", false);
                     return false;
                 }
 
                 else {
                     if (confirm('Are you sure to reject selected PO?')) {
                         spinner.show();
-                        $("#btnMainReject").hide();
+                        var values = new Array();
+                        $.each($("#myTablePO input[type=checkbox]:checked"), function () {
+                            var data = $(this).parents('tr:eq(0)');
+                            values.push({ 'PO_Number': $(data).find('td:eq(1)').text() });
 
-                        $("#btnReject").hide();
-                        $("#btnSubmit").hide();
-                        $('#exampleModal').modal('hide');
+                        });
+
+                        
+                        //var hobbies = "";
+                        //$("#myTablePO input[type=checkbox]:checked").each(function (index, item) {
+                        //    hobbies += $(item).closest('tr').find('#Model[index]intPOCode').val() + ",";
+                        //});
+                        //console.log(hobbies);
+                        $.ajax({
+                            type: 'Post',
+                            dataType: 'json',
+                            url: 'http://localhost:61646/PO/SaveMultiplePO',
+                            data: JSON.stringify({ searchPO_Results: values, criteria: "reject", RejectReason: strRejectReason }),
+                            contentType: 'application/json; charset=utf-8',
+                            async: false,
+                            success: function (data) {
+                               
+                                if (data == "Cannot perform this action. User xpertloginid is null") {
+                                    alert("Cannot perform this action. User xpertloginid is null");
+                                    spinner.hide();
+                                    $('#exampleModal').modal('hide');
+                                    $("#btnReject").attr("disabled", false);
+                                    $("#btnMainReject").show();
+
+                                    $("#btnReject").show();
+                                    $("#btnSubmit").show();
+                                    return;
+                                    
+                                }
+                                else {
+                                    window.location = '/PO/SearchPO'
+
+                                }
+                            },
+                            error: function (data) {
+                                $("#btnReject").attr("disabled", false);
+                                console.debug(data);
+                            }
+                        });
+                       
                     } else {
+                        $("#btnReject").attr("disabled", false);
                         spinner.hide();
                         return false;
 
@@ -379,15 +758,15 @@ if (props.status === 401) {
         var searchText = $("#searchText").val();
         var xpertLoginID = $("#xpertLoginID").val();
         //ASPX page URL to load report
-        var src = 'http://10.3.1.110/poapproval/Report/RptPO.aspx?';
+        var src = 'http://localhost:61646/Report/RptPO.aspx?';
         //We can add parameters here
         src = src + "searchText=" + searchText
         //We can append more than one parameter like below
         //var companyId = 1
-        src = src + "&xpertLoginID=" + xpertLoginID
+        //src = src + "&xpertLoginID=" + xpertLoginID
 
         //Create a dynamic iframe here and append this to div tag
-        var iframe = ' <div  id="reportView" class="table-responsive"><iframe id="reportFrame" width="100%" height="900" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe></div>'; $("#divReport").html(iframe);
+        var iframe = ' <div  id="reportView" class="table-responsive"><iframe id="reportFrame" width="100%" height="1000" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe></div>'; $("#divReport").html(iframe);
 
     });
     $(function () {
@@ -405,11 +784,16 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
+                        url: "http://localhost:61646/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Approved', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            if (response == '5') {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                $("#approve").attr("disabled", false);
+                                return;
+                            }
                             if (response != null) {
                                 alert("PO Approved successfully");
                                 location.reload();
@@ -444,11 +828,16 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
+                        url: "http://localhost:61646/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 1', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            if (response == '5') {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                $("#Reviewer1").attr("disabled", false);
+                                return;
+                            }
                             if (response != null) {
                                 alert("PO Reviewed successfully");
                                 location.reload();
@@ -478,11 +867,16 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
+                        url: "http://localhost:61646/PO/SavePOHistory",
                         data: JSON.stringify({ ID: intPOCode, status: 'Reviewed 2', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            if (response == '5') {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                $("#Reviewer2").attr("disabled", false);
+                                return;
+                            }
                             if (response != null) {
                                 alert("PO Reviewed successfully");
                                 location.reload();
@@ -513,11 +907,16 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
+                        url: "http://localhost:61646/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Reviewed 3', 'strRejectReason': null }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            if (response == '5') {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                $("#Reviewer3").attr("disabled", false);
+                                return;
+                            }
                             if (response != null) {
                                 alert("PO Reviewed successfully");
                                 location.reload();
@@ -554,11 +953,16 @@ if (props.status === 401) {
                 if (intPOCode != null) {
                     $.ajax({
                         type: "POST",
-                        url: "http://10.3.1.110/poapproval/PO/SavePOHistory",
+                        url: "http://localhost:61646/PO/SavePOHistory",
                         data: JSON.stringify({ 'ID': intPOCode, 'status': 'Rejected', 'strRejectReason': strRejectReason }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
+                            if (response == '5') {
+                                alert("Cannot perform this action. User xpertloginid is null");
+                                $("#btnRejectReason").attr("disabled", false);
+                                return;
+                            }
                             if (response != null) {
                                 alert("PO Rejected successfully");
                                 location.reload();

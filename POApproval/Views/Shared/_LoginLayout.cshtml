@@ -35,3 +35,20 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+    $(".rememberme").change(function () {
+
+        // If change is confirmed this checks if the checkbox is checked
+        if (this.checked) {
+         
+            // Changes the value attribute to you value
+            $('.remembermetext').attr('value', 'checked');
+        }
+        else {
+            $('.remembermetext').attr('value', 'unchecked');
+        }
+    });
+    });
+
+</script>

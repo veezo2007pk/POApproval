@@ -1,0 +1,2295 @@
+﻿@model List<POApproval.Models.procSearchPO_Result>
+@{
+    ViewBag.Title = "Search PO";
+    HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+
+    var getlist = ViewBag.approvalLevelSequence as IEnumerable<POApproval.Models.procCheckApprovalLevelSequence_Result>;
+    var getlistForAdmin = ViewBag.approvalLevelSequence as IEnumerable<POApproval.Models.procCheckApprovalLevelSequenceForSuperAdmin_Result>;
+
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<style type="text/css">
+
+
+    .error {
+        color: red;
+        display: none;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background-color: gray !important;
+    }
+
+    table.datatable thead .sorting_desc {
+        background-color: gray !important;
+    }
+</style>
+<div>
+
+    <div class="divListSearchPO">
+
+        <section>
+            <div class=" container">
+                @using (Html.BeginForm("SearchPOWithFilter", "PO", FormMethod.Post))
+                {
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="email" class="statuslabel">Status:</label>
+                            <div class="button-container">
+                                <button type="button" class="btn btn-default btn-sm" id="chkall">Select All</button>
+                                <button type="button" class="btn btn-default btn-sm" id="unchkall">Deselect All</button>
+                            </div>
+                            <select class="form-control listbox" multiple="multiple" name="strStatusName">
+                                @foreach (var item in (MultiSelectList)ViewBag.Status)
+                                {
+                                    if (ViewBag.strStatusName != null)
+                                    {
+                                        string[] arr = ViewBag.strStatusName;
+                                        var target = item.Text;
+                                        var results = Array.Find(arr, s => s.Equals(target));
+                                        if (results == target)
+                                        {
+
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+
+
+                                }
+                            </select>
+                            @*<select title="Select Status" class="form-control" name="strPOStatus" id="strPOStatus">
+                                    <option value="">Select Status</option>
+                                    <option value="PENDING">PENDING</option>
+                                    <option value="APPROVED">APPROVED</option>
+                                    <option value="REVIEWED 1">REVIEWED 1</option>
+                                    <option value="REVIEWED 2">REVIEWED 2</option>
+                                    <option value="REVIEWED 3">REVIEWED 3</option>
+                                    <option value="REJECTED">REJECTED</option>
+                                </select>*@
+                            @*@Html.DropDownList("strStatusName", (MultiSelectList)ViewBag.Status, new { multiple = "multiple", @class = "form-control listbox" })*@
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">PO Number:</label>
+                            <input value="@ViewBag.PO_Number"  onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control" name="PO_Number" type="text" id="PO_Number">
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Search</button>
+
+
+                    </div>
+                }
+
+            </div>
+        </section>
+        <section>
+            @if (reqCookies != null)
+            {
+                if (reqCookies["SuperAdmin"].ToString() == "Y")
+                {
+                    <div class="table-common">
+                        @{
+                            int sn = 1;
+                        }
+                       
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage">@ViewBag.ResultMessage</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="total">Total Amount : <span></span></div>
+
+                            <div id="totalQty">Total Qty : <span></span></div>
+
+                            <table id="myTablePO" class="table display">
+                                <thead>
+                                    <tr class="odd" id="row_@sn" role="row">
+                                        <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+
+                                        @*<th>S/N</th>
+                                    <th>PO Code</th>*@
+                                        <th>PO Number</th>
+                                        <th>PO Status</th>
+                                        <th>Next</th>
+                                        <th>Next PO Status</th>
+                                        <th>Approval Level</th>
+
+                                        <th>Supplier Code</th>
+                                        <th>Supplier Name</th>
+                                        <th>Date</th>
+
+                                        <th>Buyer</th>
+                                        <th>Qty</th>
+                                        <th>Amount (RM)</th>
+                                        <th>Action</th>
+
+                                    </tr>
+
+
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+
+                                </tfoot>
+
+                                <tbody>
+
+                                    @for (int item = 0; item < Model.Count(); item++)
+                                    {
+                                    <tr>
+                                        @if (Model[item].strPOStatus.ToString() == "Approved" || Model[item].strPOStatus.ToString() == "Rejected")
+                                        {
+                                            <td></td>
+
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @if (Model[item].strPOStatus == "Pending")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 1")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+
+                                                            break;
+                                                        }
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 2")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+                                                @if (Model[item].strPOStatus == "Reviewed 1")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 2")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+                                                @if (Model[item].strPOStatus == "Reviewed 2")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+
+                                                @if (Model[item].strPOStatus == "Reviewed 3")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+
+
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+
+                                            </td>
+
+                                        }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                            @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                            @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+
+                                        </td>
+                                        <td>-></td>
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                            @Html.HiddenFor(modelItem => Model[item].Creation_Date)
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                            @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                        </td>
+                                        <td class=" qty">
+                                            @Html.DisplayFor(modelItem => Model[item].Qty)
+                                            @Html.HiddenFor(modelItem => Model[item].Qty)
+                                        </td>
+                                        <td class=" sum"> @Html.DisplayFor(modelItem => Model[item].Amount)</td>
+
+                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+
+                                    </tr>
+                                        sn++;
+                                    }
+                                </tbody>
+
+                            </table>
+
+
+
+
+
+
+
+
+
+
+
+                            <div>
+                                <input type="submit" value="Approve" id="btnSubmit" class=" btn btn-primary" />
+
+                                <button id="btnMainReject" value="Reject" class=" btn btn-danger">Reject</button>
+
+                                <input type="submit" value="View PO" id="btnPrint" class="btn btn-info" />
+                            </div><span class="error">Please select at-least one PO.</span>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            @if (Model.Count > 0)
+                                            {
+                                                @Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForList" })
+                                            }
+                                            @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
+                                            <div class="form-group">
+
+                                                <div style="color:red;" id="UserErrorMessages"></div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Reject" id="btnReject" class=" btn btn-danger" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+                    </div>
+
+                }
+                else
+                {
+                    <div class="table-common">
+                        @{
+                            int sn = 1;
+                        }
+
+                       
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage">@ViewBag.ResultMessage</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="totalnormal">Total Amount : <span></span></div>
+
+                            <div id="totalQtynormal">Total Qty : <span></span></div>
+                            <table id="myTable" class="table display">
+                                <thead>
+                                    <tr class="odd" id="row_@sn" role="row">
+                                        <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+
+                                        @*<th>S/N</th>
+                                    <th>PO Code</th>*@
+                                        <th>PO Number</th>
+                                        <th>PO Status</th>
+                                        <th>Next</th>
+                                        <th>Next PO Status</th>
+                                        <th>Approval Level</th>
+
+                                        <th>Supplier Code</th>
+                                        <th>Supplier Name</th>
+                                        <th>Date</th>
+
+                                        <th>Buyer</th>
+                                        <th>Qty</th>
+                                        <th>Amount (RM)</th>
+                                        <th>Action</th>
+
+                                    </tr>
+
+
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+
+                                </tfoot>
+
+                                <tbody>
+
+                                    @for (int item = 0; item < Model.Count(); item++)
+                                    {
+                                    <tr>
+                                        @if (Model[item].strPOStatus != "Approved")
+                                        {
+                                            if (Model[item].strPOStatus == "Rejected")
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                                {
+                                                    <td></td>
+
+                                                }
+                                                else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
+                                                {
+                                                    <td></td>
+                                                }
+                                                else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                                {
+                                                    <td></td>
+
+                                                }
+                                                else if (Model[item].ApprovalLevel == null)
+                                                {
+                                                    <td></td>
+
+                                                }
+
+                                                else
+                                                {
+
+
+
+
+
+                                                    <td>
+
+                                                        @if (Model[item].strPOStatus == "Pending")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 1")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+
+
+
+                                                                    break;
+                                                                }
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 2")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+                                                        @if (Model[item].strPOStatus == "Reviewed 1")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 2")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+                                                        @if (Model[item].strPOStatus == "Reviewed 2")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+
+                                                        @if (Model[item].strPOStatus == "Reviewed 3")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+
+
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+
+
+
+
+
+
+                                                    </td>
+
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                            @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                        </td>
+                                        @*<td>@sn</td>*@
+                                        @*<td>
+            @Html.DisplayFor(modelItem => Model[item].intPOCode)
+            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+
+        </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                            @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+                                        </td>
+
+
+                                        <td>-></td>
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].ApprovalLevel)
+                                            @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                        </td>
+
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                            @Html.HiddenFor(modelItem => Model[item].Creation_Date)
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                            @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Qty)
+                                            @Html.HiddenFor(modelItem => Model[item].Qty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Amount)
+                                            @Html.HiddenFor(modelItem => Model[item].Amount)
+                                        </td>
+                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+
+
+                                    </tr>
+
+
+
+                                        sn++;
+
+                                    }
+
+
+                                </tbody>
+
+                            </table>
+                            <div>
+                                <input type="submit" value="Approve" id="btnSubmitnormal" class=" btn btn-primary" />
+                                <button id="btnMainRejectnormal" value="Reject" class=" btn btn-danger">Reject</button>
+                                <input type="submit" value="View PO" id="btnPrintnormal" class="btn btn-info" />
+                            </div>
+                            <span class="error">Please select at-least one PO.</span>
+                            <div class="modal fade" id="exampleModalnormal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            @if (Model.Count > 0)
+                                            {
+                                                @Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForListnormal" })
+                                            }
+                                            @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
+                                            <div class="form-group">
+
+                                                <div style="color:red;" id="UserErrorMessagesnormal"></div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Reject" id="btnRejectnormal" class=" btn btn-danger" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+
+                }
+
+            }
+            else if (reqCookies == null)
+            {
+                if (Session["SuperAdmin"].ToString() == "Y")
+                {
+                    <div class="table-common">
+                        @{
+                            int sn = 1;
+                        }
+                        
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage">@ViewBag.ResultMessage</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="total">Total Amount : <span></span></div>
+
+                            <div id="totalQty">Total Qty : <span></span></div>
+
+                            <table id="myTablePO" class="table display">
+                                <thead>
+                                    <tr class="odd" id="row_@sn" role="row">
+                                        <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+
+                                        @*<th>S/N</th>
+                                    <th>PO Code</th>*@
+                                        <th>PO Number</th>
+                                        <th>PO Status</th>
+                                        <th>Next</th>
+                                        <th>Next PO Status</th>
+                                        <th>Approval Level</th>
+
+                                        <th>Supplier Code</th>
+                                        <th>Supplier Name</th>
+                                        <th>Date</th>
+
+                                        <th>Buyer</th>
+                                        <th>Qty</th>
+                                        <th>Amount (RM)</th>
+                                        <th>Action</th>
+
+                                    </tr>
+
+
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+
+                                </tfoot>
+
+                                <tbody>
+
+                                    @for (int item = 0; item < Model.Count(); item++)
+                                    {
+                                    <tr>
+                                        @if (Model[item].strPOStatus.ToString() == "Approved" || Model[item].strPOStatus.ToString() == "Rejected")
+                                        {
+                                            <td></td>
+
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @if (Model[item].strPOStatus == "Pending")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 1")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+
+                                                            break;
+                                                        }
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 2")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+                                                @if (Model[item].strPOStatus == "Reviewed 1")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 2")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+                                                @if (Model[item].strPOStatus == "Reviewed 2")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+
+                                                        if (itemm.ApprovalLevel == "Reviewer 3")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+
+                                                @if (Model[item].strPOStatus == "Reviewed 3")
+                                                {
+
+                                                    foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                    {
+
+
+
+
+
+                                                        if (itemm.ApprovalLevel == "Approver")
+                                                        {
+                                                            <div class="icheck-primary input-container">
+                                                                @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                <label for="checkboxPrimary1"></label>
+                                                            </div>
+                                                            break;
+                                                        }
+
+
+
+                                                    }
+
+                                                }
+
+                                            </td>
+
+                                        }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                            @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                            @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+
+                                        </td>
+                                        <td>-></td>
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlistForAdmin.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+
+
+
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                            @Html.HiddenFor(modelItem => Model[item].Creation_Date)
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                            @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                        </td>
+                                        <td class=" qty">
+                                            @Html.DisplayFor(modelItem => Model[item].Qty)
+                                            @Html.HiddenFor(modelItem => Model[item].Qty)
+                                        </td>
+                                        <td class=" sum"> @Html.DisplayFor(modelItem => Model[item].Amount)</td>
+
+                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+
+                                    </tr>
+                                        sn++;
+                                    }
+                                </tbody>
+
+                            </table>
+
+
+
+
+
+
+
+
+
+
+
+                            <div>
+                                <input type="submit" value="Approve" id="btnSubmit" class=" btn btn-primary" />
+
+                                <button id="btnMainReject" value="Reject" class=" btn btn-danger">Reject</button>
+
+                                <input type="submit" value="View PO" id="btnPrint" class="btn btn-info" />
+                            </div><span class="error">Please select at-least one PO.</span>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            @if (Model.Count > 0)
+                                            {
+                                                @Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForList" })
+                                            }
+                                            @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
+                                            <div class="form-group">
+
+                                                <div style="color:red;" id="UserErrorMessages"></div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Reject" id="btnReject" class=" btn btn-danger" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+                    </div>
+
+                }
+                else
+                {
+                    <div class="table-common">
+                        @{
+                            int sn = 1;
+                        }
+
+                       
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="form-group error">
+
+                                        <div id="UserErrorMessage">@ViewBag.ResultMessage</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="totalnormal">Total Amount : <span></span></div>
+
+                            <div id="totalQtynormal">Total Qty : <span></span></div>
+                            <table id="myTable" class="table display">
+                                <thead>
+                                    <tr class="odd" id="row_@sn" role="row">
+                                        <th><input type="checkbox" id="checkBoxAll" class="custom-checkbox" /></th>
+
+                                        @*<th>S/N</th>
+                                    <th>PO Code</th>*@
+                                        <th>PO Number</th>
+                                        <th>PO Status</th>
+                                        <th>Next</th>
+                                        <th>Next PO Status</th>
+                                        <th>Approval Level</th>
+
+                                        <th>Supplier Code</th>
+                                        <th>Supplier Name</th>
+                                        <th>Date</th>
+
+                                        <th>Buyer</th>
+                                        <th>Qty</th>
+                                        <th>Amount (RM)</th>
+                                        <th>Action</th>
+
+                                    </tr>
+
+
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                    </tr>
+
+                                </tfoot>
+
+                                <tbody>
+
+                                    @for (int item = 0; item < Model.Count(); item++)
+                                    {
+                                    <tr>
+                                        @if (Model[item].strPOStatus != "Approved")
+                                        {
+                                            if (Model[item].strPOStatus == "Rejected")
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                if (Model[item].strPOStatus == "Reviewed 1" && Model[item].ApprovalLevel == "Reviewer 1")
+                                                {
+                                                    <td></td>
+
+                                                }
+                                                else if (Model[item].strPOStatus == "Reviewed 2" && Model[item].ApprovalLevel == "Reviewer 2")
+                                                {
+                                                    <td></td>
+                                                }
+                                                else if (Model[item].strPOStatus == "Reviewed 3" && Model[item].ApprovalLevel == "Reviewer 3")
+                                                {
+                                                    <td></td>
+
+                                                }
+                                                else if (Model[item].ApprovalLevel == null)
+                                                {
+                                                    <td></td>
+
+                                                }
+
+                                                else
+                                                {
+
+
+
+
+
+                                                    <td>
+
+                                                        @if (Model[item].strPOStatus == "Pending")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 1")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+
+
+
+                                                                    break;
+                                                                }
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 2")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+                                                        @if (Model[item].strPOStatus == "Reviewed 1")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 2")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+                                                        @if (Model[item].strPOStatus == "Reviewed 2")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+
+                                                                if (itemm.ApprovalLevel == "Reviewer 3")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+
+                                                        @if (Model[item].strPOStatus == "Reviewed 3")
+                                                        {
+
+                                                            foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                            {
+
+
+
+
+
+                                                                if (itemm.ApprovalLevel == "Approver")
+                                                                {
+                                                                    if (Model[item].ApprovalLevel == itemm.ApprovalLevel)
+                                                                    {
+                                                                        <div class="icheck-primary input-container">
+                                                                            @Html.CheckBoxFor(modelItem => Model[item].IsSelected, new { @class = "chkCheckBoxId" })
+                                                                            <label for="checkboxPrimary1"></label>
+                                                                        </div>
+                                                                    }
+                                                                    break;
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+
+
+
+
+
+
+                                                    </td>
+
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].PO_Number)
+                                            @Html.HiddenFor(modelItem => Model[item].PO_Number)
+                                        </td>
+                                        @*<td>@sn</td>*@
+                                        @*<td>
+            @Html.DisplayFor(modelItem => Model[item].intPOCode)
+            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+
+        </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].strPOStatus)
+                                            @Html.HiddenFor(modelItem => Model[item].intPOCode)
+                                            @Html.HiddenFor(modelItem => Model[0].criteria, new { @id = "rejectstatus" })
+                                        </td>
+
+
+                                        <td>-></td>
+                                        <td>
+                                            @if (Model[item].strPOStatus == "Pending")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 1")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 1</p>
+
+                                                        break;
+                                                    }
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 1")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 2")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 2</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+                                            @if (Model[item].strPOStatus == "Reviewed 2")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Reviewer 3")
+                                                    {
+                                                        <p style="margin:0px !important;">Reviewer 3</p>
+                                                        break;
+                                                    }
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                            @if (Model[item].strPOStatus == "Reviewed 3")
+                                            {
+
+                                                foreach (var itemm in getlist.Where(x => x.po_number == Model[item].PO_Number))
+                                                {
+
+
+
+
+
+                                                    if (itemm.ApprovalLevel == "Approver")
+                                                    {
+                                                        <p style="margin:0px !important;">Approver</p>
+                                                        break;
+                                                    }
+
+
+
+                                                }
+
+                                            }
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].ApprovalLevel)
+                                            @Html.HiddenFor(modelItem => Model[item].ApprovalLevel)
+                                        </td>
+
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Code)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Supplier_Name)
+                                            @Html.HiddenFor(modelItem => Model[item].Supplier_Name)
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.DisplayFor(modelItem => Model[item].Creation_Date)
+                                            @Html.HiddenFor(modelItem => Model[item].Creation_Date)
+
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Buyer)
+                                            @Html.HiddenFor(modelItem => Model[item].Buyer)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Qty)
+                                            @Html.HiddenFor(modelItem => Model[item].Qty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model[item].Amount)
+                                            @Html.HiddenFor(modelItem => Model[item].Amount)
+                                        </td>
+                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+
+
+                                    </tr>
+
+
+
+                                        sn++;
+
+                                    }
+
+
+                                </tbody>
+
+                            </table>
+                            <div>
+                                <input type="submit" value="Approve" id="btnSubmitnormal" class=" btn btn-primary" />
+                                <button id="btnMainRejectnormal" value="Reject" class=" btn btn-danger">Reject</button>
+                                <input type="submit" value="View PO" id="btnPrintnormal" class="btn btn-info" />
+                            </div>
+                            <span class="error">Please select at-least one PO.</span>
+                            <div class="modal fade" id="exampleModalnormal" tabindex="-1" role="dialog" aria-labelledby="Reject Submission" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">*Reason For Reject</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            @if (Model.Count > 0)
+                                            {
+                                                @Html.TextAreaFor(modelItem => Model[0].strRejectReason, new { @class = "form-control", @id = "strRejectReasonForListnormal" })
+                                            }
+                                            @*<input type="text" class="form-control" name="strRejectReason" id="strRejectReasonForList" required>*@
+                                            <div class="form-group">
+
+                                                <div style="color:red;" id="UserErrorMessagesnormal"></div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Reject" id="btnRejectnormal" class=" btn btn-danger" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+
+                }
+
+
+
+            }
+        </section>
+    </div>
+</div>
+<style>
+    .statuslabel {
+        float: left;
+        width: 100%;
+    }
+
+    .multiselect {
+        width: 284px;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: left;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        cursor: pointer;
+    }
+
+
+    /*below block of css for change style when active*/
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+        background: none;
+        color: black !important;
+    }
+</style>
+

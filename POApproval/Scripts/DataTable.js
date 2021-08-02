@@ -105,7 +105,7 @@
                 { data: "PO Status" },
                 { data: "Next" },
                 { data: "Next PO Status" },
-              /*  { data: "Approval Level" },*/
+                { data: "Approval Level" },
                 { data: "Supplier Code" },
                 { data: "Supplier Name" },
                 { data: "Date" },
@@ -114,7 +114,8 @@
                 { data: "Qty", className: "qty" },
                 { data: "Amount", className: "sum" },
                 { data: "Action" }
-            ],
+        ],
+        
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api();
 
@@ -154,7 +155,6 @@
 
             // Encode a set of form elements from all pages as an array of names and values
             var params = table.$('input,select,textarea').serializeArray();
-            console.log(params);
 
             // Iterate over all form elements
             $.each(params, function () {
@@ -217,7 +217,7 @@
                 { data: "PO Status" },
                 { data: "Next" },
                 { data: "Next PO Status" },
-              
+                { data: "Approval Level" },
                 { data: "Supplier Code" },
                 { data: "Supplier Name" },
                 { data: "Date" },
@@ -267,7 +267,6 @@
 
             // Encode a set of form elements from all pages as an array of names and values
             var params = table.$('input,select,textarea').serializeArray();
-            console.log(params);
 
             // Iterate over all form elements
             $.each(params, function () {
@@ -312,8 +311,8 @@
             var creditQty = 0
             $("#idSmofAmount").text(0);
             for (var i = 0; i < checkedCount; i++) {
-                var qty = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[9].innerHTML;
-                var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                var qty = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
                 if (amount != "") {
                     creditAmount += parseFloat(amount);
                 } else {
@@ -344,8 +343,8 @@
             var creditQty = 0
             $("#idSmofAmount").text(0);
             for (var i = 0; i < checkedCount; i++) {
-                var qty = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[9].innerHTML;
-                var amount = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                var qty = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                var amount = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
                 if (amount != "") {
                     creditAmount += parseFloat(amount);
                 } else {

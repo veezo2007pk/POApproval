@@ -26,7 +26,7 @@ var app = angular.module("buyerApp", [])
           
             $http({
                 method: "POST",
-                url: "http://10.3.1.110/poapproval/Buyer/GetDepartment/",
+                url: "http://localhost:61646/Buyer/GetDepartment/",
                 dataType: 'json',
                 data: { ID: $scope.strDepartmentName },
                 headers: { "Content-Type": "application/json" }
@@ -50,7 +50,7 @@ var app = angular.module("buyerApp", [])
                     $scope.Buyer.bolIsActive = $scope.bolIsActive;
                     $http({
                         method: "post",
-                        url: "http://10.3.1.110/poapproval/Buyer/Insert_Buyer",
+                        url: "http://localhost:61646/Buyer/Insert_Buyer",
                         datatype: "json",
                         data: JSON.stringify($scope.Buyer)
                     }).then(function (response) {
@@ -91,7 +91,7 @@ var app = angular.module("buyerApp", [])
 
                     $http({
                         method: "post",
-                        url: "http://10.3.1.110/poapproval/Buyer/Update_Buyer",
+                        url: "http://localhost:61646/Buyer/Update_Buyer",
                         datatype: "json",
                         data: JSON.stringify($scope.Buyer)
                     }).then(function (response) {
@@ -123,7 +123,7 @@ var app = angular.module("buyerApp", [])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://10.3.1.110/poapproval/Buyer/Get_AllBuyer"
+                url: "http://localhost:61646/Buyer/Get_AllBuyer"
             }).then(function (response) {
                 $scope.Buyers = response.data;
             }, function () {
@@ -133,7 +133,7 @@ var app = angular.module("buyerApp", [])
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
-                url: "http://10.3.1.110/poapproval/Buyer/Delete_Buyer",
+                url: "http://localhost:61646/Buyer/Delete_Buyer",
                 datatype: "json",
                 data: JSON.stringify(Emp)
             }).then(function (response) {

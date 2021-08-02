@@ -12,21 +12,7 @@
           <Property Name="intApprovalLevelCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strApprovalLevelName" Type="nvarchar" MaxLength="50" />
           <Property Name="dtCreatedAt" Type="datetime" />
-          <Property Name="intCreatedByCode" Type="int" />
           <Property Name="dtModifyAt" Type="datetime" />
-          <Property Name="intModifyBy" Type="int" />
-        </EntityType>
-        <EntityType Name="tblBuyer">
-          <Key>
-            <PropertyRef Name="intBuyerCode" />
-          </Key>
-          <Property Name="intBuyerCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="strBuyerName" Type="varchar" MaxLength="50" />
-          <Property Name="bolIsActive" Type="bit" />
-          <Property Name="dtCreatedAt" Type="datetime" />
-          <Property Name="intCreatedByCode" Type="int" />
-          <Property Name="dtModifyAt" Type="datetime" />
-          <Property Name="intModifyBy" Type="int" />
         </EntityType>
         <EntityType Name="tblBuyerDetail">
           <Key>
@@ -36,9 +22,9 @@
           <Property Name="intBuyerCode" Type="nvarchar" MaxLength="50" />
           <Property Name="intUserCode" Type="nvarchar" MaxLength="50" />
           <Property Name="dtCreatedAt" Type="datetime" />
-          <Property Name="intCreatedByCode" Type="int" />
+          <Property Name="intCreatedByCode" Type="nvarchar" MaxLength="50" />
           <Property Name="dtModifyAt" Type="datetime" />
-          <Property Name="intModifyBy" Type="int" />
+          <Property Name="intModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblManageApproval">
           <Key>
@@ -52,9 +38,9 @@
           <Property Name="numToApprovalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="bolIsActive" Type="bit" />
           <Property Name="dtCreatedAt" Type="datetime" />
-          <Property Name="intCreatedByCode" Type="int" />
+          <Property Name="intCreatedByCode" Type="nvarchar" MaxLength="50" />
           <Property Name="dtModifyAt" Type="datetime" />
-          <Property Name="intModifyBy" Type="int" />
+          <Property Name="intModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblPO">
           <Key>
@@ -98,6 +84,10 @@
           <Property Name="staff_code" Type="nvarchar" MaxLength="50" />
           <Property Name="brand_name" Type="varchar" MaxLength="50" />
           <Property Name="supplier_email" Type="varchar" MaxLength="50" />
+          <Property Name="bolIsPendingPOEmailSent" Type="bit" />
+          <Property Name="bolIsPendingR1POEmailSent" Type="bit" />
+          <Property Name="bolIsPendingR2POEmailSent" Type="bit" />
+          <Property Name="bolIsPendingR3POEmailSent" Type="bit" />
         </EntityType>
         <EntityType Name="tblPODetail">
           <Key>
@@ -182,6 +172,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="procCheckApprovalLevelSequence" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="intUserCode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="procCheckApprovalLevelSequenceForSuperAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procCmbApprovalLevel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procCmbDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="procGetAccessLevels" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -232,7 +226,6 @@
         </Function>
         <EntityContainer Name="dbSASAApprovalModelStoreContainer">
           <EntitySet Name="tblApprovalLevel" EntityType="Self.tblApprovalLevel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblBuyer" EntityType="Self.tblBuyer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBuyerDetail" EntityType="Self.tblBuyerDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblManageApproval" EntityType="Self.tblManageApproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPO" EntityType="Self.tblPO" Schema="dbo" store:Type="Tables" />
@@ -260,44 +253,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbSASAApprovalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="tblApprovalLevel">
-          <Key>
-            <PropertyRef Name="intApprovalLevelCode" />
-          </Key>
-          <Property Name="intApprovalLevelCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="strApprovalLevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="intCreatedByCode" Type="Int32" />
-          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
-          <Property Name="intModifyBy" Type="Int32" />
-          <NavigationProperty Name="tblApprovalLevel1" Relationship="Self.FK_tblApproval_tblApproval" FromRole="tblApprovalLevel" ToRole="tblApprovalLevel1" />
-          <NavigationProperty Name="tblApprovalLevel2" Relationship="Self.FK_tblApproval_tblApproval" FromRole="tblApprovalLevel1" ToRole="tblApprovalLevel" />
-          <NavigationProperty Name="tblManageApprovals" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblApprovalLevel" FromRole="tblApprovalLevel" ToRole="tblManageApproval" />
-        </EntityType>
-        <EntityType Name="tblBuyer">
-          <Key>
-            <PropertyRef Name="intBuyerCode" />
-          </Key>
-          <Property Name="intBuyerCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="strBuyerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="bolIsActive" Type="Boolean" />
-          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="intCreatedByCode" Type="Int32" />
-          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
-          <Property Name="intModifyBy" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tblBuyerDetail">
-          <Key>
-            <PropertyRef Name="intBuyerDetailCode" />
-          </Key>
-          <Property Name="intBuyerDetailCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="intBuyerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="intUserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="intCreatedByCode" Type="Int32" />
-          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
-          <Property Name="intModifyBy" Type="Int32" />
-        </EntityType>
         <EntityType Name="tblPO">
           <Key>
             <PropertyRef Name="intPOCode" />
@@ -342,6 +297,10 @@
           <Property Name="supplier_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblPODetails" Relationship="Self.FK_tblPODetail_tblPO" FromRole="tblPO" ToRole="tblPODetail" />
           <NavigationProperty Name="tblPOHistories" Relationship="Self.FK_tblPOHistory_tblPO" FromRole="tblPO" ToRole="tblPOHistory" />
+          <Property Name="bolIsPendingPOEmailSent" Type="Boolean" />
+          <Property Name="bolIsPendingR1POEmailSent" Type="Boolean" />
+          <Property Name="bolIsPendingR2POEmailSent" Type="Boolean" />
+          <Property Name="bolIsPendingR3POEmailSent" Type="Boolean" />
         </EntityType>
         <EntityType Name="tblPODetail">
           <Key>
@@ -373,18 +332,6 @@
           <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblPO" Relationship="Self.FK_tblPOHistory_tblPO" FromRole="tblPOHistory" ToRole="tblPO" />
         </EntityType>
-        <Association Name="FK_tblApproval_tblApproval">
-          <End Role="tblApprovalLevel" Type="Self.tblApprovalLevel" Multiplicity="1" />
-          <End Role="tblApprovalLevel1" Type="Self.tblApprovalLevel" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tblApprovalLevel">
-              <PropertyRef Name="intApprovalLevelCode" />
-            </Principal>
-            <Dependent Role="tblApprovalLevel1">
-              <PropertyRef Name="intApprovalLevelCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblPODetail_tblPO">
           <End Role="tblPO" Type="Self.tblPO" Multiplicity="0..1" />
           <End Role="tblPODetail" Type="Self.tblPODetail" Multiplicity="*" />
@@ -410,16 +357,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="dbSASAApprovalEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblApprovalLevels" EntityType="Self.tblApprovalLevel" />
-          <EntitySet Name="tblBuyers" EntityType="Self.tblBuyer" />
-          <EntitySet Name="tblBuyerDetails" EntityType="Self.tblBuyerDetail" />
           <EntitySet Name="tblPOes" EntityType="Self.tblPO" />
           <EntitySet Name="tblPODetails" EntityType="Self.tblPODetail" />
           <EntitySet Name="tblPOHistories" EntityType="Self.tblPOHistory" />
-          <AssociationSet Name="FK_tblApproval_tblApproval" Association="Self.FK_tblApproval_tblApproval">
-            <End Role="tblApprovalLevel" EntitySet="tblApprovalLevels" />
-            <End Role="tblApprovalLevel1" EntitySet="tblApprovalLevels" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblPODetail_tblPO" Association="Self.FK_tblPODetail_tblPO">
             <End Role="tblPO" EntitySet="tblPOes" />
             <End Role="tblPODetail" EntitySet="tblPODetails" />
@@ -442,10 +382,6 @@
           <FunctionImport Name="procGetUserApprovalLog" ReturnType="Collection(dbSASAApprovalModel.procGetUserApprovalLog_Result)">
           <Parameter Name="usercode" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="procRptPO">
-            <Parameter Name="intPOCode" Mode="In" Type="String" />
-            <Parameter Name="strUser" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="procRptPOSubReport" ReturnType="Collection(dbSASAApprovalModel.procRptPOSubReport_Result)">
           <Parameter Name="intPoCode" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -465,23 +401,37 @@
           </FunctionImport>
           <FunctionImport Name="procSelectUserDetail" ReturnType="Collection(dbSASAApprovalModel.procSelectUserDetail_Result)" />
           <FunctionImport Name="procSelectUserxpert" ReturnType="Collection(dbSASAApprovalModel.procSelectUserxpert_Result)" />
+          <FunctionImport Name="procSelectBuyerManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManageApproval_Result)">
+          <Parameter Name="intUserCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="procUserMenu" ReturnType="Collection(dbSASAApprovalModel.procUserMenu_Result)">
+          <Parameter Name="usercode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="procCheckApprovalLevelSequence" ReturnType="Collection(dbSASAApprovalModel.procCheckApprovalLevelSequence_Result)">
+          <Parameter Name="intUserCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="procCheckApprovalLevelSequenceForSuperAdmin" ReturnType="Collection(dbSASAApprovalModel.procCheckApprovalLevelSequenceForSuperAdmin_Result)" />
+          <FunctionImport Name="procSelectManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectManageApproval_Result)" />
+          <FunctionImport Name="procRptPO">
+            <Parameter Name="intPOCode" Mode="In" Type="String" />
+            <Parameter Name="strUser" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="procValidateUserLogins" ReturnType="Collection(dbSASAApprovalModel.procValidateUserLogins_Result)">
             <Parameter Name="strLoginName" Mode="In" Type="String" />
             <Parameter Name="strUserPassword" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="tblStatus" EntityType="dbSASAApprovalModel.tblStatu" />
-          <FunctionImport Name="procSelectBuyerManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectBuyerManageApproval_Result)">
-          <Parameter Name="intUserCode" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="procSelectManageApproval" ReturnType="Collection(dbSASAApprovalModel.procSelectManageApproval_Result)" />
+          <EntitySet Name="tblBuyerDetails" EntityType="dbSASAApprovalModel.tblBuyerDetail" />
           <EntitySet Name="tblManageApprovals" EntityType="dbSASAApprovalModel.tblManageApproval" />
+          <EntitySet Name="tblApprovalLevels" EntityType="dbSASAApprovalModel.tblApprovalLevel" />
+          <AssociationSet Name="FK_tblApproval_tblApproval" Association="dbSASAApprovalModel.FK_tblApproval_tblApproval">
+            <End Role="tblApprovalLevel" EntitySet="tblApprovalLevels" />
+            <End Role="tblApprovalLevel1" EntitySet="tblApprovalLevels" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblManageApproval_tblApprovalLevel" Association="dbSASAApprovalModel.FK_tblManageApproval_tblApprovalLevel">
             <End Role="tblApprovalLevel" EntitySet="tblApprovalLevels" />
             <End Role="tblManageApproval" EntitySet="tblManageApprovals" />
           </AssociationSet>
-          <FunctionImport Name="procUserMenu" ReturnType="Collection(dbSASAApprovalModel.procUserMenu_Result)">
-            <Parameter Name="usercode" Mode="In" Type="String" />
-          </FunctionImport>
+          <EntitySet Name="tblStatus" EntityType="dbSASAApprovalModel.tblStatu" />
         </EntityContainer>
         <ComplexType Name="procCmbApprovalLevel_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -596,27 +546,30 @@
           <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
-        <ComplexType Name="procValidateUserLogins_Result">
-          <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <EntityType Name="tblStatu">
-          <Key>
-            <PropertyRef Name="intStatusCode" />
-          </Key>
-          <Property Name="intStatusCode" Type="Int32" Nullable="false" />
-          <Property Name="strStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="procSelectBuyerManageApproval_Result">
           <Property Type="String" Name="BuyeCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
+        <ComplexType Name="procUserMenu_Result">
+          <Property Type="Int32" Name="sys_menu_sort" Nullable="true" />
+          <Property Type="Int32" Name="menucode" Nullable="false" />
+          <Property Type="String" Name="menuname" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="menulink" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="procCheckApprovalLevelSequence_Result">
+          <Property Type="Int64" Name="po_number" Nullable="true" />
+          <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="procCheckApprovalLevelSequenceForSuperAdmin_Result">
+          <Property Type="Int64" Name="po_number" Nullable="true" />
+          <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="procSelectManageApproval_Result">
           <Property Type="Int32" Name="intManageApprovalCode" Nullable="false" />
+          <Property Type="String" Name="intBuyerCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="UserCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ApprovalName" Nullable="true" MaxLength="100" />
@@ -625,6 +578,26 @@
           <Property Type="String" Name="ApprovalAmount" Nullable="false" MaxLength="85" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="8" />
         </ComplexType>
+        <ComplexType Name="procValidateUserLogins_Result">
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="usercode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="xpertLoginID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="fullname" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="SuperAdmin" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="tblBuyerDetail">
+          <Key>
+            <PropertyRef Name="intBuyerDetailCode" />
+          </Key>
+          <Property Name="intBuyerDetailCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intBuyerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="intUserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="intCreatedByCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
+          <Property Name="intModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="tblManageApproval">
           <Key>
             <PropertyRef Name="intManageApprovalCode" />
@@ -637,11 +610,35 @@
           <Property Name="numToApprovalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="bolIsActive" Type="Boolean" />
           <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="intCreatedByCode" Type="Int32" />
+          <Property Name="intCreatedByCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
-          <Property Name="intModifyBy" Type="Int32" />
+          <Property Name="intModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblApprovalLevel" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblApprovalLevel" FromRole="tblManageApproval" ToRole="tblApprovalLevel" />
         </EntityType>
+        <EntityType Name="tblApprovalLevel">
+          <Key>
+            <PropertyRef Name="intApprovalLevelCode" />
+          </Key>
+          <Property Name="intApprovalLevelCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strApprovalLevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtCreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="dtModifyAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblApprovalLevel1" Relationship="dbSASAApprovalModel.FK_tblApproval_tblApproval" FromRole="tblApprovalLevel" ToRole="tblApprovalLevel1" />
+          <NavigationProperty Name="tblApprovalLevel2" Relationship="dbSASAApprovalModel.FK_tblApproval_tblApproval" FromRole="tblApprovalLevel1" ToRole="tblApprovalLevel" />
+          <NavigationProperty Name="tblManageApprovals" Relationship="dbSASAApprovalModel.FK_tblManageApproval_tblApprovalLevel" FromRole="tblApprovalLevel" ToRole="tblManageApproval" />
+        </EntityType>
+        <Association Name="FK_tblApproval_tblApproval">
+          <End Type="dbSASAApprovalModel.tblApprovalLevel" Role="tblApprovalLevel" Multiplicity="1" />
+          <End Type="dbSASAApprovalModel.tblApprovalLevel" Role="tblApprovalLevel1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblApprovalLevel">
+              <PropertyRef Name="intApprovalLevelCode" />
+            </Principal>
+            <Dependent Role="tblApprovalLevel1">
+              <PropertyRef Name="intApprovalLevelCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblManageApproval_tblApprovalLevel">
           <End Type="dbSASAApprovalModel.tblApprovalLevel" Role="tblApprovalLevel" Multiplicity="1" />
           <End Type="dbSASAApprovalModel.tblManageApproval" Role="tblManageApproval" Multiplicity="*" />
@@ -654,59 +651,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="procUserMenu_Result">
-          <Property Type="Int32" Name="sys_menu_sort" Nullable="true" />
-          <Property Type="Int32" Name="menucode" Nullable="false" />
-          <Property Type="String" Name="menuname" Nullable="false" MaxLength="250" />
-          <Property Type="String" Name="menulink" Nullable="true" MaxLength="500" />
-        </ComplexType>
+        <EntityType Name="tblStatu">
+          <Key>
+            <PropertyRef Name="intStatusCode" />
+          </Key>
+          <Property Name="intStatusCode" Type="Int32" Nullable="false" />
+          <Property Name="strStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbSASAApprovalModelStoreContainer" CdmEntityContainer="dbSASAApprovalEntities">
-          <EntitySetMapping Name="tblApprovalLevels">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblApprovalLevel">
-              <MappingFragment StoreEntitySet="tblApprovalLevel">
-                <ScalarProperty Name="intApprovalLevelCode" ColumnName="intApprovalLevelCode" />
-                <ScalarProperty Name="strApprovalLevelName" ColumnName="strApprovalLevelName" />
-                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
-                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
-                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
-                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblBuyers">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblBuyer">
-              <MappingFragment StoreEntitySet="tblBuyer">
-                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
-                <ScalarProperty Name="strBuyerName" ColumnName="strBuyerName" />
-                <ScalarProperty Name="bolIsActive" ColumnName="bolIsActive" />
-                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
-                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
-                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
-                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblBuyerDetails">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblBuyerDetail">
-              <MappingFragment StoreEntitySet="tblBuyerDetail">
-                <ScalarProperty Name="intBuyerDetailCode" ColumnName="intBuyerDetailCode" />
-                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
-                <ScalarProperty Name="intUserCode" ColumnName="intUserCode" />
-                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
-                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
-                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
-                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblPOes">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblPO">
               <MappingFragment StoreEntitySet="tblPO">
+                <ScalarProperty Name="bolIsPendingR3POEmailSent" ColumnName="bolIsPendingR3POEmailSent" />
+                <ScalarProperty Name="bolIsPendingR2POEmailSent" ColumnName="bolIsPendingR2POEmailSent" />
+                <ScalarProperty Name="bolIsPendingR1POEmailSent" ColumnName="bolIsPendingR1POEmailSent" />
+                <ScalarProperty Name="bolIsPendingPOEmailSent" ColumnName="bolIsPendingPOEmailSent" />
                 <ScalarProperty Name="intPOCode" ColumnName="intPOCode" />
                 <ScalarProperty Name="PO_Number" ColumnName="PO_Number" />
                 <ScalarProperty Name="Store_Code" ColumnName="Store_Code" />
@@ -857,7 +821,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procRptPO" FunctionName="dbSASAApprovalModel.Store.procRptPO" />
           <FunctionImportMapping FunctionImportName="procRptPOSubReport" FunctionName="dbSASAApprovalModel.Store.procRptPOSubReport">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procRptPOSubReport_Result">
@@ -950,25 +913,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="procValidateUserLogins" FunctionName="dbSASAApprovalModel.Store.procValidateUserLogins">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procValidateUserLogins_Result">
-                <ScalarProperty Name="usercode" ColumnName="usercode" />
-                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
-                <ScalarProperty Name="fullname" ColumnName="fullname" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="tblStatus">
-            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblStatu">
-              <MappingFragment StoreEntitySet="tblStatus">
-                <ScalarProperty Name="strStatusName" ColumnName="strStatusName" />
-                <ScalarProperty Name="intStatusCode" ColumnName="intStatusCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="procSelectBuyerManageApproval" FunctionName="dbSASAApprovalModel.Store.procSelectBuyerManageApproval">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectBuyerManageApproval_Result">
@@ -978,10 +922,39 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procUserMenu" FunctionName="dbSASAApprovalModel.Store.procUserMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procUserMenu_Result">
+                <ScalarProperty Name="sys_menu_sort" ColumnName="sys_menu_sort" />
+                <ScalarProperty Name="menucode" ColumnName="menucode" />
+                <ScalarProperty Name="menuname" ColumnName="menuname" />
+                <ScalarProperty Name="menulink" ColumnName="menulink" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procCheckApprovalLevelSequence" FunctionName="dbSASAApprovalModel.Store.procCheckApprovalLevelSequence">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procCheckApprovalLevelSequence_Result">
+                <ScalarProperty Name="po_number" ColumnName="po_number" />
+                <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procCheckApprovalLevelSequenceForSuperAdmin" FunctionName="dbSASAApprovalModel.Store.procCheckApprovalLevelSequenceForSuperAdmin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procCheckApprovalLevelSequenceForSuperAdmin_Result">
+                <ScalarProperty Name="po_number" ColumnName="po_number" />
+                <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="procSelectManageApproval" FunctionName="dbSASAApprovalModel.Store.procSelectManageApproval">
             <ResultMapping>
               <ComplexTypeMapping TypeName="dbSASAApprovalModel.procSelectManageApproval_Result">
                 <ScalarProperty Name="intManageApprovalCode" ColumnName="intManageApprovalCode" />
+                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="UserCode" ColumnName="UserCode" />
                 <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
                 <ScalarProperty Name="ApprovalName" ColumnName="ApprovalName" />
@@ -992,6 +965,32 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="procRptPO" FunctionName="dbSASAApprovalModel.Store.procRptPO" />
+          <FunctionImportMapping FunctionImportName="procValidateUserLogins" FunctionName="dbSASAApprovalModel.Store.procValidateUserLogins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procValidateUserLogins_Result">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="usercode" ColumnName="usercode" />
+                <ScalarProperty Name="xpertLoginID" ColumnName="xpertLoginID" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="SuperAdmin" ColumnName="SuperAdmin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblBuyerDetails">
+            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblBuyerDetail">
+              <MappingFragment StoreEntitySet="tblBuyerDetail">
+                <ScalarProperty Name="intModifyBy" ColumnName="intModifyBy" />
+                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
+                <ScalarProperty Name="intCreatedByCode" ColumnName="intCreatedByCode" />
+                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
+                <ScalarProperty Name="intUserCode" ColumnName="intUserCode" />
+                <ScalarProperty Name="intBuyerCode" ColumnName="intBuyerCode" />
+                <ScalarProperty Name="intBuyerDetailCode" ColumnName="intBuyerDetailCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblManageApprovals">
             <EntityTypeMapping TypeName="dbSASAApprovalModel.tblManageApproval">
               <MappingFragment StoreEntitySet="tblManageApproval">
@@ -1009,16 +1008,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="procUserMenu" FunctionName="dbSASAApprovalModel.Store.procUserMenu">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dbSASAApprovalModel.procUserMenu_Result">
-                <ScalarProperty Name="sys_menu_sort" ColumnName="sys_menu_sort" />
-                <ScalarProperty Name="menucode" ColumnName="menucode" />
-                <ScalarProperty Name="menuname" ColumnName="menuname" />
-                <ScalarProperty Name="menulink" ColumnName="menulink" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <EntitySetMapping Name="tblApprovalLevels">
+            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblApprovalLevel">
+              <MappingFragment StoreEntitySet="tblApprovalLevel">
+                <ScalarProperty Name="dtModifyAt" ColumnName="dtModifyAt" />
+                <ScalarProperty Name="dtCreatedAt" ColumnName="dtCreatedAt" />
+                <ScalarProperty Name="strApprovalLevelName" ColumnName="strApprovalLevelName" />
+                <ScalarProperty Name="intApprovalLevelCode" ColumnName="intApprovalLevelCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStatus">
+            <EntityTypeMapping TypeName="dbSASAApprovalModel.tblStatu">
+              <MappingFragment StoreEntitySet="tblStatus">
+                <ScalarProperty Name="strStatusName" ColumnName="strStatusName" />
+                <ScalarProperty Name="intStatusCode" ColumnName="intStatusCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

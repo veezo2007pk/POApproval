@@ -1,6 +1,8 @@
 ﻿@model POApproval.ViewModel.POViewModel
 @{
     ViewBag.Title = "Search PO";
+    var getlist = ViewBag.approvalLevelSequence as IEnumerable<POApproval.Models.procCheckApprovalLevelSequence_Result>;
+     var getlistSuperAdmin = ViewBag.approvalLevelSequence as IEnumerable<POApproval.Models.procCheckApprovalLevelSequenceForSuperAdmin_Result>;
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
@@ -118,9 +120,9 @@
             else
             { <div class="form-group">
                     <div class="form-group row">
-                        <label  for="staticEmail" class="col-sm-3 col-form-label">Rejected Reason</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Rejected Reason</label>
                         <div class="col-sm-6">
-                            <input  readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.strRejectReason">
+                            <input readonly class="form-control-plaintext" id="staticEmail" value="@Model.tblPO.strRejectReason">
                         </div>
                     </div>
                 </div>
@@ -235,19 +237,19 @@
                         @if (item.strPOStatus == "Reviewed 1")
                         {
                             <td>
-                                Reviewed 1-Approved
+                                Reviewed 1
                             </td>
                         }
                         else if (item.strPOStatus == "Reviewed 2")
                         {
                             <td>
-                                Reviewed 2-Approved
+                                Reviewed 2
                             </td>
                         }
                         else if (item.strPOStatus == "Reviewed 3")
                         {
                             <td>
-                                Reviewed 3-Approved
+                                Reviewed 3
                             </td>
                         }
                         else if (item.strPOStatus == "Approved")
@@ -263,9 +265,9 @@
                             </td>
                         }
 
-                    <td>
-                        @item.intUserCode.ToString().PadLeft(5, '0')--@item.fullname
-                    </td>
+                        <td>
+                            @item.intUserCode.ToString().PadLeft(5, '0')--@item.fullname
+                        </td>
 
 
 
@@ -285,82 +287,1062 @@
 
 <section class="col-md-12 text-center">
     <div class="">
-        <a href="http://10.3.1.110/poapproval/PO/SearchPO" class="btn btn-primary">Back</a>
+        <a href="http://localhost:61646/PO/SearchPO" class="btn btn-primary">Back</a>
 
         @if (Model.tblPO.strPOStatus != "Rejected" && Model.tblPO.strPOStatus != "Approved")
         {
             <button data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Reject</button>
         }
-        <a href="http://10.3.1.110/poapproval/PO/PORpt?intPOCode=@Model.tblPO.intPOCode&xpertLoginID=@ViewBag.xpertLoginID" target="_blank" class="btn btn-info">View PO</a>
+        <a href="http://localhost:61646/PO/PORpt?intPOCode=@Model.tblPO.intPOCode&xpertLoginID=@ViewBag.xpertLoginID" target="_blank" class="btn btn-info">View PO</a>
         @*<button >View PO</button>*@
         @{
             decimal? amount = Model.tblPO.Amount;
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
+
+
         }
-        @if (reqCookies["SuperAdmin"].ToString() == "Y")
+        @if (reqCookies != null)
         {
-            if (Model.tblPO.strPOStatus == "Pending")
+            if (reqCookies["SuperAdmin"].ToString() == "Y")
             {
-                <button id="Reviewer1" class="btn btn-success">Review</button>
-                return;
+                if (Model.tblPO.strPOStatus == "Pending")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        @*if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }*@
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        @*if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+                            return;
+                        }*@
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+
+
+
+                @*if (Model.tblPO.strPOStatus == "Pending")
+                {
+                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                    return;
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                    return;
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                    return;
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+                    <button id="approve" class="btn btn-success">Approve</button>
+                    return;
+                }*@
             }
-            if (Model.tblPO.strPOStatus == "Reviewed 1")
+            else
             {
-                <button id="Reviewer2" class="btn btn-success">Review</button>
-                return;
+
+                if (Model.tblPO.strPOStatus == "Pending")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+
+
+
+
+
+
+
+                @*foreach (var item in Model.tblManageApprovals)
+                {
+
+
+
+
+
+
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
+                        <button id="approve" class="btn btn-success">Approve</button>
+                        return;
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
+                        <button id="Reviewer1" class="btn btn-success">Review</button>
+                        return;
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
+                        <button id="Reviewer2" class="btn btn-success">Review</button>
+                        return;
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
+                        <button id="Reviewer3" class="btn btn-success">Review</button>
+                        return;
+
+                    }
+
+                }*@
             }
-            if (Model.tblPO.strPOStatus == "Reviewed 2")
-            {
-                <button id="Reviewer3" class="btn btn-success">Review</button>
-                return;
-            }
-            if (Model.tblPO.strPOStatus == "Reviewed 3")
-            {
-                <button id="approve" class="btn btn-success">Approve</button>
-                return;
-            }
+
         }
         else
         {
+            if (Session["SuperAdmin"].ToString() == "Y")
+            {
+                if (Model.tblPO.strPOStatus == "Pending")
+                {
 
-            foreach (var item in Model.tblManageApprovals)
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        @*if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }*@
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer3" class="btn btn-success">Review</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+
+                    foreach (var itemm in getlistSuperAdmin.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        @*if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            <button id="Reviewer1" class="btn btn-success">Review</button>
+
+
+
+
+
+                            return;
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            <button id="Reviewer2" class="btn btn-success">Review</button>
+                            return;
+                        }*@
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            <button id="approve" class="btn btn-success">Approve</button>
+                            return;
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            @*<button id="approve" class="btn btn-success">Approve</button>*@
+                            return;
+                        }
+
+
+
+                    }
+
+                }
+            }
+            else
             {
 
-                
-
-
-
-               
-                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                if (Model.tblPO.strPOStatus == "Pending")
                 {
-                    
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 1")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+                if (Model.tblPO.strPOStatus == "Reviewed 2")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Model.tblPO.strPOStatus == "Reviewed 3")
+                {
+
+                    foreach (var itemm in getlist.Where(x => x.po_number == Model.tblPO.PO_Number))
+                    {
+
+                        if (itemm.ApprovalLevel == "Reviewer 1")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer1" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+
+
+
+
+                        }
+
+
+                        if (itemm.ApprovalLevel == "Reviewer 2")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer2" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Reviewer 3")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="Reviewer3" class="btn btn-success">Review</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+                        if (itemm.ApprovalLevel == "Approver")
+                        {
+                            foreach (var item in Model.tblManageApprovals.Where(x => x.intBuyerCode == Model.tblPO.staff_code))
+                            {
+                                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                                {
+
+                                    <button id="approve" class="btn btn-success">Approve</button>
+                                    return;
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+
+
+
+
+
+
+
+
+                @*foreach (var item in Model.tblManageApprovals)
+                {
+
+
+
+
+
+
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Approver" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
                         <button id="approve" class="btn btn-success">Approve</button>
                         return;
-                   
-                }
-                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
-                {
-                    
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 1" && Model.tblPO.strPOStatus != "Reviewed 1" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
                         <button id="Reviewer1" class="btn btn-success">Review</button>
                         return;
-                    
-                }
-                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
-                {
-                    
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 2" && Model.tblPO.strPOStatus != "Reviewed 2" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
                         <button id="Reviewer2" class="btn btn-success">Review</button>
                         return;
-                    
-                }
-                if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
-                {
-                   
+
+                    }
+                    if (amount > item.numFromApprovalAmount && amount <= item.numToApprovalAmount && item.tblApprovalLevel.strApprovalLevelName == "Reviewer 3" && Model.tblPO.strPOStatus != "Reviewed 3" && Model.tblPO.strPOStatus != "Approved" && Model.tblPO.strPOStatus != "Rejected")
+                    {
+
                         <button id="Reviewer3" class="btn btn-success">Review</button>
                         return;
-                   
-                }
 
+                    }
+
+                }*@
             }
+
         }
 
 

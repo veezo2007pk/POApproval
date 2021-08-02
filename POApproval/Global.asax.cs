@@ -14,6 +14,22 @@ namespace POApproval
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        protected void Session_End()
+        {
+            Session.Abandon();
+      
+           
+        }
+        protected void Session_Start()
+        {
+            if (Session["intUserCode"] == null)
+            {
+                new RedirectToRouteResult(new RouteValueDictionary { { "action", "Login" }, { "controller", "Account" } });
+
+
+            }
+            
+        }
         protected void Application_EndRequest()
         {
             

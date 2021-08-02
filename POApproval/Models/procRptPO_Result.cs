@@ -37,5 +37,6 @@ namespace POApproval.Models
         public Nullable<decimal> Amount { get; set; }
         public Nullable<decimal> Foreign_Amount { get; set; }
         public string strUser { get; set; }
+        public string Supplier_Address { get; set; }
     }
 }

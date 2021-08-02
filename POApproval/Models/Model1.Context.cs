@@ -27,14 +27,13 @@ namespace POApproval.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblApprovalLevel> tblApprovalLevels { get; set; }
-        public virtual DbSet<tblBuyer> tblBuyers { get; set; }
-        public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }
         public virtual DbSet<tblPO> tblPOes { get; set; }
         public virtual DbSet<tblPODetail> tblPODetails { get; set; }
         public virtual DbSet<tblPOHistory> tblPOHistories { get; set; }
-        public virtual DbSet<tblStatu> tblStatus { get; set; }
+        public virtual DbSet<tblBuyerDetail> tblBuyerDetails { get; set; }
         public virtual DbSet<tblManageApproval> tblManageApprovals { get; set; }
+        public virtual DbSet<tblApprovalLevel> tblApprovalLevels { get; set; }
+        public virtual DbSet<tblStatu> tblStatus { get; set; }
     
         public virtual ObjectResult<procCmbApprovalLevel_Result> procCmbApprovalLevel()
         {
@@ -85,19 +84,6 @@ namespace POApproval.Models
                 new ObjectParameter("usercode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procGetUserApprovalLog_Result>("procGetUserApprovalLog", usercodeParameter);
-        }
-    
-        public virtual int procRptPO(string intPOCode, string strUser)
-        {
-            var intPOCodeParameter = intPOCode != null ?
-                new ObjectParameter("intPOCode", intPOCode) :
-                new ObjectParameter("intPOCode", typeof(string));
-    
-            var strUserParameter = strUser != null ?
-                new ObjectParameter("strUser", strUser) :
-                new ObjectParameter("strUser", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
         }
     
         public virtual ObjectResult<procRptPOSubReport_Result> procRptPOSubReport(Nullable<int> intPoCode)
@@ -169,6 +155,56 @@ namespace POApproval.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectUserxpert_Result>("procSelectUserxpert");
         }
     
+        public virtual ObjectResult<procSelectBuyerManageApproval_Result> procSelectBuyerManageApproval(string intUserCode)
+        {
+            var intUserCodeParameter = intUserCode != null ?
+                new ObjectParameter("intUserCode", intUserCode) :
+                new ObjectParameter("intUserCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManageApproval_Result>("procSelectBuyerManageApproval", intUserCodeParameter);
+        }
+    
+        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
+        {
+            var usercodeParameter = usercode != null ?
+                new ObjectParameter("usercode", usercode) :
+                new ObjectParameter("usercode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
+        }
+    
+        public virtual ObjectResult<procCheckApprovalLevelSequence_Result> procCheckApprovalLevelSequence(string intUserCode)
+        {
+            var intUserCodeParameter = intUserCode != null ?
+                new ObjectParameter("intUserCode", intUserCode) :
+                new ObjectParameter("intUserCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procCheckApprovalLevelSequence_Result>("procCheckApprovalLevelSequence", intUserCodeParameter);
+        }
+    
+        public virtual ObjectResult<procCheckApprovalLevelSequenceForSuperAdmin_Result> procCheckApprovalLevelSequenceForSuperAdmin()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procCheckApprovalLevelSequenceForSuperAdmin_Result>("procCheckApprovalLevelSequenceForSuperAdmin");
+        }
+    
+        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
+        }
+    
+        public virtual int procRptPO(string intPOCode, string strUser)
+        {
+            var intPOCodeParameter = intPOCode != null ?
+                new ObjectParameter("intPOCode", intPOCode) :
+                new ObjectParameter("intPOCode", typeof(string));
+    
+            var strUserParameter = strUser != null ?
+                new ObjectParameter("strUser", strUser) :
+                new ObjectParameter("strUser", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("procRptPO", intPOCodeParameter, strUserParameter);
+        }
+    
         public virtual ObjectResult<procValidateUserLogins_Result> procValidateUserLogins(string strLoginName, string strUserPassword)
         {
             var strLoginNameParameter = strLoginName != null ?
@@ -180,30 +216,6 @@ namespace POApproval.Models
                 new ObjectParameter("strUserPassword", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procValidateUserLogins_Result>("procValidateUserLogins", strLoginNameParameter, strUserPasswordParameter);
-        }
-    
-        public virtual ObjectResult<procSelectBuyerManageApproval_Result> procSelectBuyerManageApproval(string intUserCode)
-        {
-            var intUserCodeParameter = intUserCode != null ?
-                new ObjectParameter("intUserCode", intUserCode) :
-                new ObjectParameter("intUserCode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectBuyerManageApproval_Result>("procSelectBuyerManageApproval", intUserCodeParameter);
-        }
-    
-        public virtual ObjectResult<procSelectManageApproval_Result> procSelectManageApproval()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procSelectManageApproval_Result>("procSelectManageApproval");
-        }
-    
-        public virtual ObjectResult<procUserMenu_Result> procUserMenu(string usercode)
-        {
-            var usercodeParameter = usercode != null ?
-                new ObjectParameter("usercode", usercode) :
-                new ObjectParameter("usercode", typeof(string));
-    
-            
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procUserMenu_Result>("procUserMenu", usercodeParameter);
         }
     }
 }

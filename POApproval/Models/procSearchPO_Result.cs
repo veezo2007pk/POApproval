@@ -8,6 +8,12 @@ namespace POApproval.Models
 {
     public partial class procSearchPO_Result
     {
+        public int CurrentPageIndex { get; set; }
+
+        ///<summary>
+        /// Gets or sets PageCount.
+        ///</summary>
+        public int PageCount { get; set; }
         public string strRejectReason { get; set; }
         public bool IsSelected { get; set; }
         public string criteria { get; set; }

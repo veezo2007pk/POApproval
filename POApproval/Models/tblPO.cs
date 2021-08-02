@@ -59,6 +59,10 @@ namespace POApproval.Models
         public string staff_code { get; set; }
         public string brand_name { get; set; }
         public string supplier_email { get; set; }
+        public Nullable<bool> bolIsPendingPOEmailSent { get; set; }
+        public Nullable<bool> bolIsPendingR1POEmailSent { get; set; }
+        public Nullable<bool> bolIsPendingR2POEmailSent { get; set; }
+        public Nullable<bool> bolIsPendingR3POEmailSent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPODetail> tblPODetails { get; set; }

@@ -26,7 +26,7 @@ var app = angular.module("myPO", [])
             console.log($scope.strPOStatus + "" + $scope.PO_Number)
             $http({
                 method: "POST",
-                url: "http://10.3.1.110/poapproval/PO/SearchPO",
+                url: "http://localhost:61646/PO/SearchPO",
                 dataType: 'json',
                 data: { strPOStatus: $scope.strPOStatus, PO_Number: $scope.PO_Number },
                 headers: { "Content-Type": "application/json" }
@@ -60,7 +60,7 @@ function LoadData() {
     var PO_Number = $("#PO_Number").val();
     $.ajax({
         type: 'POST',
-        url: "http://10.3.1.110/poapproval/PO/SearchPO",
+        url: "http://localhost:61646/PO/SearchPO",
         dataType: 'json',
         data: { strPOStatus: strPOStatus, PO_Number: PO_Number },
         success: function (data) {

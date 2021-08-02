@@ -34,7 +34,7 @@
             </Mappings>
             <Sources />
           </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="procRptReportTableAdapter" GeneratorDataComponentClassName="procRptReportTableAdapter" Name="procRptReport" UserDataComponentName="procRptReportTableAdapter">
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="procRptPOReportTableAdapter" GeneratorDataComponentClassName="procRptPOReportTableAdapter" Name="procRptPOReport" UserDataComponentName="procRptPOReportTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="dbSASAApprovalConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
@@ -47,6 +47,7 @@
 	   tblPO.Ship_Store Shipto,
 	   tblPO.Supplier_Code,
 	   tblPO.Supplier_Name,
+	   tblPO.Supplier_Address,
 	   tblPO.Store_Address,
 	   tblPO.Creation_Date,
 	   tblPO.FOB,
@@ -67,8 +68,8 @@
 	   tblPODetail.[Dis%] Disc,
 	   tblPODetail.Amount,
 	   tblPODetail.Foreign_Amount,
-	   tblPO.username strUser ,
-tblPODetail.Brand_Name
+	   tblPODetail.Brand_Name,
+	   tblPO.username strUser 
  FROM tblPO
 INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
                     <Parameters />
@@ -85,6 +86,7 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
               <Mapping SourceColumn="Shipto" DataSetColumn="Shipto" />
               <Mapping SourceColumn="Supplier_Code" DataSetColumn="Supplier_Code" />
               <Mapping SourceColumn="Supplier_Name" DataSetColumn="Supplier_Name" />
+              <Mapping SourceColumn="Supplier_Address" DataSetColumn="Supplier_Address" />
               <Mapping SourceColumn="Store_Address" DataSetColumn="Store_Address" />
               <Mapping SourceColumn="Creation_Date" DataSetColumn="Creation_Date" />
               <Mapping SourceColumn="FOB" DataSetColumn="FOB" />
@@ -105,8 +107,8 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
               <Mapping SourceColumn="Disc" DataSetColumn="Disc" />
               <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
               <Mapping SourceColumn="Foreign_Amount" DataSetColumn="Foreign_Amount" />
-              <Mapping SourceColumn="strUser" DataSetColumn="strUser" />
               <Mapping SourceColumn="Brand_Name" DataSetColumn="Brand_Name" />
+              <Mapping SourceColumn="strUser" DataSetColumn="strUser" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -118,7 +120,7 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
   <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="procRptPOSubReport" msprop:Generator_TableClassName="procRptPOSubReportDataTable" msprop:Generator_TableVarName="tableprocRptPOSubReport" msprop:Generator_RowChangedName="procRptPOSubReportRowChanged" msprop:Generator_TablePropName="procRptPOSubReport" msprop:Generator_RowDeletingName="procRptPOSubReportRowDeleting" msprop:Generator_RowChangingName="procRptPOSubReportRowChanging" msprop:Generator_RowEvHandlerName="procRptPOSubReportRowChangeEventHandler" msprop:Generator_RowDeletedName="procRptPOSubReportRowDeleted" msprop:Generator_RowClassName="procRptPOSubReportRow" msprop:Generator_UserTableName="procRptPOSubReport" msprop:Generator_RowEvArgName="procRptPOSubReportRowChangeEvent">
+        <xs:element name="procRptPOSubReport" msprop:Generator_TableClassName="procRptPOSubReportDataTable" msprop:Generator_TableVarName="tableprocRptPOSubReport" msprop:Generator_TablePropName="procRptPOSubReport" msprop:Generator_RowDeletingName="procRptPOSubReportRowDeleting" msprop:Generator_RowChangingName="procRptPOSubReportRowChanging" msprop:Generator_RowEvHandlerName="procRptPOSubReportRowChangeEventHandler" msprop:Generator_RowDeletedName="procRptPOSubReportRowDeleted" msprop:Generator_UserTableName="procRptPOSubReport" msprop:Generator_RowChangedName="procRptPOSubReportRowChanged" msprop:Generator_RowEvArgName="procRptPOSubReportRowChangeEvent" msprop:Generator_RowClassName="procRptPOSubReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="intPOCode" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnintPOCode" msprop:Generator_ColumnPropNameInRow="intPOCode" msprop:Generator_ColumnPropNameInTable="intPOCodeColumn" msprop:Generator_UserColumnName="intPOCode" type="xs:int" />
@@ -181,7 +183,7 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="procRptReport" msprop:Generator_TableClassName="procRptReportDataTable" msprop:Generator_TableVarName="tableprocRptReport" msprop:Generator_TablePropName="procRptReport" msprop:Generator_RowDeletingName="procRptReportRowDeleting" msprop:Generator_RowChangingName="procRptReportRowChanging" msprop:Generator_RowEvHandlerName="procRptReportRowChangeEventHandler" msprop:Generator_RowDeletedName="procRptReportRowDeleted" msprop:Generator_UserTableName="procRptReport" msprop:Generator_RowChangedName="procRptReportRowChanged" msprop:Generator_RowEvArgName="procRptReportRowChangeEvent" msprop:Generator_RowClassName="procRptReportRow">
+        <xs:element name="procRptPOReport" msprop:Generator_TableClassName="procRptPOReportDataTable" msprop:Generator_TableVarName="tableprocRptPOReport" msprop:Generator_TablePropName="procRptPOReport" msprop:Generator_RowDeletingName="procRptPOReportRowDeleting" msprop:Generator_RowChangingName="procRptPOReportRowChanging" msprop:Generator_RowEvHandlerName="procRptPOReportRowChangeEventHandler" msprop:Generator_RowDeletedName="procRptPOReportRowDeleted" msprop:Generator_UserTableName="procRptPOReport" msprop:Generator_RowChangedName="procRptPOReportRowChanged" msprop:Generator_RowEvArgName="procRptPOReportRowChangeEvent" msprop:Generator_RowClassName="procRptPOReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CurrentDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCurrentDate" msprop:Generator_ColumnPropNameInRow="CurrentDate" msprop:Generator_ColumnPropNameInTable="CurrentDateColumn" msprop:Generator_UserColumnName="CurrentDate" type="xs:dateTime" minOccurs="0" />
@@ -219,6 +221,13 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Supplier_Address" msprop:Generator_ColumnVarNameInTable="columnSupplier_Address" msprop:Generator_ColumnPropNameInRow="Supplier_Address" msprop:Generator_ColumnPropNameInTable="Supplier_AddressColumn" msprop:Generator_UserColumnName="Supplier_Address" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="90" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
@@ -302,17 +311,17 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
               <xs:element name="Disc" msprop:Generator_ColumnVarNameInTable="columnDisc" msprop:Generator_ColumnPropNameInRow="Disc" msprop:Generator_ColumnPropNameInTable="DiscColumn" msprop:Generator_UserColumnName="Disc" type="xs:decimal" minOccurs="0" />
               <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:decimal" minOccurs="0" />
               <xs:element name="Foreign_Amount" msprop:Generator_ColumnVarNameInTable="columnForeign_Amount" msprop:Generator_ColumnPropNameInRow="Foreign_Amount" msprop:Generator_ColumnPropNameInTable="Foreign_AmountColumn" msprop:Generator_UserColumnName="Foreign_Amount" type="xs:decimal" minOccurs="0" />
-              <xs:element name="strUser" msprop:Generator_ColumnVarNameInTable="columnstrUser" msprop:Generator_ColumnPropNameInRow="strUser" msprop:Generator_ColumnPropNameInTable="strUserColumn" msprop:Generator_UserColumnName="strUser" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="128" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="Brand_Name" msprop:Generator_ColumnVarNameInTable="columnBrand_Name" msprop:Generator_ColumnPropNameInRow="Brand_Name" msprop:Generator_ColumnPropNameInTable="Brand_NameColumn" msprop:Generator_UserColumnName="Brand_Name" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="strUser" msprop:Generator_ColumnVarNameInTable="columnstrUser" msprop:Generator_ColumnPropNameInRow="strUser" msprop:Generator_ColumnPropNameInTable="strUserColumn" msprop:Generator_UserColumnName="strUser" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="128" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
@@ -325,8 +334,8 @@ INNER JOIN tblPODetail ON tblPODetail.intPOCode = tblPO.intPOCode</CommandText>
       <xs:selector xpath=".//mstns:procRptPOSubReport" />
       <xs:field xpath="mstns:intPOCode" />
     </xs:unique>
-    <xs:unique name="procRptReport_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:procRptReport" />
+    <xs:unique name="procRptPOReport_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:procRptPOReport" />
       <xs:field xpath="mstns:intPOCode" />
     </xs:unique>
   </xs:element>

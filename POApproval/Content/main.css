@@ -10,9 +10,26 @@ textarea {
   outline: none;
   border: none;
 }
+.hideselect {
+    appearance: none !important;
+}
 .divListSearchPO .dataTables_wrapper .dataTables_filter {
     float: none !important;
     text-align: center !important;
+}
+.table-common .dataTables_wrapper .dataTables_filter {
+    float: none !important;
+    text-align: center !important;
+}
+#buttonright {
+    text-align: center;
+    z-index: 1000;
+    margin-bottom: 10px;
+    float: right;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 46px;
 }
 #total {
     text-align: center;
@@ -512,6 +529,7 @@ font-size: 24px;
 }
 
 .table-common table thead tr th {
+
     font-size: 13px;
     background: #243894;
     color: #fff;
@@ -524,6 +542,7 @@ font-size: 24px;
     font-weight: 400;
 }
 .table-common .dataTables_paginate .paginate_button {
+
     background: #e9ecef !important;
     padding: 4px 17px;
     border-radius: 5px;

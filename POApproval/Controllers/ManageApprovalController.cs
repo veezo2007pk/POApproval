@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace POApproval.Controllers
 {
-    [Authorize]
+   
     public class ManageApprovalController : Controller
     {
         dbSASAApprovalEntities db = new dbSASAApprovalEntities();
@@ -28,31 +28,59 @@ namespace POApproval.Controllers
         public ActionResult ManageApprovalList()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
 
-
-                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                var link = data.menulink.Split('/');
-                if (link[1].ToString() == "ManageApprovalList")
+                foreach (var item in menus)
                 {
-                    var data1 = db.procSelectManageApproval().ToList();
-                    return View(data1);
-                  
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        var data1 = db.procSelectManageApproval().ToList();
+                        return View(data1);
+
+
+
+
+                    }
 
 
 
                 }
-
-
-
             }
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        var data1 = db.procSelectManageApproval().ToList();
+                        return View(data1);
+
+
+
+
+                    }
+
+
+
+                }
+            }
+            
             return RedirectToAction("AccessDenied", "Errors");
           
         }
@@ -75,31 +103,59 @@ namespace POApproval.Controllers
         public ActionResult AddManageApproval()
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
 
-
-                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                var link = data.menulink.Split('/');
-                if (link[1].ToString() == "ManageApprovalList")
+                foreach (var item in menus)
                 {
-                    PopulateDropdown();
-                    return View();
 
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        PopulateDropdown();
+                        return View();
+
+
+
+
+                    }
 
 
 
                 }
-
-
-
             }
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        PopulateDropdown();
+                        return View();
+
+
+
+
+                    }
+
+
+
+                }
+            }
+           
             return RedirectToAction("AccessDenied", "Errors");
             
         }
@@ -128,50 +184,97 @@ namespace POApproval.Controllers
         public ActionResult UpdateManageApproval(int ID)
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null)
+            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
                 return RedirectToAction("Login", "Account");
             }
-            List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-            foreach (var item in menus)
+            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
+                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
 
-
-                var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                var link = data.menulink.Split('/');
-                if (link[1].ToString() == "ManageApprovalList")
+                foreach (var item in menus)
                 {
-                    PopulateDropdown();
-                    var ManageApprovalInfo = db.tblManageApprovals.FirstOrDefault(s => s.intManageApprovalCode == ID);
-                    if (ManageApprovalInfo != null)
-                    {
-                        ManageApprovalViewModel objManageApproval = new ManageApprovalViewModel()
-                        {
-                            intApprovalLevelCode = ManageApprovalInfo.intApprovalLevelCode,
-                            bolIsActive = ManageApprovalInfo.bolIsActive,
-                            dtCreatedAt = ManageApprovalInfo.dtCreatedAt,
-                            intBuyerCode = ManageApprovalInfo.intBuyerCode,
-                            dtModifyAt = ManageApprovalInfo.dtModifyAt,
-                            intCreatedByCode = ManageApprovalInfo.intCreatedByCode,
-                            intManageApprovalCode = ManageApprovalInfo.intManageApprovalCode,
-                            intModifyBy = ManageApprovalInfo.intModifyBy,
-                            intUserCode = ManageApprovalInfo.intUserCode,
-                            numFromApprovalAmount = ManageApprovalInfo.numFromApprovalAmount,
-                            numToApprovalAmount = ManageApprovalInfo.numToApprovalAmount
-                        };
-                        return View(objManageApproval);
-                    }
-                    return View();
 
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        PopulateDropdown();
+                        var ManageApprovalInfo = db.tblManageApprovals.FirstOrDefault(s => s.intManageApprovalCode == ID);
+                        if (ManageApprovalInfo != null)
+                        {
+                            ManageApprovalViewModel objManageApproval = new ManageApprovalViewModel()
+                            {
+                                intApprovalLevelCode = ManageApprovalInfo.intApprovalLevelCode,
+                                bolIsActive = ManageApprovalInfo.bolIsActive,
+                                dtCreatedAt = ManageApprovalInfo.dtCreatedAt,
+                                intBuyerCode = ManageApprovalInfo.intBuyerCode,
+                                dtModifyAt = ManageApprovalInfo.dtModifyAt,
+                                intCreatedByCode = ManageApprovalInfo.intCreatedByCode,
+                                intManageApprovalCode = ManageApprovalInfo.intManageApprovalCode,
+                                intModifyBy = ManageApprovalInfo.intModifyBy,
+                                intUserCode = ManageApprovalInfo.intUserCode,
+                                numFromApprovalAmount = ManageApprovalInfo.numFromApprovalAmount,
+                                numToApprovalAmount = ManageApprovalInfo.numToApprovalAmount
+                            };
+                            return View(objManageApproval);
+                        }
+                        return View();
+
+
+
+
+                    }
 
 
 
                 }
-
-
-
             }
+            else
+            {
+                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
+
+                foreach (var item in menus)
+                {
+
+
+                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
+                    var link = data.menulink.Split('/');
+                    if (link[1].ToString() == "ManageApprovalList")
+                    {
+                        PopulateDropdown();
+                        var ManageApprovalInfo = db.tblManageApprovals.FirstOrDefault(s => s.intManageApprovalCode == ID);
+                        if (ManageApprovalInfo != null)
+                        {
+                            ManageApprovalViewModel objManageApproval = new ManageApprovalViewModel()
+                            {
+                                intApprovalLevelCode = ManageApprovalInfo.intApprovalLevelCode,
+                                bolIsActive = ManageApprovalInfo.bolIsActive,
+                                dtCreatedAt = ManageApprovalInfo.dtCreatedAt,
+                                intBuyerCode = ManageApprovalInfo.intBuyerCode,
+                                dtModifyAt = ManageApprovalInfo.dtModifyAt,
+                                intCreatedByCode = ManageApprovalInfo.intCreatedByCode,
+                                intManageApprovalCode = ManageApprovalInfo.intManageApprovalCode,
+                                intModifyBy = ManageApprovalInfo.intModifyBy,
+                                intUserCode = ManageApprovalInfo.intUserCode,
+                                numFromApprovalAmount = ManageApprovalInfo.numFromApprovalAmount,
+                                numToApprovalAmount = ManageApprovalInfo.numToApprovalAmount
+                            };
+                            return View(objManageApproval);
+                        }
+                        return View();
+
+
+
+
+                    }
+
+
+
+                }
+            }
+           
             return RedirectToAction("AccessDenied", "Errors");
             
         }
@@ -189,8 +292,18 @@ namespace POApproval.Controllers
             var approverLevel = db.tblApprovalLevels.OrderBy(s => s.strApprovalLevelName);
             ViewBag.approverLevelList = new SelectList(approverLevel, "intApprovalLevelCode", "strApprovalLevelName");
             HttpCookie reqCookies = Request.Cookies["userInfo"];
-            int ID = Convert.ToInt32(reqCookies["intUserCode"].ToString());
-          
+            int ID = 0;
+            if (reqCookies != null)
+            {
+                ID = Convert.ToInt32(reqCookies["intUserCode"].ToString());
+
+            }
+            else
+            {
+                ID = Convert.ToInt32(Session["intUserCode"].ToString());
+
+            }
+
 
 
 
@@ -255,8 +368,8 @@ namespace POApproval.Controllers
             //        return 3;
             //    }
             //}
-            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode &&x.intApprovalLevelCode==ManageApproval.intApprovalLevelCode).ToList();
-            if (checkUserManageApprovalRangeBuyer!=null)
+            var checkUserManageApprovalRangeBuyer = db.tblManageApprovals.Where(x => x.intUserCode == ManageApproval.intUserCode && x.intBuyerCode == ManageApproval.intBuyerCode && x.intApprovalLevelCode == ManageApproval.intApprovalLevelCode).ToList();
+            if (checkUserManageApprovalRangeBuyer != null)
             {
                 foreach (var item in checkUserManageApprovalRangeBuyer)
                 {
@@ -269,7 +382,7 @@ namespace POApproval.Controllers
                         return 3;
                     }
                 }
-               
+
             }
 
             if (ManageApproval != null)

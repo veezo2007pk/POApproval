@@ -22,20 +22,21 @@
                     {
                     <div class="form-group">
                         <i class="fa fa-user"></i>
-                        <input type="text" name="UserCode" class = "form-control" title="Mix length should be 5 digits" pattern="\d{5}" placeholder = "Login ID" required = "required" onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+                        <input type="text" name="UserCode" class = "form-control" title="Max length should be 5 digits" pattern="\d{5}" placeholder = "Login ID" required = "required" onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>
                         @*@Html.TextBoxFor(m => m.UserCode, new { @maxlength = "5", @class = "form-control", @name = "UserCode", @placeholder = "Login ID", @type = "Number", @required = "required", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57", @title = "Enter Username without Space." })*@
                         @*<input type="text" class="form-control" name="logon_user_id" placeholder="Login ID" required="required">*@
                     </div>
                     <div class="form-group">
                         <i class="fa fa-lock"></i>
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "required",  @title = "Enter Password without Space." })
+                        <input type="password" name="Password" class="form-control" title="Max length should be 200 digits" maxlength="200"    placeholder="Password" required="required"  />
+
+                        @*@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "required", @title = "Enter Password without Space.", @pattern = "\d{5}" })*@
 
                         @*<input type="password" class="form-control" name="UserPassword" placeholder="Password" required="required">*@
                     </div>
                     <div class="form-group text-right">
                         Remember Me
-                        @Html.CheckBoxFor(m => m.RememberMe)
-
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class= "rememberme" })
                     </div>
                         <div class="form-group error">
 
@@ -54,4 +55,5 @@
         </div>
     </div>
         </div>
+
 

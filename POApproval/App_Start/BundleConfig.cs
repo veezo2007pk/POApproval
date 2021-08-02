@@ -18,7 +18,8 @@ namespace POApproval
                             "~/Scripts/Date.js",
                           "~/Scripts/PO.js",
                           "~/Scripts/Buyer.js",
-                              "~/Scripts/BuyerManager.js"
+                              "~/Scripts/BuyerManager.js",
+                                "~/Scripts/cookie.js"
 
                          ));
 

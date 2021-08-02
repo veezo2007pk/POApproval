@@ -13,6 +13,7 @@ namespace POApproval.Models
     
     public partial class procValidateUserLogins_Result
     {
+        public string Password { get; set; }
         public string usercode { get; set; }
         public string xpertLoginID { get; set; }
         public string fullname { get; set; }

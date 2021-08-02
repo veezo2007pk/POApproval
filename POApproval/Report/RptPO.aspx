@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <div>
  <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-            <rsweb:ReportViewer ID="CustomerListReportViewer" runat="server" Height="1000" Width="100%"></rsweb:ReportViewer>
+            <rsweb:ReportViewer ShowPrintButton="false" PageCountMode="Actual" ID="CustomerListReportViewer" runat="server" Height="1000" Width="100%"></rsweb:ReportViewer>
         </div>
         <%-- <br />
     Format:

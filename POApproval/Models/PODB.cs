@@ -16,77 +16,155 @@ namespace POApproval.Models
         public List<procSearchPO_Result> SearchPO(int intUserCode, string strPOStatus, long? PONumber)
         {
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
-            List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
-            using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+            if (reqCookies != null)
             {
-                con.Open();
-                if (reqCookies["SuperAdmin"].ToString() == "Y")
+                List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
                 {
-                    if (strPOStatus != null && PONumber == null)
+                    con.Open();
+                    if (reqCookies["SuperAdmin"].ToString() == "Y")
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
-                    }
-                    else if (PONumber != null && strPOStatus == null)
-                    {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)=YEAR(GETDATE())", con);
+                        if (strPOStatus != null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
+                        }
+                        else if (PONumber != null && strPOStatus == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                        else if (strPOStatus != null && PONumber != null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
+
+                        }
+                        else if (strPOStatus == null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus ='Pending'", con);
+
+                        }
 
                     }
-                    else if (strPOStatus != null && PONumber != null)
+                    else
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
+                        if (strPOStatus != null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND tblPO.strPOStatus IN(" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+                        }
+                        else if (PONumber != null && strPOStatus == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
 
+                        }
+                        else if (strPOStatus != null && PONumber != null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " and strPOStatus in (" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                        else if (strPOStatus == null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND strPOStatus ='Pending' AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
                     }
-                    else if (strPOStatus == null && PONumber == null)
+                    //com.CommandType = CommandType.StoredProcedure;
+                    //com.Parameters.Add("@PO_Number", PO_Number);
+                    //com.Parameters.Add("@strPOStatus", strPOStatus);
+                    SqlDataReader rdr = com.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus ='Pending'", con);
-
+                        var details = new procSearchPO_Result();
+                        details.Supplier_Name = rdr["Supplier_Name"].ToString();
+                        details.strPOStatus = rdr["strPOStatus"].ToString();
+                        details.Supplier_Code = rdr["Supplier_Code"].ToString();
+                        details.Buyer = rdr["Buyer"].ToString();
+                        details.Creation_Date = Convert.ToDateTime(rdr["Creation_Date"].ToString());
+                        details.intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString());
+                        details.PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString());
+                        details.Qty = Convert.ToInt32(rdr["Qty"].ToString());
+                        details.NextPOStatus = rdr["NextPOStatus"].ToString();
+                        details.Amount = Convert.ToDecimal(rdr["Amount"].ToString());
+                        details.ApprovalLevel = rdr["ApprovalLevel"].ToString();
+                        lst.Add(details);
                     }
-
+                    return lst;
                 }
-                else
-                {
-                    if (strPOStatus != null && PONumber == null)
-                    {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND tblPO.strPOStatus IN(" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
-                    }
-                    else if (PONumber != null && strPOStatus == null)
-                    {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
-
-                    }
-                    else if (strPOStatus != null && PONumber != null)
-                    {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " and strPOStatus in (" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
-
-                    }
-                    else if (strPOStatus == null && PONumber == null)
-                    {
-                        com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND strPOStatus ='Pending' AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
-
-                    }
-                }
-                //com.CommandType = CommandType.StoredProcedure;
-                //com.Parameters.Add("@PO_Number", PO_Number);
-                //com.Parameters.Add("@strPOStatus", strPOStatus);
-                SqlDataReader rdr = com.ExecuteReader();
-                while (rdr.Read())
-                {
-                    var details = new procSearchPO_Result();
-                    details.Supplier_Name = rdr["Supplier_Name"].ToString();
-                    details.strPOStatus = rdr["strPOStatus"].ToString();
-                    details.Supplier_Code = rdr["Supplier_Code"].ToString();
-                    details.Buyer = rdr["Buyer"].ToString();
-                    details.Creation_Date = Convert.ToDateTime(rdr["Creation_Date"].ToString());
-                    details.intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString());
-                    details.PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString());
-                    details.Qty = Convert.ToInt32(rdr["Qty"].ToString());
-                    details.NextPOStatus = rdr["NextPOStatus"].ToString();
-                    details.Amount = Convert.ToDecimal(rdr["Amount"].ToString());
-                    details.ApprovalLevel = rdr["ApprovalLevel"].ToString();
-                    lst.Add(details);
-                }
-                return lst;
             }
+            else
+            {
+                List<procSearchPO_Result> lst = new List<procSearchPO_Result>();
+                using (SqlConnection con = new SqlConnection(ConnectionString.cs))
+                {
+                    con.Open();
+                    if (HttpContext.Current.Session["SuperAdmin"].ToString() == "Y")
+                    {
+                        if (strPOStatus != null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ")", con);
+                        }
+                        else if (PONumber != null && strPOStatus == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE  PO_Number=" + PONumber + " and YEAR(Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                        else if (strPOStatus != null && PONumber != null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus in (" + strPOStatus + ") and PO_Number=" + PONumber + "", con);
+
+                        }
+                        else if (strPOStatus == null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number,tblPO.Supplier_Code,tblPO.Supplier_Name,tblPO.Creation_Date,tblPO.strPOStatus,CASE WHEN tblPO.strPOStatus = 'Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus = 'Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus = 'Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus = 'Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus = 'Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer, tblPO.Qty, tblPO.Amount, 'Full Access' ApprovalLevel FROM tblPO WHERE YEAR(tblPO.Creation_Date) = YEAR(GETDATE()) AND  tblPO.strPOStatus ='Pending'", con);
+
+                        }
+
+                    }
+                    else
+                    {
+                        if (strPOStatus != null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND tblPO.strPOStatus IN(" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+                        }
+                        else if (PONumber != null && strPOStatus == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                        else if (strPOStatus != null && PONumber != null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND PO_Number=" + PONumber + " and strPOStatus in (" + strPOStatus + ") AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                        else if (strPOStatus == null && PONumber == null)
+                        {
+                            com = new SqlCommand("SELECT tblPO.intPOCode,tblPO.PO_Number, tblPO.Supplier_Code, tblPO.Supplier_Name, tblPO.Creation_Date, tblPO.strPOStatus, CASE WHEN tblPO.strPOStatus='Pending' THEN  'Reviewed 1' WHEN tblPO.strPOStatus='Reviewed 1' THEN  'Reviewed 2' WHEN tblPO.strPOStatus='Reviewed 2' THEN  'Reviewed 3' WHEN tblPO.strPOStatus='Reviewed 3' THEN  'Approved' WHEN tblPO.strPOStatus='Approved' THEN  'Approved' WHEN tblPO.strPOStatus='Rejected' THEN  'Rejected' END AS NextPOStatus, tblPO.Buyer,  tblPO.Qty,  tblPO.Amount , tblApprovalLevel.strApprovalLevelName ApprovalLevel FROM tblPO INNER JOIN tblManageApproval ON tblManageApproval.intBuyerCode=tblPO.staff_code INNER JOIN[SYSCOMDB].[dbo].system_user_login tblUser ON tblUser.usercode = tblManageApproval.intUserCode INNER JOIN  tblApprovalLevel ON tblApprovalLevel.intApprovalLevelCode = tblManageApproval.intApprovalLevelCode WHERE tblManageApproval.intUserCode=" + intUserCode + " AND   tblPO.Amount > tblManageApproval.numFromApprovalAmount  AND tblPO.Amount <= tblManageApproval.numToApprovalAmount  AND strPOStatus ='Pending' AND YEAR(tblPO.Creation_Date)=YEAR(GETDATE())", con);
+
+                        }
+                    }
+                    //com.CommandType = CommandType.StoredProcedure;
+                    //com.Parameters.Add("@PO_Number", PO_Number);
+                    //com.Parameters.Add("@strPOStatus", strPOStatus);
+                    SqlDataReader rdr = com.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        var details = new procSearchPO_Result();
+                        details.Supplier_Name = rdr["Supplier_Name"].ToString();
+                        details.strPOStatus = rdr["strPOStatus"].ToString();
+                        details.Supplier_Code = rdr["Supplier_Code"].ToString();
+                        details.Buyer = rdr["Buyer"].ToString();
+                        details.Creation_Date = Convert.ToDateTime(rdr["Creation_Date"].ToString());
+                        details.intPOCode = Convert.ToInt32(rdr["intPOCode"].ToString());
+                        details.PO_Number = Convert.ToInt64(rdr["PO_Number"].ToString());
+                        details.Qty = Convert.ToInt32(rdr["Qty"].ToString());
+                        details.NextPOStatus = rdr["NextPOStatus"].ToString();
+                        details.Amount = Convert.ToDecimal(rdr["Amount"].ToString());
+                        details.ApprovalLevel = rdr["ApprovalLevel"].ToString();
+                        lst.Add(details);
+                    }
+                    return lst;
+                }
+            }
+         
         }
         public List<procRptPO_Result> GetPOReport(string intPOCode)
         {
@@ -141,6 +219,15 @@ namespace POApproval.Models
                     else
                     {
                         rptPO.strPOStatus = rdr["strPOStatus"].ToString();
+                    }
+                    if (rdr["Supplier_Address"] == DBNull.Value)
+                    {
+                        rptPO.Supplier_Address = null;
+                    }
+
+                    else
+                    {
+                        rptPO.Supplier_Address = rdr["Supplier_Address"].ToString();
                     }
                     if (rdr["Brand_Name"] == DBNull.Value)
                     {
@@ -435,7 +522,9 @@ namespace POApproval.Models
                         Qty = rptPO.Qty,
                         Unit_Price = rptPO.Unit_Price,
                         vendor_item_no = rptPO.vendor_item_no,
-                        Brand_Name=rptPO.Brand_Name
+                        Brand_Name=rptPO.Brand_Name,
+                        Supplier_Address = rptPO.Supplier_Address
+
 
 
 

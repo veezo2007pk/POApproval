@@ -7,7 +7,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>ce5072ef-4481-4bed-9f65-1895d58c69d6</rd:DataSourceID>
+      <rd:DataSourceID>de3f6454-3b82-44e1-8fc8-a32e999951de</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -47,6 +47,10 @@
         </Field>
         <Field Name="Supplier_Name">
           <DataField>Supplier_Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Supplier_Address">
+          <DataField>Supplier_Address</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Store_Address">
@@ -129,22 +133,22 @@
           <DataField>Foreign_Amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="strUser">
-          <DataField>strUser</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Brand_Name">
           <DataField>Brand_Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="strUser">
+          <DataField>strUser</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSet1</rd:DataSetName>
         <rd:SchemaPath>E:\SASA\POApproval\POApproval\DataSet1.xsd</rd:SchemaPath>
-        <rd:TableName>procRptReport</rd:TableName>
+        <rd:TableName>procRptPOReport</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>procRptReportTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>procRptPOReportTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
@@ -156,7 +160,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>9.62432in</Width>
+                  <Width>7.85349in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -198,7 +202,7 @@
                                     <Width>0.47311in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.50436in</Width>
+                                    <Width>0.69182in</Width>
                                   </TablixColumn>
                                   <TablixColumn>
                                     <Width>0.91061in</Width>
@@ -1372,7 +1376,7 @@
                               <Top>3.55322in</Top>
                               <Left>0.11113in</Left>
                               <Height>0.86458in</Height>
-                              <Width>7.52986in</Width>
+                              <Width>7.71736in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1418,7 +1422,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>No. 6&amp;8, Jalan 12/91A</Value>
+                                      <Value>No. 6 &amp; 8, Jalan 12/91A</Value>
                                       <Style>
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -1968,7 +1972,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Store_Address.Value</Value>
+                                      <Value>=Fields!Supplier_Address.Value</Value>
                                       <Style>
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -2872,7 +2876,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Parameters!xpertLoginID.Value</Value>
+                                      <Value>=Fields!strUser.Value</Value>
                                       <Style>
                                         <FontFamily>calibri</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -3014,6 +3018,7 @@
                             </Border>
                           </Style>
                         </Rectangle>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3039,7 +3044,7 @@
             <DataSetName>DataSet1</DataSetName>
             <Left>0.12375in</Left>
             <Height>6.21056in</Height>
-            <Width>9.62432in</Width>
+            <Width>7.85349in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3050,7 +3055,7 @@
         <Height>6.21056in</Height>
         <Style />
       </Body>
-      <Width>9.74807in</Width>
+      <Width>7.98765in</Width>
       <Page>
         <PageHeader>
           <Height>0.21181in</Height>
@@ -3130,6 +3135,7 @@
             </Border>
           </Style>
         </PageHeader>
+        <PageHeight>14in</PageHeight>
         <Style />
       </Page>
     </ReportSection>

@@ -226,6 +226,7 @@
     <Compile Include="Helper\ManageApprovalViewModel.cs" />
     <Compile Include="Helper\UserViewModel.cs" />
     <Compile Include="Models\BuyerManagerDB.cs" />
+    <Compile Include="Models\procCheckApprovalLevelSequence.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -240,6 +241,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\procCheckApprovalLevelSequenceForSuperAdmin_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\procCheckApprovalLevelSequence_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\procCmbApprovalLevel_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -303,9 +310,6 @@
     <Compile Include="Models\PODB.cs" />
     <Compile Include="Models\BuyerDB.cs" />
     <Compile Include="Models\tblApprovalLevel.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tblBuyer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblBuyerDetail.cs">
@@ -402,6 +406,7 @@
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\checklist-model.js" />
+    <Content Include="Scripts\cookie.js" />
     <Content Include="Scripts\DataTable.js" />
     <Content Include="Scripts\Date.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -464,6 +469,8 @@
     <Content Include="Views\BuyerManager\UpdateBuyerManager.cshtml" />
     <Content Include="Views\Errors\Error404.cshtml" />
     <Content Include="Views\Errors\AccessDenied.cshtml" />
+    <Content Include="Views\PO\SearchPOWithFilter.cshtml" />
+    <Content Include="Views\PO\SearchPOs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

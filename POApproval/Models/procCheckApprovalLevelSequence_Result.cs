@@ -10,16 +10,10 @@
 namespace POApproval.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblBuyerDetail
+    public partial class procCheckApprovalLevelSequence_Result
     {
-        public int intBuyerDetailCode { get; set; }
-        public string intBuyerCode { get; set; }
-        public string intUserCode { get; set; }
-        public Nullable<System.DateTime> dtCreatedAt { get; set; }
-        public string intCreatedByCode { get; set; }
-        public Nullable<System.DateTime> dtModifyAt { get; set; }
-        public string intModifyBy { get; set; }
+        public Nullable<long> po_number { get; set; }
+        public string ApprovalLevel { get; set; }
     }
 }

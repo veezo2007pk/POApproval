@@ -15,8 +15,8 @@ namespace POApproval.Helper
         public Nullable<decimal> numToApprovalAmount { get; set; }
         public Nullable<bool> bolIsActive { get; set; }
         public Nullable<System.DateTime> dtCreatedAt { get; set; }
-        public Nullable<int> intCreatedByCode { get; set; }
+        public string intCreatedByCode { get; set; }
         public Nullable<System.DateTime> dtModifyAt { get; set; }
-        public Nullable<int> intModifyBy { get; set; }
+        public string intModifyBy { get; set; }
     }
 }
