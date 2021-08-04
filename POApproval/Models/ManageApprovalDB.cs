@@ -122,7 +122,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@intBuyerCode", ManageAppproval.intBuyerCode);
                     com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                     com.Parameters.AddWithValue("@dtCreatedAt", DateTime.Now);
-                    com.Parameters.AddWithValue("@intCreatedByCode", (HttpContext.Current.Session["intUserCode"].ToString()));
+                    com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intModifyByCode", HttpContext.Current.Session["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@Action", "Insert");
@@ -153,7 +153,7 @@ namespace POApproval.Models
                     com.Parameters.AddWithValue("@numToApprovalAmount", ManageAppproval.numToApprovalAmount);
                     com.Parameters.AddWithValue("@bolIsActive", ManageAppproval.bolIsActive);
                     com.Parameters.AddWithValue("@dtCreatedAt", ManageAppproval.dtCreatedAt);
-                    com.Parameters.AddWithValue("@intCreatedByCode", HttpContext.Current.Session["intUserCode"].ToString());
+                    com.Parameters.AddWithValue("@intCreatedByCode", reqCookies["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@dtModifyAt", DateTime.Now);
                     com.Parameters.AddWithValue("@intModifyByCode", reqCookies["intUserCode"].ToString());
                     com.Parameters.AddWithValue("@Action", "Update");

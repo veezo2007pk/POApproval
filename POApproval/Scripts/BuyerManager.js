@@ -25,7 +25,7 @@ var app = angular.module("myBuyerManagerApp", [])
         $scope.GetUser = function () {
             $http({
                 method: "GET",
-                url: "http://localhost:61646/BuyerManager/GetUser/",
+                url: "http://10.3.1.110/poapproval/BuyerManager/GetUser/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }
@@ -38,7 +38,7 @@ var app = angular.module("myBuyerManagerApp", [])
         $scope.GetBuyer = function () {
             $http({
                 method: "GET",
-                url: "http://localhost:61646/BuyerManager/GetBuyer/",
+                url: "http://10.3.1.110/poapproval/BuyerManager/GetBuyer/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }
@@ -64,7 +64,7 @@ var app = angular.module("myBuyerManagerApp", [])
                    
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/BuyerManager/Insert_BuyerManager",
+                        url: "http://10.3.1.110/poapproval/BuyerManager/Insert_BuyerManager",
                         datatype: "json",
                         data: JSON.stringify($scope.BuyerManager)
                     }).then(function (response) {
@@ -105,7 +105,7 @@ var app = angular.module("myBuyerManagerApp", [])
                     
                     $http({
                         method: "post",
-                        url: "http://localhost:61646/BuyerManager/Update_BuyerManager",
+                        url: "http://10.3.1.110/poapproval/BuyerManager/Update_BuyerManager",
                         datatype: "json",
                         data: JSON.stringify($scope.BuyerManager)
                     }).then(function (response) {
@@ -135,7 +135,7 @@ var app = angular.module("myBuyerManagerApp", [])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://localhost:61646/BuyerManager/Get_AllBuyerManager"
+                url: "http://10.3.1.110/poapproval/BuyerManager/Get_AllBuyerManager"
             }).then(function (response) {
                 $scope.BuyerManagers = response.data;
             }, function () {
@@ -148,7 +148,7 @@ var app = angular.module("myBuyerManagerApp", [])
                 $scope.BuyerManager.intBuyerDetailCode = intBuyerDetailCode;
                 $http({
                     method: "post",
-                    url: "http://localhost:61646/BuyerManager/Delete_BuyerManager",
+                    url: "http://10.3.1.110/poapproval/BuyerManager/Delete_BuyerManager",
                     datatype: "json",
                     data: JSON.stringify($scope.BuyerManager)
                 }).then(function (response) {
@@ -160,7 +160,7 @@ var app = angular.module("myBuyerManagerApp", [])
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
-                url: "http://localhost:61646/BuyerManager/Delete_BuyerManager",
+                url: "http://10.3.1.110/poapproval/BuyerManager/Delete_BuyerManager",
                 datatype: "json",
                 data: JSON.stringify(Emp)
             }).then(function (response) {

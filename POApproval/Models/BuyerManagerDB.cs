@@ -130,7 +130,7 @@ namespace POApproval.Models
         //Method for Updating ManageAppproval record  
         public int Update(tblBuyerDetail ManageAppproval)
         {
-            if (ManageAppproval.bolIsActive == null)
+            if (ManageAppproval.bolIsActive == null )
                 ManageAppproval.bolIsActive = false;
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             int i;

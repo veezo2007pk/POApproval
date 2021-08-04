@@ -27,6 +27,10 @@ namespace POApproval.Controllers
         }
         public ActionResult ManageApprovalList()
         {
+            if (TempData["errormessage"] != null)
+            {
+                ViewBag.geterror = TempData["errormessage"].ToString();
+            }
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
@@ -412,8 +416,10 @@ namespace POApproval.Controllers
             List<tblPO> pOs = db.tblPOes.Where(x => x.staff_code == on.intBuyerCode.ToString() && (x.PO_Status != "Pending" || x.PO_Status != "Rejected")).ToList();
             if (pOs.Count > 0)
             {
-                ViewBag.geterror = "buyer attach with approval list";
-                return View("ManageApprovalList", "ManageApproval");
+                TempData["errormessage"] = "Buyer already linked with approval level";
+                return RedirectToAction("ManageApprovalList", "ManageApproval");
+
+               
             }
             db.tblManageApprovals.Remove(on);
             db.SaveChanges();

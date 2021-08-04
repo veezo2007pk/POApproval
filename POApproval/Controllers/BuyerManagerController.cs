@@ -26,7 +26,10 @@ namespace POApproval.Controllers
 
         public ActionResult BuyerManagerList()
         {
-            ViewBag.geterror = "";
+            if (TempData["errormessage"] != null)
+            {
+                ViewBag.geterror = TempData["errormessage"].ToString();
+            }
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
             {
@@ -349,8 +352,9 @@ namespace POApproval.Controllers
             List<tblPO> pOs = db.tblPOes.Where(x => x.staff_code == on.intBuyerCode.ToString()&&(x.PO_Status!="Pending" || x.PO_Status!= "Rejected")).ToList();
             if (manageApproval1.Count > 0 || pOs.Count>0)
             {
-                ViewBag.geterror = "buyer attach with approval list";
-                return View("BuyerManagerList", "BuyerManager");
+                TempData["errormessage"]  = "Buyer already linked with approval level";
+                return RedirectToAction("BuyerManagerList", "BuyerManager");
+               
             }
             
             db.tblBuyerDetails.Remove(on);
@@ -367,8 +371,14 @@ namespace POApproval.Controllers
             var checkUserBuyerManagerExist = db.tblBuyerDetails.Where(x => x.intUserCode == BuyerManager.intUserCode && x.intBuyerCode == BuyerManager.intBuyerCode).FirstOrDefault();
             if (checkUserBuyerManagerExist != null)
             {
-                return 2;
+                
+                if (BuyerManager.bolIsActive == checkUserBuyerManagerExist.bolIsActive && BuyerManager.intBuyerCode == checkUserBuyerManagerExist.intBuyerCode)
+                {
+                    return 2;
+                }
             }
+
+            
             if (BuyerManager != null)
             {
                 using (dbSASAApprovalEntities Obj = new dbSASAApprovalEntities())

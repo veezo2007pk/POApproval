@@ -14,10 +14,10 @@
         <div ng-controller="manageApprovalCtrl" class="divList">
             <div class="centerLoader" data-loading> </div>
             <div class="table-common">
-               
-                <div id="buttonright"> <a href="http://localhost:61646/ManageApproval/AddManageApproval" class="btn btn-success">Create New</a> <span></span></div>
 
-             
+                <div id="buttonright"> <a href="http://10.3.1.110/poapproval/ManageApproval/AddManageApproval" class="btn btn-success">Create New</a> <span></span></div>
+                <div style="color:red;font-weight:bold">@ViewBag.geterror</div>
+
                 <table class="table table-hover table-responsive" id="otherTable">
 
                     <thead>
@@ -31,8 +31,8 @@
                                 Approval Name
                             </th>
                             @*<th>
-                                Full Name
-                            </th>*@
+                        Full Name
+                    </th>*@
                             <th>Approval Level</th>
                             <th>Approval Amount</th>
                             <th>Status</th>
@@ -47,39 +47,39 @@
 
 
 
-                        <tr>
-                            <td style="width:20%;">
-                                <a href="http://localhost:61646/ManageApproval/UpdateManageApproval?ID=@item.intManageApprovalCode" class="btn btn-default" value="Update" HR>Update</a>
-                                <a href="http://localhost:61646/ManageApproval/Delete_ManageApproval?ID=@item.intManageApprovalCode" onclick="if (! confirm('Are you sure you want to delete this?')) { return false; }" class="btn btn-danger" value="Delete" HR>Delete</a>
+                            <tr>
+                                <td style="width:20%;">
+                                    <a href="http://10.3.1.110/poapproval/ManageApproval/UpdateManageApproval?ID=@item.intManageApprovalCode" class="btn btn-default" value="Update" HR>Update</a>
+                                    <a href="http://10.3.1.110/poapproval/ManageApproval/Delete_ManageApproval?ID=@item.intManageApprovalCode" onclick="if (! confirm('Are you sure you want to delete this?')) { return false; }" class="btn btn-danger" value="Delete" HR>Delete</a>
 
-                                @*<input type="button" value="Delete" class="btn btn-danger" ng-click="DeleteApproval(@item.intManageApprovalCode)" />*@
-                            </td>
-                            @*<td>
-            @item.UserCode.ToString().PadLeft(5, '0')
-        </td>*@
-                            @*<td>
-            @item.Department
-        </td>*@
-                            <td style="width:15%;">
-                                @item.intBuyerCode -- @item.BuyerName
-                            </td>
-                            <td style="width:15%;">
-                                (@item.UserCode) -- @item.fullname
-                            </td>
-                            @*<td>
-                                @item.fullname
-                            </td>*@
-                            <td>
-                                @item.ApprovalLevel
-                            </td>
-                            <td>
-                                @item.ApprovalAmount
-                            </td>
-                            <td>
-                                @item.Status
-                            </td>
+                                    @*<input type="button" value="Delete" class="btn btn-danger" ng-click="DeleteApproval(@item.intManageApprovalCode)" />*@
+                                </td>
+                                @*<td>
+                            @item.UserCode.ToString().PadLeft(5, '0')
+                        </td>*@
+                                @*<td>
+                            @item.Department
+                        </td>*@
+                                <td style="width:15%;">
+                                    @item.intBuyerCode -- @item.BuyerName
+                                </td>
+                                <td style="width:15%;">
+                                    (@item.UserCode) -- @item.fullname
+                                </td>
+                                @*<td>
+                            @item.fullname
+                        </td>*@
+                                <td>
+                                    @item.ApprovalLevel
+                                </td>
+                                <td>
+                                    @item.ApprovalAmount
+                                </td>
+                                <td>
+                                    @item.Status
+                                </td>
 
-                        </tr>
+                            </tr>
                         }
 
 

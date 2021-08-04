@@ -94,11 +94,20 @@
         });
 
     var table=    $('#myTable').DataTable({
-            "ordering": true,
-            "searching": true,
+        "ordering": true,
+        "bInfo": false,
+        "searching": false,
         "pagelength": 50,
-        "paging": true,
+        "paging": false,
         "stateSave": true,
+        "columnDefs": [{
+            "targets": 0,
+            "orderable": false,
+            "checkboxes": {
+                "selectRow": true,
+                "selectAllPages": false
+            },
+        }],
             columns: [
                 { data: "" },
                 { data: "PO Number" },
@@ -129,7 +138,7 @@
                         }, 0);
                     console.log(sum); //alert(sum);
                     //$(this.footer()).html(sum);
-                    $('#totalnormal span').html(sum.toFixed(2));
+                    //$('#totalnormal span').html(sum.toFixed(2));
                 });
 
                 api.columns('.qty', { page: 'current' }).every(function () {
@@ -140,7 +149,7 @@
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
-                    $('#totalQtynormal span').html(qty);
+                    //$('#totalQtynormal span').html(qty);
                     //console.log("totalsum"+sum);
                     console.log(qty); //alert(sum);
                     //$(this.footer()).html(sum);
@@ -206,10 +215,19 @@
 
         var table=    $('#myTablePO').DataTable({
             "ordering": true,
-            "searching": true,
+            "searching": false,
             "pagelength": 50,
-            "paging": true,
-          "stateSave": true,
+            "paging": false,
+            "bInfo": false,
+            "stateSave": true,
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false,
+                "checkboxes": {
+                    "selectRow": true,
+                    "selectAllPages": false
+                },
+            }],
           
             columns: [
                 { data: "" },
@@ -240,7 +258,7 @@
                     var finalsum = sum.toLocaleString('en-US', { maximumFractionDigits: 2 });
                     //console.log(sum); //alert(sum);
                     //$(this.footer()).html(sum);
-                    $('#total span').html(finalsum);
+                   // $('#total span').html(finalsum);
                 });
 
                 api.columns('.qty', { page: 'current' }).every(function () {
@@ -252,7 +270,7 @@
                             return x + y;
                         }, 0);
                     var finalqty=qty.toLocaleString('en-US', { maximumFractionDigits: 0 });
-                    $('#totalQty span').html(finalqty);
+                    //$('#totalQty span').html(finalqty);
                     //console.log("totalsum"+sum);
                     console.log(qty); //alert(sum);
                     //$(this.footer()).html(sum);
@@ -304,66 +322,100 @@
         var creditAmount = 0
         var creditQty = 0
         $("#myTablePO").on('change', function () {
-           
+            var checked_checkboxes = $("#myTablePO input[type=checkbox]:checked");
+            if (checked_checkboxes.length != 0) {
             var checkedCount = $("#myTablePO input:checked").length;
             //console.log(checkedCount);
             var creditAmount = 0
             var creditQty = 0
             $("#idSmofAmount").text(0);
-            for (var i = 0; i < checkedCount; i++) {
-                var qty = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
-                var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
-                if (amount != "") {
-                    creditAmount += parseFloat(amount);
-                } else {
-                    creditAmount = 0;
-                }
+           
+               
+                for (var i = 0; i < checkedCount; i++) {
+                    var qty = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                    var amount = $("#myTablePO input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
+                    if (amount != "") {
+                        creditAmount += parseFloat(amount);
+                    } else {
+                        creditAmount = 0;
+                    }
 
-                if (qty != "") {
-                    creditQty += parseFloat(qty);
-                } else {
-                    creditQty = 0;
+                    if (qty != "") {
+                        creditQty += parseFloat(qty);
+                    } else {
+                        creditQty = 0;
+                    }
                 }
+                var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
+                $("#totalCheck span").text(grandtotal);
+                $('#totalCheck').attr('hidden', false);
+                $('#total').attr('hidden', true);
+
+
+                var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                $('#totalQtyCheck').attr('hidden', false);
+                $('#totalQty').attr('hidden', true);
+
+               
+
+                $("#totalQtyCheck span").text(grandqty);
             }
-            var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
-            $("#total span").text(grandtotal);
+            else {
 
-            
+                $('#totalCheck').attr('hidden', true);
+                $('#total').attr('hidden', false);
 
-            var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
-            $("#totalQty span").text(grandqty);
+                $('#totalQtyCheck').attr('hidden', true);
+                $('#totalQty').attr('hidden', false);
+                
+            }
 
             
         });
         $("#myTable").on('change', function () {
+            var checked_checkboxes = $("#myTable input[type=checkbox]:checked");
+            if (checked_checkboxes.length != 0) {
+                var checkedCount = $("#myTable input:checked").length;
+                //console.log(checkedCount);
+                var creditAmount = 0
+                var creditQty = 0
+                $("#idSmofAmount").text(0);
+                for (var i = 0; i < checkedCount; i++) {
+                    var qty = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
+                    var amount = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
+                    if (amount != "") {
+                        creditAmount += parseFloat(amount);
+                    } else {
+                        creditAmount = 0;
+                    }
 
-            var checkedCount = $("#myTable input:checked").length;
-            //console.log(checkedCount);
-            var creditAmount = 0
-            var creditQty = 0
-            $("#idSmofAmount").text(0);
-            for (var i = 0; i < checkedCount; i++) {
-                var qty = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[10].innerHTML;
-                var amount = $("#myTable input:checked")[i].parentNode.parentNode.parentNode.children[11].innerHTML;
-                if (amount != "") {
-                    creditAmount += parseFloat(amount);
-                } else {
-                    creditAmount = 0;
+                    if (qty != "") {
+                        creditQty += parseFloat(qty);
+                    } else {
+                        creditQty = 0;
+                    }
                 }
+                var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
+                $("#totalCheck span").text(grandtotal);
+                $('#totalCheck').attr('hidden', false);
+                $('#total').attr('hidden', true);
 
-                if (qty != "") {
-                    creditQty += parseFloat(qty);
-                } else {
-                    creditQty = 0;
-                }
+
+                var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                $('#totalQtyCheck').attr('hidden', false);
+                $('#totalQty').attr('hidden', true);
+
+
+
+                $("#totalQtyCheck span").text(grandqty);
             }
-            var grandtotal = creditAmount.toLocaleString('en-US', { maximumFractionDigits: 2 })
-            $("#totalnormal span").text(grandtotal);
+            else {
+                $('#totalCheck').attr('hidden', true);
+                $('#total').attr('hidden', false);
 
-
-
-            var grandqty = creditQty.toLocaleString('en-US', { maximumFractionDigits: 0 });
-            $("#totalQtynormal span").text(grandqty);
+                $('#totalQtyCheck').attr('hidden', true);
+                $('#totalQty').attr('hidden', false);
+            }
 
 
         });

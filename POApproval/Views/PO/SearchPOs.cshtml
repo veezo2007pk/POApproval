@@ -26,12 +26,18 @@
     }
 </style>
 <div>
+    <div id="totalCheck">Total Amount : <span></span></div>
 
+    <div id="totalQtyCheck">Total Qty : <span></span></div>
+
+    <div id="total">Total Amount : <span>@ViewBag.sumtotal.ToString("#,##0.00")</span></div>
+
+    <div id="totalQty">Total Qty : <span>@ViewBag.sumqty.ToString("#,##0")</span></div>
     <div class="divListSearchPO">
 
         <section>
             <div class=" container">
-                @using (Html.BeginForm("SearchPOWithFilter", "PO", FormMethod.Post))
+                @using (Html.BeginForm("SearchPOWithFilter", "PO", FormMethod.Get))
                 {
                     <div class="row">
 
@@ -115,9 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="total">Total Amount : <span></span></div>
 
-                        <div id="totalQty">Total Qty : <span></span></div>
 
                         <table id="myTablePO" class="table display">
                             <thead>
@@ -590,7 +594,7 @@
                                         </td>
                                         <td class=" sum"> @Html.DisplayFor(modelItem => Model[item].Amount)</td>
 
-                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
                                     </tr>
                                     sn++;
@@ -673,9 +677,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="totalnormal">Total Amount : <span></span></div>
 
-                        <div id="totalQtynormal">Total Qty : <span></span></div>
                         <table id="myTable" class="table display">
                             <thead>
                                 <tr class="odd" id="row_@sn" role="row">
@@ -959,7 +961,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -1199,7 +1201,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -1433,7 +1435,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -1667,7 +1669,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -1916,7 +1918,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -2151,7 +2153,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -2385,7 +2387,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -2634,7 +2636,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -2869,7 +2871,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -3120,7 +3122,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -3211,9 +3213,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="total">Total Amount : <span></span></div>
 
-                        <div id="totalQty">Total Qty : <span></span></div>
 
                         <table id="myTablePO" class="table display">
                             <thead>
@@ -3686,7 +3686,7 @@
                                         </td>
                                         <td class=" sum"> @Html.DisplayFor(modelItem => Model[item].Amount)</td>
 
-                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
                                     </tr>
                                     sn++;
@@ -3776,9 +3776,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="totalnormal">Total Amount : <span></span></div>
 
-                        <div id="totalQtynormal">Total Qty : <span></span></div>
                         <table id="myTable" class="table display">
                             <thead>
                                 <tr class="odd" id="row_@sn" role="row">
@@ -4061,7 +4059,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -4470,7 +4468,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -4874,7 +4872,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -5278,7 +5276,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -5696,7 +5694,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -6100,7 +6098,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -6504,7 +6502,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -6923,7 +6921,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -7327,7 +7325,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -7748,7 +7746,7 @@
                                                             @Html.DisplayFor(modelItem => Model[item].Amount)
                                                             @Html.HiddenFor(modelItem => Model[item].Amount)
                                                         </td>
-                                                        <td><a href="http://localhost:61646/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
+                                                        <td><a href="http://10.3.1.110/poapproval/PO/ReviewPO?ID=@Model[item].intPOCode" class="btn btn-default" value='Update' HR> View</a></td>
 
 
                                                     </tr>
@@ -7823,7 +7821,7 @@
         </section>
     </div>
 </div>
-<table cellpadding="0" cellspacing="0">
+<table id="tablePagination" cellpadding="0" cellspacing="0">
     <tr>
         @for (int i = 1; i <= ViewBag.pO_Result.PageCount; i++)
         {

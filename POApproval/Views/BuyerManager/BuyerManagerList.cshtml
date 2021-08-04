@@ -4,18 +4,20 @@
 }
 <h2>@ViewBag.Title</h2>
 <h3>@ViewBag.Message</h3>
-@ViewBag.geterror
+
 <section class="col-md-12 text-right">
-    <div id="buttonright">  <a href="http://localhost:61646/BuyerManager/AddBuyerManager" class="btn btn-success">Create New</a> </div>
+    <div id="buttonright">  <a href="http://10.3.1.110/poapproval/BuyerManager/AddBuyerManager" class="btn btn-success">Create New</a> </div>
 
 </section>
 
 <section class="col-md-12">
+    <div style="color:red;font-weight:bold">@ViewBag.geterror</div>
+
     <div ng-app="myBuyerManagerApp">
         <div class="divList" ng-controller="BuyerManagerCtrl">
             <div class="centerLoader" data-loading> </div>
-            <div class="table-common">
 
+            <div class="table-common">
                 <table class="table table-hover table-responsive" id="otherTable">
                     <thead>
                         <tr>
@@ -37,14 +39,14 @@
 
                             <tr>
                                 <td>
-                                    <a href="http://localhost:61646/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-default" value="Update" HR>Update</a>
-                                    <a onclick="if (! confirm('Are you sure you want to delete this?')) { return false; }" href="http://localhost:61646/BuyerManager/Delete_BuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-danger" value="Update" HR>Delete</a>
+                                    <a href="http://10.3.1.110/poapproval/BuyerManager/UpdateBuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-default" value="Update" HR>Update</a>
+                                    <a onclick="if (! confirm('Are you sure you want to delete this?')) { return false; }" href="http://10.3.1.110/poapproval/BuyerManager/Delete_BuyerManager?ID=@item.intBuyerDetailCode" class="btn btn-danger" value="Update" HR>Delete</a>
 
 
                                 </td>
                                 @*<td>
-                            @item.intBuyerDetailCode
-                        </td>*@
+                                        @item.intBuyerDetailCode
+                                    </td>*@
                                 <td>
                                     @item.intUserCode -- @item.logon_user_id
                                 </td>

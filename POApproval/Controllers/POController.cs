@@ -193,110 +193,93 @@ namespace POApproval.Controllers
 
             return GetUserMenus;
         }
-        public ActionResult SearchPOWithFilter()
+        public ActionResult SearchPOWithFilters(int currentPage)
         {
-
-
-
-            HttpCookie reqCookies = Request.Cookies["userInfo"];
-            if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
+            string ponumber = null;
+            string myCodes = null;
+            if (TempData["ponumber"] != null)
             {
-                return RedirectToAction("Login", "Account");
+                ponumber = TempData["ponumber"].ToString();
             }
-            else if (!string.IsNullOrEmpty(Session["intUserCode"] as string))
+
+            if (TempData["myCodes"] != null)
             {
-                List<procUserMenu_Result> menus = GetUserMenus(Session["intUserCode"].ToString());
+                 myCodes = TempData["myCodes"].ToString();
 
-                foreach (var item in menus)
+
+            }
+
+
+
+
+            int maxRows = 100;
+           
+            int userCode = 0;
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies != null)
+            {
+                userCode = Convert.ToInt32(reqCookies["intUserCode"]);
+                if (reqCookies["SuperAdmin"].ToString() == "Y")
                 {
-
-
-                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                    var link = data.menulink.Split('/');
-                    if (link[1].ToString() == "SearchPO")
-                    {
-                        List<tblStatu> statusList = db.tblStatus.ToList();
-                        ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
-
-                        var data1 = new List<procSearchPO_Result>();
-
-                        if (Session["SuperAdmin"].ToString() == "Y")
-                        {
-                            int userCode = Convert.ToInt32(Session["intUserCode"].ToString());
-                            ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
-
-                            data1 = PODB.ListAllprocSearch(null, null, "Pending").ToList();
-                        }
-                        else
-                        {
-                            int userCode = Convert.ToInt32(Session["intUserCode"].ToString());
-                            ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(Session["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
-
-                        }
-                        return View(data1);
-
-
-
-
-                    }
-
-
+                    ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
 
                 }
+                else
+                {
+                    ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(userCode.ToString()).ToList();
+
+                }
+
+
             }
             else
             {
-                List<procUserMenu_Result> menus = GetUserMenus(reqCookies["intUserCode"].ToString());
-
-                foreach (var item in menus)
+                userCode = Convert.ToInt32(Session["intUserCode"]);
+                if (Session["SuperAdmin"].ToString() == "Y")
                 {
-
-
-                    var data = menus.Where(x => x.menucode == item.menucode).FirstOrDefault();
-                    var link = data.menulink.Split('/');
-                    if (link[1].ToString() == "SearchPO")
-                    {
-                        List<tblStatu> statusList = db.tblStatus.ToList();
-                        ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
-
-                        var data1 = new List<procSearchPO_Result>();
-
-                        if (reqCookies["SuperAdmin"].ToString() == "Y")
-                        {
-                            int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
-                            ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
-
-                            data1 = PODB.ListAllprocSearch(null, null, "Pending").ToList();
-                        }
-                        else
-                        {
-                            int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
-                            ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(reqCookies["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
-
-                        }
-                        return View(data1);
-
-
-
-
-                    }
-
-
+                    ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
 
                 }
+                else
+                {
+                    ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(userCode.ToString()).ToList();
+
+                }
+
             }
 
+            List<tblStatu> statusList = db.tblStatus.ToList();
+            ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
 
 
 
-            return RedirectToAction("AccessDenied", "Errors");
+
+
+
+
+
+
+
+
+            var data = PODB.SearchPO(userCode, myCodes, Convert.ToInt64( ponumber)).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+            var datacount = PODB.SearchPO(userCode, myCodes, Convert.ToInt64(ponumber)).ToList();
+
+            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+
+            procSearchPO_Result pO_Result = new procSearchPO_Result();
+            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+            pO_Result.CurrentPageIndex = currentPage;
+
+            ViewBag.pO_Result = pO_Result;
+            return View(data);
         }
         public ActionResult SearchPOs(int currentPage)
         {
-          
-            int maxRows = 10;
+
+            int maxRows = 100;
 
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
@@ -328,8 +311,8 @@ namespace POApproval.Controllers
                             data1 = PODB.ListAllprocSearch(null, null, "Pending").Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
                             var datacount = PODB.ListAllprocSearch(null, null, "Pending").ToList();
 
-                            ViewBag.sumqty = data1.Sum(x => x.Qty);
-                            ViewBag.sumtotal = data1.Sum(x => x.Amount);
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
                             procSearchPO_Result pO_Result = new procSearchPO_Result();
                             double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
                             pO_Result.PageCount = (int)Math.Ceiling(pageCount);
@@ -342,8 +325,18 @@ namespace POApproval.Controllers
                         {
                             int userCode = Convert.ToInt32(Session["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(Session["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
+                            data1 = PODB.ListAll(userCode, null, 0).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAll(userCode, null, 0).ToList();
 
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
 
 
                         }
@@ -381,13 +374,35 @@ namespace POApproval.Controllers
                             int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
 
-                            data1 = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+                            data1 = PODB.ListAllprocSearch(null, null, "Pending").Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
                         }
                         else
                         {
                             int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(reqCookies["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
+                            data1 = PODB.ListAll(userCode, null, 0).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAll(userCode, null, 0).ToList();
+
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
 
                         }
                         return View(data1);
@@ -412,7 +427,7 @@ namespace POApproval.Controllers
         public ActionResult SearchPO()
         {
             int currentPage = 1;
-            int maxRows = 10;
+            int maxRows = 100;
 
             HttpCookie reqCookies = Request.Cookies["userInfo"];
             if (reqCookies == null && string.IsNullOrEmpty(Session["intUserCode"] as string))
@@ -444,8 +459,8 @@ namespace POApproval.Controllers
                             data1 = PODB.ListAllprocSearch(null, null, "Pending").Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
                             var datacount = PODB.ListAllprocSearch(null, null, "Pending").ToList();
 
-                            ViewBag.sumqty = data1.Sum(x => x.Qty);
-                            ViewBag.sumtotal = data1.Sum(x => x.Amount);
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
                             procSearchPO_Result pO_Result = new procSearchPO_Result();
                             double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
                             pO_Result.PageCount = (int)Math.Ceiling(pageCount);
@@ -458,8 +473,23 @@ namespace POApproval.Controllers
                         {
                             int userCode = Convert.ToInt32(Session["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(Session["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
+                            data1 = PODB.ListAll(userCode, null, 0).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAll(userCode, null, 0).ToList();
 
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+
+
+
+
+                         
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
 
 
                         }
@@ -497,13 +527,37 @@ namespace POApproval.Controllers
                             int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequenceForSuperAdmin().ToList();
 
-                            data1 = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+                            data1 = PODB.ListAllprocSearch(null, null, "Pending").Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAllprocSearch(null, null, "Pending").ToList();
+
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
                         }
                         else
                         {
                             int userCode = Convert.ToInt32(reqCookies["intUserCode"].ToString());
                             ViewBag.approvalLevelSequence = db.procCheckApprovalLevelSequence(reqCookies["intUserCode"].ToString()).ToList();
-                            data1 = PODB.ListAll(userCode, null, 0).ToList();
+                            data1 = PODB.ListAll(userCode, null, 0).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+                            var datacount = PODB.ListAll(userCode, null, 0).ToList();
+
+                            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+                            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+                            procSearchPO_Result pO_Result = new procSearchPO_Result();
+                            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+                            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+                            pO_Result.CurrentPageIndex = currentPage;
+
+                            ViewBag.pO_Result = pO_Result;
+
+
 
                         }
                         return View(data1);
@@ -1525,11 +1579,12 @@ namespace POApproval.Controllers
             return View(data);
 
         }
-        [HttpPost]
+        [HttpGet]
         public ActionResult SearchPOWithFilter(tblPO tblPO)
 
         {
-
+            int currentPage = 1;
+            int maxRows = 100;
             string myCodes = string.Empty;
             if (tblPO.strStatusName != null)
             {
@@ -1594,12 +1649,36 @@ namespace POApproval.Controllers
             List<tblStatu> statusList = db.tblStatus.ToList();
             ViewBag.Status = new MultiSelectList(statusList, "strStatusName", "strStatusName");
 
-            var data = PODB.SearchPO(userCode, myCodes, tblPO.PO_Number);
+
+
+
+
+
+
+
+
+            TempData["ponumber"]  = tblPO.PO_Number;
+           TempData["myCodes"] = myCodes;
+
+
+            var data = PODB.SearchPO(userCode, myCodes, tblPO.PO_Number).Skip((currentPage - 1) * maxRows).Take(maxRows).ToList();
+            var datacount = PODB.SearchPO(userCode, myCodes, tblPO.PO_Number).ToList();
+
+            ViewBag.sumqty = datacount.Sum(x => x.Qty);
+            ViewBag.sumtotal = datacount.Sum(x => x.Amount);
+
+            procSearchPO_Result pO_Result = new procSearchPO_Result();
+            double pageCount = (double)((decimal)datacount.Count() / Convert.ToDecimal(maxRows));
+            pO_Result.PageCount = (int)Math.Ceiling(pageCount);
+
+            pO_Result.CurrentPageIndex = currentPage;
+
+            ViewBag.pO_Result = pO_Result;
             return View(data);
 
         }
 
-        [HttpPost]
+        [HttpGet]
         public int SavePOHistory(int ID, string status, string strRejectReason)
         {
             HttpCookie reqCookies = Request.Cookies["userInfo"];

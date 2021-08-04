@@ -471,6 +471,7 @@
     <Content Include="Views\Errors\AccessDenied.cshtml" />
     <Content Include="Views\PO\SearchPOWithFilter.cshtml" />
     <Content Include="Views\PO\SearchPOs.cshtml" />
+    <Content Include="Views\PO\SearchPOWithFilters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

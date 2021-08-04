@@ -287,13 +287,13 @@
 
 <section class="col-md-12 text-center">
     <div class="">
-        <a href="http://localhost:61646/PO/SearchPO" class="btn btn-primary">Back</a>
+        <a  class="btn btn-primary" onclick="goback()">Back</a>
 
         @if (Model.tblPO.strPOStatus != "Rejected" && Model.tblPO.strPOStatus != "Approved")
         {
             <button data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Reject</button>
         }
-        <a href="http://localhost:61646/PO/PORpt?intPOCode=@Model.tblPO.intPOCode&xpertLoginID=@ViewBag.xpertLoginID" target="_blank" class="btn btn-info">View PO</a>
+        <a href="http://10.3.1.110/poapproval/PO/PORpt?intPOCode=@Model.tblPO.intPOCode&xpertLoginID=@ViewBag.xpertLoginID" target="_blank" class="btn btn-info">View PO</a>
         @*<button >View PO</button>*@
         @{
             decimal? amount = Model.tblPO.Amount;

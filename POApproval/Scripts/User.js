@@ -26,7 +26,7 @@ var app = angular.module("myApp", ["checklist-model"])
           
             $http({
                 method: "POST",
-                url: "http://localhost:61646/User/GetDepartment/",
+                url: "http://10.3.1.110/poapproval/User/GetDepartment/",
                 dataType: 'json',
                 data: { ID: $scope.strDepartmentName },
                 headers: { "Content-Type": "application/json" }
@@ -64,7 +64,7 @@ var app = angular.module("myApp", ["checklist-model"])
             //alert($scope.usercode);
             $http({
                 method: "POST",
-                url: "http://localhost:61646/User/userDetail/",
+                url: "http://10.3.1.110/poapproval/User/userDetail/",
                 dataType: 'json',
                 data: { ID: $scope.usercode },
                 headers: { "Content-Type": "application/json" }
@@ -132,7 +132,7 @@ var app = angular.module("myApp", ["checklist-model"])
                         return;
                     }
                    
-                    $http.post("http://localhost:61646/User/Insert_User", JSON.stringify({
+                    $http.post("http://10.3.1.110/poapproval/User/Insert_User", JSON.stringify({
                         data: $scope.User,
                         lstMembersToNotify: arrMembersToNotifyNew
                     })).then(function (response) {
@@ -204,7 +204,7 @@ var app = angular.module("myApp", ["checklist-model"])
                     //$scope.User.intCreatedByCode = $scope.intCreatedByCode;
                     //$scope.User.dtModifyAt = $scope.dtModifyAt;
                     //$scope.User.intModifyByCode = $scope.intModifyByCode;
-                    $http.post("http://localhost:61646/User/Update_User", JSON.stringify({
+                    $http.post("http://10.3.1.110/poapproval/User/Update_User", JSON.stringify({
                         data: $scope.User,
                         lstMembersToNotify: arrMembersToNotifyNew
                     })).then(function (response) {
@@ -246,7 +246,7 @@ var app = angular.module("myApp", ["checklist-model"])
         $scope.GetAllData = function () {
             $http({
                 method: "get",
-                url: "http://localhost:61646/User/Get_AllUser"
+                url: "http://10.3.1.110/poapproval/User/Get_AllUser"
             }).then(function (response) {
                 $scope.Users = response.data;
             }, function () {
@@ -287,7 +287,7 @@ var app = angular.module("myApp", ["checklist-model"])
                 //$scope.User.usercode = Emp;
                 $http({
                     method: "post",
-                    url: "http://localhost:61646/User/Delete_User",
+                    url: "http://10.3.1.110/poapproval/User/Delete_User",
                     dataType: 'json',
                     data: { usercode: Emp },
                 }).then(function (response) {
@@ -299,7 +299,7 @@ var app = angular.module("myApp", ["checklist-model"])
         $scope.DeleteEmp = function (Emp) {
             $http({
                 method: "post",
-                url: "http://localhost:61646/User/Delete_User",
+                url: "http://10.3.1.110/poapproval/User/Delete_User",
                 datatype: "json",
                 data: JSON.stringify(Emp)
             }).then(function (response) {
@@ -311,7 +311,7 @@ var app = angular.module("myApp", ["checklist-model"])
             //debugger;
             $http({
                 method: "GET",
-                url: "http://localhost:61646/User/GetAccessMenus/",
+                url: "http://10.3.1.110/poapproval/User/GetAccessMenus/",
                 dataType: 'json',
                 data: {},
                 headers: { "Content-Type": "application/json" }

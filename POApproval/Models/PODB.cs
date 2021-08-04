@@ -15,6 +15,10 @@ namespace POApproval.Models
         SqlCommand com;
         public List<procSearchPO_Result> SearchPO(int intUserCode, string strPOStatus, long? PONumber)
         {
+            if (PONumber == 0)
+            {
+                PONumber = null;
+            }
             HttpCookie reqCookies = HttpContext.Current.Request.Cookies["userInfo"];
             if (reqCookies != null)
             {

@@ -16,10 +16,12 @@ textarea {
 .divListSearchPO .dataTables_wrapper .dataTables_filter {
     float: none !important;
     text-align: center !important;
+    display: none;
 }
 .table-common .dataTables_wrapper .dataTables_filter {
     float: none !important;
     text-align: center !important;
+   
 }
 #buttonright {
     text-align: center;
@@ -30,6 +32,34 @@ textarea {
     border-radius: 5px;
     position: relative;
     top: 46px;
+}
+#totalCheck {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 15px;
+    float: right;
+    background: #d9534f;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 213px;
+}
+
+#totalQtyCheck {
+    margin-right: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 15px;
+    float: right;
+    background: #d9534f;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 213px;
 }
 #total {
     text-align: center;
@@ -42,8 +72,30 @@ textarea {
     padding: 5px;
     border-radius: 5px;
     position: relative;
-    top: 46px;
+    top: 213px;
 }
+#tablePagination {
+    width:20%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+    #tablePagination td {
+        color: #5bc0de;
+        font-weight: bold;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+    #tablePagination td a{
+        color: white;
+       
+    }
+
+    table, #tablePagination tr {
+        background-color: #337ab7;
+        border: 0px solid #ccc;
+    }
+
 #totalQty {
     margin-right: 5px;
     text-align: center;
@@ -56,7 +108,7 @@ textarea {
     padding: 5px;
     border-radius: 5px;
     position: relative;
-    top: 46px;
+    top: 213px;
 }
 #totalnormal {
     text-align: center;
